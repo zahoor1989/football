@@ -4,16 +4,20 @@ const cookieSession = require("cookie-session");
 
 const dbConfig = require("./app/config/db.config");
 
+const morgan  = require('morgan');
+
 const app = express();
+
+app.use(morgan('tiny'));
 
 app.use(cors());
 /* for Angular Client (withCredentials) */
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: ["http://localhost:8081"],
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin:["http://localhost:4200"],
+  })
+);
 
 // parse requests of content-type - application/json
 app.use(express.json());
