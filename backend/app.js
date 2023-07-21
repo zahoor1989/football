@@ -9,7 +9,6 @@ const morgan  = require('morgan');
 const app = express();
 
 app.use(morgan('tiny'));
-
 app.use(cors());
 /* for Angular Client (withCredentials) */
 app.use(
