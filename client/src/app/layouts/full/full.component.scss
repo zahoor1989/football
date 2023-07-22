@@ -1,0 +1,21 @@
+.max-width {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+#main-wrapper {
+  .topbar {
+    height: 124px;
+    font-family: NotoSansRegular;
+    .top-navbar {
+      min-height: 124px;
+    }
+    .navbar-header {
+      line-height: 124px;
+    }
+  }
+  .left-sidebar {
+    top: 64px;
+  }
+
+}
+

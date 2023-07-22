@@ -1,20 +1,27 @@
-# Angular 16 JWT Authentication & Authorization example with Rest API
+# XtremeAdminAngularLite
 
-Build Angular 16 JWT Authentication & Authorization example with Rest Api, HttpOnly Cookie and JWT (including HttpInterceptor, Router & Form Validation).
-- JWT Authentication Flow for User Registration (Signup) & User Login
-- Project Structure with HttpInterceptor, Router
-- Way to implement HttpInterceptor
-- How to store JWT token in HttpOnly Cookie
-- Creating Login, Signup Components with Form Validation
-- Angular Components for accessing protected Resources
-- How to add a dynamic Navigation Bar to Angular App
-- Working with Browser Session Storage
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.1.
 
-## Flow for User Registration and User Login
-For JWT – Token based Authentication with Rest API, we’re gonna call 2 endpoints:
-- POST `api/auth/signup` for User Registration
-- POST `api/auth/signin` for User Login
-- POST `api/auth/signout` for User Logout
+## Development server
 
-Run `ng serve --port 4200` for a dev server. Navigate to `http://localhost:4200/`.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

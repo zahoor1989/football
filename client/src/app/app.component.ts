@@ -9,7 +9,9 @@ import { EventBusService } from './_shared/event-bus.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
+  title = 'app';
   private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
