@@ -1,17 +1,20 @@
 <!-- ============================================================== -->
 <!-- toggle and nav items -->
 <!-- ============================================================== -->
-<ul class="navbar-nav float-start me-auto">
+<ul class="navbar-nav float-start justify-content-center me-auto">
   <li class="nav-item">
+    <a class="nav-link waves-effect waves-dark" href="/dashboard">Player Management System (PMS) </a>
+  </li>
+  <!-- <li class="nav-item">
     <a class="nav-link waves-effect waves-dark" href="/dashboard"> Starter </a>
   </li>
   <li class="nav-item">
     <a class="nav-link waves-effect waves-dark" href="/about"> About </a>
-  </li>
+  </li> -->
   <!-- ============================================================== -->
   <!-- create new -->
   <!-- ============================================================== -->
-  <li class="nav-item" ngbDropdown>
+  <!-- <li class="nav-item" ngbDropdown>
 
     <a type="button" class="nav-link btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
       Create New
@@ -21,7 +24,7 @@
       <button ngbDropdownItem>Another Action</button>
       <button ngbDropdownItem>Something else is here</button>
     </div>
-  </li>
+  </li> -->
 </ul>
 <!-- ============================================================== -->
 <!-- Right side toggle and nav items -->
@@ -43,7 +46,7 @@
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="javascript:void(0)"> Account Setting</a>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="javascript:void(0)"> Logout</a>
+      <a class="dropdown-item" href="javascript:void(0)" (click)="logout()"> Logout</a>
     </div>
   </li>
   <!-- ============================================================== -->
