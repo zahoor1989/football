@@ -9,7 +9,10 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
-import { AuthGuard } from './_services/auth-gaurd'
+import {
+  AuthGuardService as AuthGuard
+} from './guards/auth-guard.service';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 

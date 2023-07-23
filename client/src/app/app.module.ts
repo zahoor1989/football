@@ -28,6 +28,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminComponent } from './admin/admin.component';
+import { AuthGuardService } from './guards/auth-guard.service';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { AdminComponent } from './admin/admin.component';
     SidebarComponent,
   ],
   providers: [
+    AuthGuardService,
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy
