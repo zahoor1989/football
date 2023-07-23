@@ -9,21 +9,58 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './_services/auth-gaurd'
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 export const Approutes: Routes = [
   {
     path: '',
     component: FullComponent,
     children: [
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'user', component: BoardUserComponent },
-      { path: 'mod', component: BoardModeratorComponent },
-      { path: 'admin', component: BoardAdminComponent },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'home',
+        canActivate: [AuthGuard],
+        component: HomeComponent
+      },
+      {
+        path: 'dashboard',
+        canActivate: [AuthGuard],
+        component: DashboardComponent
+      },
+      {
+        path: 'profile',
+        canActivate: [AuthGuard],
+        component: ProfileComponent
+      },
+      {
+        path: 'user',
+        canActivate: [AuthGuard],
+        component: BoardUserComponent
+      },
+      {
+        path: 'mod',
+        canActivate: [AuthGuard],
+        component: BoardModeratorComponent
+      },
+      {
+        path: 'admin',
+        canActivate: [AuthGuard],
+        component: BoardAdminComponent
+      },
+      {
+        path: 'home',
+        canActivate: [AuthGuard],
+        component: HomeComponent
+      },
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
@@ -35,12 +72,16 @@ export const Approutes: Routes = [
       {
         path: 'component',
         loadChildren: () => import('./component/component.module').then(m => m.ComponentsModule)
+      },
+      {
+        path: '404',
+        component: ErrorPageComponent
       }
     ]
   },
   {
     path: '**',
-    redirectTo: '/starter'
+    redirectTo: '/404'
   }
 ];
 

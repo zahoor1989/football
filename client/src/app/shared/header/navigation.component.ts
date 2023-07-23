@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/_services/auth.service';
 import { StorageService } from 'src/app/_services/storage.service';
@@ -17,7 +18,7 @@ export class NavigationComponent implements AfterViewInit {
 
   public showSearch = false;
 
-  constructor(private modalService: NgbModal, private authService: AuthService, private storageService: StorageService) {
+  constructor(private modalService: NgbModal, private authService: AuthService, private storageService: StorageService, private router: Router) {
   }
 
   // This is for Notifications
@@ -118,10 +119,10 @@ export class NavigationComponent implements AfterViewInit {
   logout(): void {
     this.authService.logout().subscribe({
       next: res => {
+        debugger
         console.log(res);
         this.storageService.clean();
-
-        window.location.reload();
+        this.router.navigate(['dashboard'])
       },
       error: err => {
         console.log(err);
