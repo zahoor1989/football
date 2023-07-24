@@ -7,7 +7,13 @@ db.mongoose = mongoose;
 
 db.user = require("./user.model");
 db.role = require("./role.model");
+db.academy = require("./academy.model");
+db.fixture = require("./fixture.model");
+db.league = require("./league.model");
+db.player = require("./player.model");
+db.team = require("./team.model");
 
-db.ROLES = ["user", "admin", "moderator"];
+
+db.ROLES = ["user", "admin", "coach", "referee"];
 
 module.exports = db;

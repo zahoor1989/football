@@ -13,7 +13,7 @@ app.use(cors());
 /* for Angular Client (withCredentials) */
 app.use(
   cors({
-    credentials: true,
+    'Access-Control-Allow-Credentials': true,
     origin:["http://localhost:4200"],
   })
 );
@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cookieSession({
-    name: "bezkoder-session",
+    name: "football-session",
     keys: ["COOKIE_SECRET"], // should use as secret environment variable
     httpOnly: true
   })
@@ -51,7 +51,7 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to football managemeng application." });
 });
 
 // routes
@@ -68,33 +68,32 @@ function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
       new Role({
-        name: "user"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'user' to roles collection");
-      });
-
-      new Role({
-        name: "moderator"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'moderator' to roles collection");
-      });
-
-      new Role({
         name: "admin"
       }).save(err => {
         if (err) {
           console.log("error", err);
         }
-
         console.log("added 'admin' to roles collection");
+      });
+
+      new Role({
+        name: "coach"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'coach' to roles collection");
+      });
+
+      new Role({
+        name: "referee"
+      }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'referee' to roles collection");
       });
     }
   });

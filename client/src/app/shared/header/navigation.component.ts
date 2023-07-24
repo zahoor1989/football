@@ -122,7 +122,6 @@ export class NavigationComponent implements AfterViewInit {
         debugger
         console.log(res);
         this.storageService.clean();
-        // this.router.navigate(['dashboard'])
         window.location.reload();
       },
       error: err => {
