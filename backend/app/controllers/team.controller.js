@@ -1,121 +1,99 @@
-const config = require("../config/auth.config");
 const db = require("../models");
-const User = db.user;
-const Role = db.role;
+const Team = db.team;
 
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+/* Add new team*/
+exports.createTeam = async (req, resp, next) => {
+  const { teamName, createdBy, academyId, leagues  } = req.body;
 
-exports.signup = (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-  });
-
-  user.save((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-
-    if (req.body.roles) {
-      Role.find(
-        {
-          name: { $in: req.body.roles },
-        },
-        (err, roles) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          user.roles = roles.map((role) => role._id);
-          user.save((err) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-
-            res.send({ message: "User was registered successfully!" });
-          });
-        }
-      );
-    } else {
-      Role.findOne({ name: "user" }, (err, role) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        user.roles = [role._id];
-        user.save((err) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          res.send({ message: "User was registered successfully!" });
-        });
-      });
-    }
-  });
-};
-
-exports.signin = (req, res) => {
-  User.findOne({
-    username: req.body.username,
-  })
-    .populate("roles", "-__v")
-    .exec((err, user) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-
-      if (!user) {
-        return res.status(404).send({ message: "User Not found." });
-      }
-
-      var passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
-
-      if (!passwordIsValid) {
-        return res.status(401).send({ message: "Invalid Password!" });
-      }
-
-      const token = jwt.sign({ id: user.id },
-                              config.secret,
-                              {
-                                algorithm: 'HS256',
-                                allowInsecureKeySizes: true,
-                                expiresIn: 86400, // 24 hours
-                              });
-
-      var authorities = [];
-
-      for (let i = 0; i < user.roles.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-      }
-
-      req.session.token = token;
-
-      res.status(200).send({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        roles: authorities,
-      });
-    });
-};
-
-exports.signout = async (req, res) => {
   try {
-    req.session = null;
-    return res.status(200).send({ message: "You've been signed out!" });
-  } catch (err) {
-    this.next(err);
+    const teamData = new Team({
+      teamName: teamName,
+      createdBy: createdBy,
+      academyId: academyId,
+      leagues: leagues,
+      createdAt:  new Date()
+    });
+
+    const savedTeam = await teamData.save();
+    resp.status(200).json(savedTeam);
+
+  } catch (error) {
+    next(error);
   }
+};
+
+
+/* GET all team. */
+exports.getAllTeams =  async (req, resp, next) => {
+  try {
+    const teams = await Team.find();
+    resp.status(200).json(teams);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Get team based on id*/
+exports.getTeamById = async (req, resp, next) => {
+  try {
+    const team = await Team.findById(req.params.id);
+    console.log(team,"<<<<<<<team")
+    resp.status(200).json(team.toJSON());
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Edit existing team based on id*/
+exports.updateTeam =  async (req, resp, next) => {
+
+  try {
+    const teamData = {
+      teamName: teamName,
+      createdBy: createdBy,
+      academyId: academyId,
+      leagues: leagues,
+      createdAt:  new Date()
+    };
+
+    let fetchTeam = await Team.findById(req.params.id);
+
+    if (!fetchTeam) return resp.status(404).json({ msg: 'Team record not found' });
+
+    fetchTeam = {
+      ...fetchTeam,
+      ...req.body
+    }
+
+    const updatedTeam = await Team.findByIdAndUpdate(req.params.id, fetchTeam, { new: true });
+
+    resp.status(200).json(updatedTeam);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+/* Delete team based on id*/
+exports.deleteTeam = async (req, resp, next) => {
+
+  try {
+    const team = await Team.findByIdAndDelete(req.params.id);
+    resp.status(200).send(`Team ${team.teamName} record deleted!`)
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Delete all Players*/
+exports.deleteAllTeams =  async (req, resp, next) => {
+
+  try {
+    const team = await Team.remove({});
+    resp.status(200).send(`All teams has been deleted!`)
+  } catch (error) {
+    next(error);
+  }
+
 };

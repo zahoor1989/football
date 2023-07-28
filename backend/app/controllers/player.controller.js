@@ -1,121 +1,134 @@
-const config = require("../config/auth.config");
 const db = require("../models");
-const User = db.user;
-const Role = db.role;
+const Player = db.player;
 
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+/* Add new employee*/
+exports.createPlayer = async (req, resp, next) => {
+  const { firstName, lastName, dob, squadNo, league, playerImage, emiratesIdNo, emirateIdImage, playerStatus, createdBy  } = req.body;
 
-exports.signup = (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-  });
-
-  user.save((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-
-    if (req.body.roles) {
-      Role.find(
-        {
-          name: { $in: req.body.roles },
-        },
-        (err, roles) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          user.roles = roles.map((role) => role._id);
-          user.save((err) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-
-            res.send({ message: "User was registered successfully!" });
-          });
-        }
-      );
-    } else {
-      Role.findOne({ name: "user" }, (err, role) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        user.roles = [role._id];
-        user.save((err) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          res.send({ message: "User was registered successfully!" });
-        });
-      });
-    }
-  });
-};
-
-exports.signin = (req, res) => {
-  User.findOne({
-    username: req.body.username,
-  })
-    .populate("roles", "-__v")
-    .exec((err, user) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-
-      if (!user) {
-        return res.status(404).send({ message: "User Not found." });
-      }
-
-      var passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
-
-      if (!passwordIsValid) {
-        return res.status(401).send({ message: "Invalid Password!" });
-      }
-
-      const token = jwt.sign({ id: user.id },
-                              config.secret,
-                              {
-                                algorithm: 'HS256',
-                                allowInsecureKeySizes: true,
-                                expiresIn: 86400, // 24 hours
-                              });
-
-      var authorities = [];
-
-      for (let i = 0; i < user.roles.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-      }
-
-      req.session.token = token;
-
-      res.status(200).send({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        roles: authorities,
-      });
-    });
-};
-
-exports.signout = async (req, res) => {
   try {
-    req.session = null;
-    return res.status(200).send({ message: "You've been signed out!" });
-  } catch (err) {
-    this.next(err);
+    const playerData = new Player({
+      firstName: firstName,
+      lastName: lastName,
+      dob: dob,
+      squadNo: squadNo,
+      league: league,
+      playerImage: playerImage,
+      emiratesIdNo: emiratesIdNo,
+      emirateIdImage: emirateIdImage,
+      playerStatus: playerStatus,
+      createdBy: createdBy,
+      createdAt:  new Date()
+    });
+
+    const savedPlayer = await playerData.save();
+    resp.status(200).json(savedPlayer);
+
+  } catch (error) {
+    next(error);
   }
+};
+
+
+/* GET all playerslisting. */
+exports.getAllPlayers =  async (req, resp, next) => {
+
+  try {
+    const players = await Player.find();
+    resp.status(200).json(players);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Get employee based on id*/
+exports.getPlayerById = async (req, resp, next) => {
+  try {
+    const pl = await Player.findById(req.params.id);
+    console.log(pl,"<<<<<<<pl")
+    resp.status(200).json(pl.toJSON());
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Edit existing employee based on id*/
+exports.updatePlayer =  async (req, resp, next) => {
+
+  try {
+    const playerData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      dob: req.body.dob,
+      squadNo: req.body.squadNo,
+      league: req.body.league,
+      playerImage: req.body.playerImage,
+      emiratesIdNo: req.body.emiratesIdNo,
+      emirateIdImage: req.body.emirateIdImage,
+      playerStatus: req.body.playerStatus,
+      createdBy: req.body.createdBy,
+      createdAt: new Date()
+    };
+
+    let fetchPlayer = await Player.findById(req.params.id);
+
+    if (!fetchPlayer) return resp.status(404).json({ msg: 'Player record not found' });
+
+    fetchPlayer = {
+      ...fetchPlayer,
+      ...req.body
+    }
+
+    const updatedPlayer = await Player.findByIdAndUpdate(req.params.id, fetchPlayer, { new: true });
+
+    resp.status(200).json(updatedPlayer);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Edit existing employee based on id*/
+exports.approvePlayer =  async (req, resp, next) => {
+
+  try {
+    
+    let fetchPlayer = await Player.findById(req.params.id);
+
+    if (!fetchPlayer) return resp.status(404).json({ msg: 'Player record not found' });
+    fetchPlayer = {
+      ...fetchPlayer,
+      playerStatus: req.body.playerStatus
+    }
+
+    const updatedPlayer = await Player.findByIdAndUpdate(req.params.id, fetchPlayer, { new: true });
+
+    resp.status(200).json(updatedPlayer);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Delete employee based on id*/
+exports.deletePlayer = async (req, resp, next) => {
+
+  try {
+    const pl = await Player.findByIdAndDelete(req.params.id);
+    resp.status(200).send(`Player ${pl.firstName} record deleted!`)
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* Delete all Players*/
+router.deleteAllPlayers =  async (req, resp, next) => {
+
+  try {
+    const pl = await employee.remove({});
+    console.log(pl, "::: deleted records")
+    resp.status(200).send(`All players records has been deleted!`)
+  } catch (error) {
+    next(error);
+  }
+
 };
