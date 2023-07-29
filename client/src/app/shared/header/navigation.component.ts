@@ -10,7 +10,8 @@ declare var $: any;
   selector: 'app-navigation',
   standalone: true,
   imports:[NgbDropdownModule],
-  templateUrl: './navigation.component.html'
+  templateUrl: './navigation.component.html',
+  styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements AfterViewInit {
   @Output() toggleSidebar = new EventEmitter<void>();

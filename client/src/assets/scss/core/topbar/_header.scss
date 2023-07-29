@@ -92,6 +92,9 @@ Topbar Responsive
 }
 
 @media (max-width: 767px) {
+  .navbar-collapse.show {
+    background-color: $skin5;
+  }
   .topbar .top-navbar {
     .navbar-nav {
       flex-direction: row;

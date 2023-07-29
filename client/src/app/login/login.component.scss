@@ -35,3 +35,14 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+.sign-bold {
+color: var(--all-colors-text-primary-color-text-primary, #282828);
+font-feature-settings: 'clig' off, 'liga' off;
+/* poppins Medium24 */
+font-family: Poppins;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 36px; /* 150% */
+}
