@@ -1,20 +1,24 @@
-const express = require("express");
-const router = express.Router();
+const league = require("../controllers/league.controller");
 
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, Content-Type, Accept"
+      );
+      next();
+    });
 
-const controller = require("../controllers/league.controller");
+app.post("/create", league.createLeague);
 
-router.post("/create", controller.createLeague);
+app.get("/all", league.getLeagues);
 
-router.get("/all", controller.getLeagues);
+app.get("/:id", league.getLeagueById);
 
-router.get("/:id", controller.getLeagueById);
+app.post("/approve/:id", league.updateLeague);
 
-router.post("/approve/:id", controller.updateLeague);
+app.post("/delete/:id", league.deleteLeague);
 
-router.post("/delete/:id", controller.deleteLeague);
+app.post("/delete/all", league.deleteAllLeagues);
 
-router.post("/delete/all", controller.deleteAllLeagues);
-
-
-  module.exports = router;
+};

@@ -1,20 +1,26 @@
-const express = require("express");
-const router = express.Router();
-
 const player = require("../controllers/player.controller");
 
-router.post("/create", player.createPlayer);
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, Content-Type, Accept"
+      );
+      next();
+    });
 
-router.get("/all", player.getAllPlayers);
+app.post("/create", player.createPlayer);
 
-router.get("/:id", player.getPlayerById);
+app.get("/all", player.getAllPlayers);
 
-router.post("/approve/:id", player.approvePlayer);
+app.get("/:id", player.getPlayerById);
 
-router.post("/update/:id", player.updatePlayer);
+app.post("/approve/:id", player.approvePlayer);
 
-router.post("/delete/:id", player.deletePlayer);
+app.post("/update/:id", player.updatePlayer);
 
-router.post("/delete/all", player.deleteAllPlayers);
+app.post("/delete/:id", player.deletePlayer);
 
-module.exports = router;
+app.post("/delete/all", player.deleteAllPlayers);
+
+};

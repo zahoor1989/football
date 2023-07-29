@@ -121,7 +121,7 @@ exports.deletePlayer = async (req, resp, next) => {
 };
 
 /* Delete all Players*/
-router.deleteAllPlayers =  async (req, resp, next) => {
+exports.deleteAllPlayers =  async (req, resp, next) => {
 
   try {
     const pl = await employee.remove({});

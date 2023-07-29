@@ -51,12 +51,17 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to football managemeng application." });
+  res.json({ message: "Welcome to football management application." });
 });
 
 // routes
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/academy.routes")(app);
+require("./app/routes/fixture.routes")(app);
+require("./app/routes/league.routes")(app);
+require("./app/routes/player.routes")(app);
+require("./app/routes/team.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

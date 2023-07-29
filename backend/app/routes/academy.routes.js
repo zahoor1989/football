@@ -1,21 +1,28 @@
 const express = require("express");
 const router = express.Router();
 
-
 const academy = require("../controllers/academy.controller");
 
-router.post("/api/academy/create", academy.createAcademy);
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, Content-Type, Accept"
+      );
+      next();
+    });
 
-router.get("/api/academy/all", academy.getAllAcademys);
+app.post("/create", academy.createAcademy);
 
-router.get("/api/academy/:id", academy.getAcademyById);
+app.get("/all", academy.getAllAcademys);
 
-router.post("/api/academy/update/:id", academy.updateAcademy);
+app.get("/:id", academy.getAcademyById);
 
-router.post("/api/academy/delete/:id", academy.deleteAcademy);
+app.post("/update/:id", academy.updateAcademy);
 
-router.post("/api/academy/delete/all", academy.deleteAllAcademys);
+app.post("/delete/:id", academy.deleteAcademy);
 
+app.post("/delete/all", academy.deleteAllAcademys);
 
-module.exports = router;
+};
 
