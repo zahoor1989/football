@@ -11,6 +11,13 @@
     }
     .navbar-header {
       line-height: 124px;
+      .navbar-brand {
+        width: 197px;
+        height: 100px;
+        margin-left: 50px;
+        margin-top: 12px;
+        margin-bottom: 12px;
+      }
     }
   }
   .left-sidebar {
