@@ -162,7 +162,7 @@ exports.deletePlayer = async (req, resp, next) => {
 exports.deleteAllPlayers =  async (req, resp, next) => {
 
   try {
-    const pl = await employee.remove({});
+    const pl = await Player.remove({});
     console.log(pl, "::: deleted records")
     resp.status(200).send(`All players records has been deleted!`)
   } catch (error) {
