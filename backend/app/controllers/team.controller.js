@@ -27,7 +27,7 @@ exports.createTeam = async (req, resp, next) => {
 exports.getAllTeams =  async (req, resp, next) => {
   try {
     const teams = await Team.find();
-    resp.status(200).json(teams);
+    resp.status(200).json(teams.length> 0? teams: { message: 'No teams found' });
   } catch (error) {
     next(error);
   }

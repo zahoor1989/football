@@ -9,18 +9,18 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/create", player.createPlayer);
+app.post("/player/create", isAuthenticated, player.createPlayer);
 
-app.get("/all", player.getAllPlayers);
+app.get("/player/all", isAuthenticated, player.getAllPlayers);
 
-app.get("/:id", player.getPlayerById);
+app.get("/player/:id", isAuthenticated, player.playerByIdOrEID);
 
-app.post("/approve/:id", player.approvePlayer);
+app.post("/player/approve/:id", isAuthenticated, player.approvePlayer);
 
-app.post("/update/:id", player.updatePlayer);
+app.post("/player/update/:id", isAuthenticated, player.updatePlayer);
 
-app.post("/delete/:id", player.deletePlayer);
+app.post("/player/delete/:id", isAuthenticated, player.deletePlayer);
 
-app.post("/delete/all", player.deleteAllPlayers);
+app.post("/player/delete/all", isAuthenticated, player.deleteAllPlayers);
 
 };

@@ -9,18 +9,18 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/create", fixture.createFixture);
+app.post("/fixture/create", fixture.createFixture);
 
-app.get("/all", fixture.getAllFixture);
+app.get("/fixture/all", fixture.getAllFixture);
 
-app.get("/:id", fixture.getFixtureById);
+app.get("/fixture/:id", fixture.getFixtureById);
 
-app.post("/approve/:id", fixture.updateFixture);
+app.post("/fixture/approve/:id", fixture.updateFixture);
 
-app.post("/update/:id", fixture.approveFixture);
+app.post("/fixture/update/:id", fixture.approveFixture);
 
-app.post("/delete/:id", fixture.deleteFixture);
+app.post("/fixture/delete/:id", fixture.deleteFixture);
 
-app.post("/delete/all", fixture.deleteAllFixture);
+app.post("/fixture/delete/all", fixture.deleteAllFixture);
 
 };

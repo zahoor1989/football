@@ -9,16 +9,16 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/create", league.createLeague);
+app.post("/league/create", league.createLeague);
 
-app.get("/all", league.getLeagues);
+app.get("/league/all", league.getLeagues);
 
-app.get("/:id", league.getLeagueById);
+app.get("/league/:id", league.getLeagueById);
 
-app.post("/approve/:id", league.updateLeague);
+app.post("/league/approve/:id", league.updateLeague);
 
-app.post("/delete/:id", league.deleteLeague);
+app.post("/league/delete/:id", league.deleteLeague);
 
-app.post("/delete/all", league.deleteAllLeagues);
+app.post("/league/delete/all", league.deleteAllLeagues);
 
 };

@@ -1,51 +1,100 @@
+const  ObjectId = require('mongodb').ObjectId;
 const db = require("../models");
 const Player = db.player;
 
 /* Add new employee*/
 exports.createPlayer = async (req, resp, next) => {
-  const { firstName, lastName, dob, squadNo, league, playerImage, emiratesIdNo, emirateIdImage, playerStatus, createdBy  } = req.body;
-
+// Emirates ID formate:  '784-1986-123456-2'
   try {
-    const playerData = new Player({
-      firstName: firstName,
-      lastName: lastName,
-      dob: dob,
-      squadNo: squadNo,
-      league: league,
-      playerImage: playerImage,
-      emiratesIdNo: emiratesIdNo,
-      emirateIdImage: emirateIdImage,
-      playerStatus: playerStatus,
-      createdBy: createdBy,
-      createdAt:  new Date()
-    });
+    // multiple creation
+    if(req.body && Array.isArray(req.body)) {
+      let insertedPlayers = [];
+      for (let i = 0; i < req.body.length; i++) {
+        const isValidated = req.body[i]['Emirates ID No'] && req.body[i]['Emirates ID No'].split('-').length === 4;
+        if(isValidated) {
+          let player = await Player.findOne({ emiratesIdNo: req.body['Emirates ID No'] }); 
+          if (!player) { 
+            const playerData = new Player({
+              firstName: req.body[i]['First Name'],
+              lastName: req.body[i]['Surname'],
+              dob: new Date(req.body[i]['DOB']),
+              squadNo: req.body[i]['Squad Number'],
+              league:  ObjectId('64beaf3cec5af59e3524141b'), // need to replace with dynamic data
+              playerImage: req.body[i]['Player Image'],
+              emiratesIdNo:  req.body[i]['Emirates ID No'],
+              emirateIdImage:  req.body[i]['Emirates ID Image'],
+              playerStatus: req.body[i]['Status'],
+              createdBy: ObjectId(req.body[i].user['createdBy']),
+              createdAt:  new Date()
+            });
+            insertedPlayers.push(req.body[i]);
+            await playerData.save();
+          }
+        }
+      };
+      resp.status(200).json(insertedPlayers);
 
-    const savedPlayer = await playerData.save();
-    resp.status(200).json(savedPlayer);
-
+    } else if( req.body && req.body['Emirates ID No']) {
+      // validate emirates id
+      const isValidated = req.body['Emirates ID No'] && req.body['Emirates ID No'].split('-').length === 4;
+      if(isValidated) {
+        // check if the same eid is already in the database
+        let player = await Player.findOne({ emiratesIdNo: req.body['Emirates ID No'] });    
+        if (!player) {   
+          const playerData = new Player({
+            firstName: req.body['First Name'],
+            lastName: req.body['Surname'],
+            dob: new Date(req.body['DOB']),
+            squadNo: req.body['Squad Number'],
+            league:  ObjectId('64beaf3cec5af59e3524141b'), // need to replace with dynamic data
+            playerImage: req.body['Player Image'],
+            emiratesIdNo:  req.body['Emirates ID No'],
+            emirateIdImage:  req.body['Emirates ID Image'],
+            playerStatus: req.body['Status'],
+            createdBy: ObjectId(req.body.user['createdBy']),
+            createdAt:  new Date()
+          });
+  
+          const savedPlayer = await playerData.save();
+          resp.status(200).json(savedPlayer);
+        } else {
+          resp.status(200).json({ message: 'Player already exists' });
+        }
+      }else {
+        resp.status(200).json({ message: 'Emirates is not valid' });
+      }
+   } else {
+      resp.status(200).json({ message: 'Malformed data provided' });
+   }
   } catch (error) {
     next(error);
   }
 };
 
 
-/* GET all playerslisting. */
+/* GET all players listing. */
 exports.getAllPlayers =  async (req, resp, next) => {
-
   try {
     const players = await Player.find();
-    resp.status(200).json(players);
+    resp.status(200).json(players.length? players: { message: 'No players found' });
   } catch (error) {
     next(error);
   }
 };
 
 /* Get employee based on id*/
-exports.getPlayerById = async (req, resp, next) => {
+exports.playerByIdOrEID = async (req, resp, next) => {
+  let pl = {};
   try {
-    const pl = await Player.findById(req.params.id);
-    console.log(pl,"<<<<<<<pl")
-    resp.status(200).json(pl.toJSON());
+    const { id } = req.params;
+    if(id.includes('-') && id.split('-').length === 4){
+      // check if emries id or normal id
+      pl = (await Player.findOne({ emiratesIdNo: id })).toJSON();
+    } else {
+      // check if emries id or normal id
+      pl = (await Player.findById({ _id: ObjectId(id) })).toJSON();
+    }
+    resp.status(200).json(pl? pl : { message: 'Player not found'});
   } catch (error) {
     next(error);
   }
@@ -53,26 +102,12 @@ exports.getPlayerById = async (req, resp, next) => {
 
 /* Edit existing employee based on id*/
 exports.updatePlayer =  async (req, resp, next) => {
-
   try {
-    const playerData = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      dob: req.body.dob,
-      squadNo: req.body.squadNo,
-      league: req.body.league,
-      playerImage: req.body.playerImage,
-      emiratesIdNo: req.body.emiratesIdNo,
-      emirateIdImage: req.body.emirateIdImage,
-      playerStatus: req.body.playerStatus,
-      createdBy: req.body.createdBy,
-      createdAt: new Date()
-    };
-
-    let fetchPlayer = await Player.findById(req.params.id);
+    const { id } = req.params;
+    let fetchPlayer = await Player.findById({_id: ObjectId(id)});
 
     if (!fetchPlayer) return resp.status(404).json({ msg: 'Player record not found' });
-
+    fetchPlayer = fetchPlayer.toJSON();
     fetchPlayer = {
       ...fetchPlayer,
       ...req.body
@@ -91,15 +126,15 @@ exports.updatePlayer =  async (req, resp, next) => {
 exports.approvePlayer =  async (req, resp, next) => {
 
   try {
-    
-    let fetchPlayer = await Player.findById(req.params.id);
 
-    if (!fetchPlayer) return resp.status(404).json({ msg: 'Player record not found' });
+    const { id } = req.params;
+    let fetchPlayer = await Player.findById({_id: ObjectId(id)});
+
+    if (!fetchPlayer) return resp.status(404).json({ message: 'Player record not found' });
     fetchPlayer = {
-      ...fetchPlayer,
+      ...fetchPlayer.toJSON(),
       playerStatus: req.body.playerStatus
     }
-
     const updatedPlayer = await Player.findByIdAndUpdate(req.params.id, fetchPlayer, { new: true });
 
     resp.status(200).json(updatedPlayer);
@@ -113,8 +148,11 @@ exports.approvePlayer =  async (req, resp, next) => {
 exports.deletePlayer = async (req, resp, next) => {
 
   try {
-    const pl = await Player.findByIdAndDelete(req.params.id);
-    resp.status(200).send(`Player ${pl.firstName} record deleted!`)
+    const player = await Player.findByIdAndDelete({ _id: ObjectId(req.params.id)});
+    if(!player){
+      resp.status(200).send(`Player ${player.firstName} record deleted!`)
+    }
+    resp.status(200).send(`Player ${player.firstName} record deleted!`)
   } catch (error) {
     next(error);
   }

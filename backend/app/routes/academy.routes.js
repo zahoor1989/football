@@ -12,17 +12,17 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/create", academy.createAcademy);
+app.post("/academy/create", academy.createAcademy);
 
-app.get("/all", academy.getAllAcademys);
+app.get("/academy/all", academy.getAllAcademys);
 
-app.get("/:id", academy.getAcademyById);
+app.get("/academy/:id", academy.getAcademyById);
 
-app.post("/update/:id", academy.updateAcademy);
+app.post("/academy/update/:id", academy.updateAcademy);
 
-app.post("/delete/:id", academy.deleteAcademy);
+app.post("/academy/delete/:id", academy.deleteAcademy);
 
-app.post("/delete/all", academy.deleteAllAcademys);
+app.post("/academy/delete/all", academy.deleteAllAcademys);
 
 };
 

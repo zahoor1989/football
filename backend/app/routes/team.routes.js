@@ -8,16 +8,16 @@ module.exports = function(app) {
       );
       next();
     });
-app.post("/create", team.createTeam);
+app.post("/team/create", team.createTeam);
 
-app.get("/all", team.getAllTeams);
+app.get("/team/all", team.getAllTeams);
 
-app.get("/:id", team.getTeamById);
+app.get("/team/:id", team.getTeamById);
 
-app.post("/update/:id", team.updateTeam);
+app.post("/team/update/:id", team.updateTeam);
 
-app.post("/delete/:id", team.deleteTeam);
+app.post("/team/delete/:id", team.deleteTeam);
 
-app.post("/delete/all", team.deleteAllTeams);
+app.post("/team/delete/all", team.deleteAllTeams);
 
 };
