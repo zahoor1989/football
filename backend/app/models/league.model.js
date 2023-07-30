@@ -9,9 +9,14 @@ const League = mongoose.model(
         required: true
     },
     leagueAgeLimit: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User"
-        },
+      type: Number,
+      required: true,
+      required: true
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
     createdAt: {
         type: Date,
         default: Date.now,

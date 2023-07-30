@@ -76,7 +76,7 @@ exports.createPlayer = async (req, resp, next) => {
 exports.getAllPlayers =  async (req, resp, next) => {
   try {
     const players = await Player.find();
-    resp.status(200).json(players.length? players: { message: 'No players found' });
+    resp.status(200).json(players.length > 0? players.toJSON() : { message: 'No players found' });
   } catch (error) {
     next(error);
   }

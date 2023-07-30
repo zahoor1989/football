@@ -15,7 +15,7 @@ app.get("/league/all", league.getLeagues);
 
 app.get("/league/:id", league.getLeagueById);
 
-app.post("/league/approve/:id", league.updateLeague);
+app.post("/league/update/:id", league.updateLeague);
 
 app.post("/league/delete/:id", league.deleteLeague);
 
