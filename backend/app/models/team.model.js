@@ -8,11 +8,11 @@ const Team = mongoose.model(
         unique : true,
         required: true
     },
-    createdBy: {
+    user_id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
         },
-    academyId: {
+    academy_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Academy"
     },

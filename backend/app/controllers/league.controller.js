@@ -17,7 +17,7 @@ exports.createLeague = async (req, resp, next) => {
             const leagueData = new League({
               leagueName:  req.body[i]['League Name'],
               leagueAgeLimit:  req.body[i]['Age Limit'],
-              createdBy: ObjectId(req.body[i].user['createdBy']),
+              user_id: ObjectId(req.body[i].user['createdBy']),
               createdAt:  new Date()
             });
             insertedLeagues.push(req.body[i]);
@@ -37,7 +37,7 @@ exports.createLeague = async (req, resp, next) => {
           const leagueData = new League({
             leagueName:  req.body['League Name'],
             leagueAgeLimit:  req.body['Age Limit'],
-            createdBy: ObjectId(req.body.user['createdBy']),
+            user_id: ObjectId(req.body.user['createdBy']),
             createdAt:  new Date()
           });
   

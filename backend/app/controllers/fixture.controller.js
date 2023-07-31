@@ -13,7 +13,7 @@ exports.createFixture = async (req, resp, next) => {
             const fixtureData = new Fixture({
                 homeTeam: req.body[i]['Home Team'],
                 awayTeam: req.body[i]['Away Team'],
-                createdBy: ObjectId(req.body[i].user['createdBy']),
+                user_id: ObjectId(req.body[i].user['createdBy']),
                 createdAt:  new Date()
             });
             insertedFixtures.push(req.body[i]);
@@ -25,7 +25,7 @@ exports.createFixture = async (req, resp, next) => {
         const fixtureData = new Fixture({
           homeTeam: req.body['Home Team'],
           awayTeam: req.body['Away Team'],
-          createdBy: ObjectId(req.body.user['createdBy']),
+          user_id: ObjectId(req.body.user['createdBy']),
           createdAt:  new Date()
         });
 

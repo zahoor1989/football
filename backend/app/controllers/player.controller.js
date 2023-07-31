@@ -19,12 +19,12 @@ exports.createPlayer = async (req, resp, next) => {
               lastName: req.body[i]['Surname'],
               dob: new Date(req.body[i]['DOB']),
               squadNo: req.body[i]['Squad Number'],
-              league:  ObjectId('64beaf3cec5af59e3524141b'), // need to replace with dynamic data
+              league_id:  ObjectId(req.body[i]['league']),
               playerImage: req.body[i]['Player Image'],
               emiratesIdNo:  req.body[i]['Emirates ID No'],
               emirateIdImage:  req.body[i]['Emirates ID Image'],
               playerStatus: req.body[i]['Status'],
-              createdBy: ObjectId(req.body[i].user['createdBy']),
+              user_id: ObjectId(req.body[i].user['createdBy']),
               createdAt:  new Date()
             });
             insertedPlayers.push(req.body[i]);
@@ -46,12 +46,12 @@ exports.createPlayer = async (req, resp, next) => {
             lastName: req.body['Surname'],
             dob: new Date(req.body['DOB']),
             squadNo: req.body['Squad Number'],
-            league:  ObjectId('64beaf3cec5af59e3524141b'), // need to replace with dynamic data
+            league_id:  ObjectId(req.body[i]['league']),
             playerImage: req.body['Player Image'],
             emiratesIdNo:  req.body['Emirates ID No'],
             emirateIdImage:  req.body['Emirates ID Image'],
             playerStatus: req.body['Status'],
-            createdBy: ObjectId(req.body.user['createdBy']),
+            user_id: ObjectId(req.body.user['createdBy']),
             createdAt:  new Date()
           });
   

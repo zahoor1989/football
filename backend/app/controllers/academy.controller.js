@@ -18,7 +18,7 @@ exports.createAcademy = async (req, resp, next) => {
               academyUserName: req.body[i]['Academy User Name'],
               email: new Date(req.body[i]['Email']),
               password: req.body[i]['Password'],
-              createdBy: ObjectId(req.body[i].user['createdBy']),
+              user_id: ObjectId(req.body[i].user['createdBy']),
               createdAt:  new Date()
             });
             insertedAcademies.push(req.body[i]);
@@ -40,7 +40,7 @@ exports.createAcademy = async (req, resp, next) => {
             academyUserName: req.body['Academy User Name'],
             email: new Date(req.body['Email']),
             password: req.body['Password'],
-            createdBy: ObjectId(req.body.user['createdBy']),
+            user_id: ObjectId(req.body.user['createdBy']),
             createdAt:  new Date()
           });
   

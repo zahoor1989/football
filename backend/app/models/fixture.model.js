@@ -13,7 +13,7 @@ const Fixture = mongoose.model(
         ref: "Team",
         required: true
       },
-    createdBy: {
+    user_id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
         },

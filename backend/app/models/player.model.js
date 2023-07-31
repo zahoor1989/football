@@ -19,7 +19,7 @@ const Player = mongoose.model(
         type: Number,
         required: true
     },
-    league: {
+    league_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
@@ -43,7 +43,7 @@ const Player = mongoose.model(
         default: null,
         required: false
     },
-    createdBy:  {
+    user_id:  {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },

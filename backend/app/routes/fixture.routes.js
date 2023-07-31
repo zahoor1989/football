@@ -17,7 +17,7 @@ app.get("/fixture/:id", fixture.getFixtureById);
 
 app.post("/fixture/approve/:id", fixture.updateFixture);
 
-app.post("/fixture/update/:id", fixture.approveFixture);
+app.post("/fixture/update/:id", fixture.updateFixture);
 
 app.post("/fixture/delete/:id", fixture.deleteFixture);
 

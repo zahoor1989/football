@@ -18,7 +18,7 @@ exports.createTeam = async (req, resp, next) => {
               teamName:  req.body[i]['Team Name'],
               academyId: req.body[i]['Academy Id'],
               leagues: [...req.body[i].leagues],
-              createdBy: ObjectId(req.body[i].user['createdBy']),
+              user_id: ObjectId(req.body[i].user['createdBy']),
               createdAt: new Date()
             });
             insertedTeams.push(req.body[i]);
@@ -40,7 +40,7 @@ exports.createTeam = async (req, resp, next) => {
             teamName:  req.body['Team Name'],
             academyId: req.body['Academy Id'],
             leagues: [...req.body.leagues ],
-            createdBy: ObjectId(req.body.user['createdBy']),
+            user_id: ObjectId(req.body.user['createdBy']),
             createdAt: new Date()
           });
   

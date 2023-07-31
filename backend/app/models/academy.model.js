@@ -8,7 +8,7 @@ const Academy = mongoose.model(
         unique : true,
         required: true
     },
-    createdBy: {
+    user_id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
         },
