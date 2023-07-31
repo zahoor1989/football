@@ -1,6 +1,5 @@
-const express = require("express");
-const router = express.Router();
 
+const { authJwt } = require("../middlewares/");
 const academy = require("../controllers/academy.controller");
 
 module.exports = function(app) {
@@ -12,17 +11,17 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/academy/create", academy.createAcademy);
+app.post("/academy/create", authJwt.isAuthenticated, academy.createAcademy);
 
-app.get("/academy/all", academy.getAllAcademys);
+app.get("/academy/all", authJwt.isAuthenticated, academy.getAllAcademys);
 
-app.get("/academy/:id", academy.getAcademyById);
+app.get("/academy/:id", authJwt.isAuthenticated, academy.getAcademyById);
 
-app.post("/academy/update/:id", academy.updateAcademy);
+app.post("/academy/update/:id", authJwt.isAuthenticated, academy.updateAcademy);
 
-app.post("/academy/delete/:id", academy.deleteAcademy);
+app.post("/academy/delete/:id", authJwt.isAuthenticated, academy.deleteAcademy);
 
-app.post("/academy/delete/all", academy.deleteAllAcademys);
+app.post("/academy/delete/all", authJwt.isAuthenticated, academy.deleteAllAcademys);
 
 };
 

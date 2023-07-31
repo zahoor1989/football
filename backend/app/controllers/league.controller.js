@@ -61,7 +61,7 @@ exports.createLeague = async (req, resp, next) => {
 /* GET all Leagues. */
 exports.getLeagues =  async (req, resp, next) => {
   try {
-    const leagues = await League.find();
+    const leagues = await League.find({}).toArray();
     console.log(leagues)
     resp.status(200).json(leagues);
   } catch (error) {
@@ -72,8 +72,8 @@ exports.getLeagues =  async (req, resp, next) => {
 /* Get League based on id*/
 exports.getLeagueById = async (req, resp, next) => {
   try {
-    const league = await League.findById({ _id: ObjectId(req.params.id) });
-    resp.status(200).json(league? league.toJSON(): { message: 'No league found' });
+    const league = await League.find({ _id: ObjectId(req.params.id) });
+    resp.status(200).json(league? league: { message: 'No league found' });
   } catch (error) {
     next(error);
   }
@@ -83,10 +83,9 @@ exports.getLeagueById = async (req, resp, next) => {
 exports.updateLeague =  async (req, resp, next) => {
   try {
   const { id } = req.params;
-    let fetchLeague = await League.findById({_id: ObjectId(id)});
+    let fetchLeague = await League.find({_id: ObjectId(id)});
 
     if (!fetchLeague) return resp.status(404).json({ msg: 'League record not found' });
-    fetchLeague = fetchLeague.toJSON();
     fetchLeague = {
       ...fetchLeague,
       ...req.body

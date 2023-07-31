@@ -14,7 +14,6 @@ const Academy = mongoose.model(
         },
     academyUserName: {
         type: String,
-        unique : true,
         required: false
     },
     email: {

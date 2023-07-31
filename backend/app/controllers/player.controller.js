@@ -75,8 +75,8 @@ exports.createPlayer = async (req, resp, next) => {
 /* GET all players listing. */
 exports.getAllPlayers =  async (req, resp, next) => {
   try {
-    const players = await Player.find();
-    resp.status(200).json(players.length > 0? players.toJSON() : { message: 'No players found' });
+    let players = await Player.find()
+      resp.status(200).json(players.length > 0? players: { message: 'No players found' });
   } catch (error) {
     next(error);
   }
@@ -89,10 +89,10 @@ exports.playerByIdOrEID = async (req, resp, next) => {
     const { id } = req.params;
     if(id.includes('-') && id.split('-').length === 4){
       // check if emries id or normal id
-      pl = (await Player.findOne({ emiratesIdNo: id })).toJSON();
+      pl = await Player.findOne({ emiratesIdNo: id });
     } else {
       // check if emries id or normal id
-      pl = (await Player.findById({ _id: ObjectId(id) })).toJSON();
+      pl = await Player.find({ _id: ObjectId(id) });
     }
     resp.status(200).json(pl? pl : { message: 'Player not found'});
   } catch (error) {
@@ -104,10 +104,9 @@ exports.playerByIdOrEID = async (req, resp, next) => {
 exports.updatePlayer =  async (req, resp, next) => {
   try {
     const { id } = req.params;
-    let fetchPlayer = await Player.findById({_id: ObjectId(id)});
+    let fetchPlayer = await Player.find({_id: ObjectId(id)});
 
     if (!fetchPlayer) return resp.status(404).json({ msg: 'Player record not found' });
-    fetchPlayer = fetchPlayer.toJSON();
     fetchPlayer = {
       ...fetchPlayer,
       ...req.body
@@ -128,11 +127,11 @@ exports.approvePlayer =  async (req, resp, next) => {
   try {
 
     const { id } = req.params;
-    let fetchPlayer = await Player.findById({_id: ObjectId(id)});
+    let fetchPlayer = await Player.find({_id: ObjectId(id)});
 
     if (!fetchPlayer) return resp.status(404).json({ message: 'Player record not found' });
     fetchPlayer = {
-      ...fetchPlayer.toJSON(),
+      ...fetchPlayer,
       playerStatus: req.body.playerStatus
     }
     const updatedPlayer = await Player.findByIdAndUpdate(req.params.id, fetchPlayer, { new: true });

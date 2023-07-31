@@ -1,3 +1,4 @@
+const { authJwt } = require("../middlewares/");
 const player = require("../controllers/player.controller");
 
 module.exports = function(app) {
@@ -9,18 +10,18 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/player/create", isAuthenticated, player.createPlayer);
+app.post("/player/create", authJwt.isAuthenticated, player.createPlayer);
 
-app.get("/player/all", isAuthenticated, player.getAllPlayers);
+app.get("/player/all", authJwt.isAuthenticated, player.getAllPlayers);
 
-app.get("/player/:id", isAuthenticated, player.playerByIdOrEID);
+app.get("/player/:id", authJwt.isAuthenticated, player.playerByIdOrEID);
 
-app.post("/player/approve/:id", isAuthenticated, player.approvePlayer);
+app.post("/player/approve/:id", authJwt.isAuthenticated, player.approvePlayer);
 
-app.post("/player/update/:id", isAuthenticated, player.updatePlayer);
+app.post("/player/update/:id", authJwt.isAuthenticated, player.updatePlayer);
 
-app.post("/player/delete/:id", isAuthenticated, player.deletePlayer);
+app.post("/player/delete/:id", authJwt.isAuthenticated, player.deletePlayer);
 
-app.post("/player/delete/all", isAuthenticated, player.deleteAllPlayers);
+app.post("/player/delete/all", authJwt.isAuthenticated, player.deleteAllPlayers);
 
 };

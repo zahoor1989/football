@@ -43,7 +43,7 @@ exports.getAllFixture =  async (req, resp, next) => {
 
   try {
     const fixture = await Fixture.find();
-    resp.status(200).json( fixture.length > 0 ? fixture.toJSON() : { message: 'No fixture found' });
+    resp.status(200).json( fixture.length > 0 ? fixture : { message: 'No fixture found' });
   } catch (error) {
     next(error);
   }
@@ -53,8 +53,8 @@ exports.getAllFixture =  async (req, resp, next) => {
 /* Get fixture based on id*/
 exports.getFixtureById = async (req, resp, next) => {
   try {
-    const fixture = await Fixture.findById({ _id: ObjectId(req.params.id) });
-    resp.status(200).json(fixture.toJSON());
+    const fixture = await Fixture.find({ _id: ObjectId(req.params.id) });
+    resp.status(200).json(fixture);
   } catch (error) {
     next(error);
   }
@@ -65,7 +65,7 @@ exports.updateFixture=  async (req, resp, next) => {
 
   try {
     if(req.params && req.params.id) {
-    let fetchFixture = await Fixture.findById({_id: ObjectId(req.params.id)});
+    let fetchFixture = await Fixture.find({_id: ObjectId(req.params.id)});
 
     if (!fetchFixture) return resp.status(404).json({ msg: 'Fixture record not found' });
 
@@ -76,7 +76,7 @@ exports.updateFixture=  async (req, resp, next) => {
 
     const updatedFixture = await Fixture.findByIdAndUpdate(req.params.id, fetchFixture, { new: true });
 
-    resp.status(200).json(updatedFixture.toJSON());
+    resp.status(200).json(updatedFixture);
   } else {
     resp.status(200).json({ message: 'Fixture id is not valid or not found' });
   }

@@ -11,12 +11,12 @@ exports.createAcademy = async (req, resp, next) => {
       for (let i = 0; i < req.body.length; i++) {
         const isValidated = req.body[i]['Academy Name'] && req.body[i]['Academy Name'].length > 0;
         if(isValidated) {
-          let academy = await Academy.findOne({ emiratesIdNo: req.body[i]['Academy Name'] }); 
+          let academy = await Academy.findOne({ academyName: req.body[i]['Academy Name'] }); 
           if (!academy) { 
             const academyData = new Academy({
-              academyName: req.body[i]['First Name'],
+              academyName: req.body[i]['Academy Name'],
               academyUserName: req.body[i]['Academy User Name'],
-              email: new Date(req.body[i]['Email']),
+              email: req.body[i]['Email'],
               password: req.body[i]['Password'],
               user_id: ObjectId(req.body[i].user['createdBy']),
               createdAt:  new Date()
@@ -65,7 +65,7 @@ exports.createAcademy = async (req, resp, next) => {
 exports.getAllAcademys =  async (req, resp, next) => {
   try {
     const academies = await Academy.find();
-    resp.status(200).json(academies.length > 0? academies.toJSON() : { message: 'No academy found' });
+    resp.status(200).json(academies.length > 0? academies : { message: 'No academy found' });
   } catch (error) {
     next(error);
   }
@@ -75,8 +75,8 @@ exports.getAllAcademys =  async (req, resp, next) => {
 exports.getAcademyById = async (req, resp, next) => {
   try {
     if( req.params && req.params.id ) {
-      const academy = await Academy.findById({ _id: ObjectId(req.params.id)});
-      resp.status(200).json(academy.toJSON());
+      const academy = await Academy.find({ _id: ObjectId(req.params.id)});
+      resp.status(200).json(academy);
     } else {
       resp.status(200).json({message: 'Academy id is required to found'});
     }
@@ -90,11 +90,10 @@ exports.updateAcademy =  async (req, resp, next) => {
 
   try {
     const { id } = req.params;
-    let fetchAcademy = await Academy.findById({_id: ObjectId(id)});
+    let fetchAcademy = await Academy.find({_id: ObjectId(id)});
 
     if (!fetchAcademy) return resp.status(404).json({ message: 'Academy record not found' });
     // updating academy
-    fetchAcademy = fetchAcademy.toJSON();
     fetchAcademy = {
       ...fetchAcademy,
       ...req.body

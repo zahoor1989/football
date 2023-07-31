@@ -1,3 +1,4 @@
+const { authJwt } = require("../middlewares/");
 const fixture = require("../controllers/fixture.controller");
 
 module.exports = function(app) {
@@ -9,18 +10,18 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/fixture/create", fixture.createFixture);
+app.post("/fixture/create", authJwt.isAuthenticated, fixture.createFixture);
 
-app.get("/fixture/all", fixture.getAllFixture);
+app.get("/fixture/all", authJwt.isAuthenticated, fixture.getAllFixture);
 
-app.get("/fixture/:id", fixture.getFixtureById);
+app.get("/fixture/:id", authJwt.isAuthenticated, fixture.getFixtureById);
 
-app.post("/fixture/approve/:id", fixture.updateFixture);
+app.post("/fixture/approve/:id", authJwt.isAuthenticated, fixture.updateFixture);
 
-app.post("/fixture/update/:id", fixture.updateFixture);
+app.post("/fixture/update/:id", authJwt.isAuthenticated, fixture.updateFixture);
 
-app.post("/fixture/delete/:id", fixture.deleteFixture);
+app.post("/fixture/delete/:id", authJwt.isAuthenticated, fixture.deleteFixture);
 
-app.post("/fixture/delete/all", fixture.deleteAllFixture);
+app.post("/fixture/delete/all", authJwt.isAuthenticated, fixture.deleteAllFixture);
 
 };

@@ -1,3 +1,4 @@
+const { authJwt } = require("../middlewares/");
 const team = require("../controllers/team.controller");
 
 module.exports = function(app) {
@@ -8,16 +9,16 @@ module.exports = function(app) {
       );
       next();
     });
-app.post("/team/create", team.createTeam);
+app.post("/team/create", authJwt.isAuthenticated, team.createTeam);
 
-app.get("/team/all", team.getAllTeams);
+app.get("/team/all", authJwt.isAuthenticated, team.getAllTeams);
 
-app.get("/team/:id", team.getTeamById);
+app.get("/team/:id", authJwt.isAuthenticated, team.getTeamById);
 
-app.post("/team/update/:id", team.updateTeam);
+app.post("/team/update/:id", authJwt.isAuthenticated, team.updateTeam);
 
-app.post("/team/delete/:id", team.deleteTeam);
+app.post("/team/delete/:id", authJwt.isAuthenticated, team.deleteTeam);
 
-app.post("/team/delete/all", team.deleteAllTeams);
+app.post("/team/delete/all", authJwt.isAuthenticated, team.deleteAllTeams);
 
 };

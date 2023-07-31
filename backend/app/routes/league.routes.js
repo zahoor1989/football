@@ -1,3 +1,4 @@
+const { authJwt } = require("../middlewares/");
 const league = require("../controllers/league.controller");
 
 module.exports = function(app) {
@@ -9,16 +10,16 @@ module.exports = function(app) {
       next();
     });
 
-app.post("/league/create", league.createLeague);
+app.post("/league/create", authJwt.isAuthenticated, league.createLeague);
 
-app.get("/league/all", league.getLeagues);
+app.get("/league/all", authJwt.isAuthenticated, league.getLeagues);
 
-app.get("/league/:id", league.getLeagueById);
+app.get("/league/:id", authJwt.isAuthenticated, league.getLeagueById);
 
-app.post("/league/update/:id", league.updateLeague);
+app.post("/league/update/:id", authJwt.isAuthenticated, league.updateLeague);
 
-app.post("/league/delete/:id", league.deleteLeague);
+app.post("/league/delete/:id", authJwt.isAuthenticated, league.deleteLeague);
 
-app.post("/league/delete/all", league.deleteAllLeagues);
+app.post("/league/delete/all", authJwt.isAuthenticated, league.deleteAllLeagues);
 
 };

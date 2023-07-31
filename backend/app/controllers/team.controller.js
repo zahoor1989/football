@@ -66,7 +66,7 @@ exports.getAllTeams =  async (req, resp, next) => {
  
   try {
     const teams = await Team.find();
-    resp.status(200).json(teams.length > 0? teams.toJSON() : { message: 'No team found' });
+    resp.status(200).json(teams.length > 0? teams : { message: 'No team found' });
   } catch (error) {
     next(error);
   }
@@ -75,8 +75,13 @@ exports.getAllTeams =  async (req, resp, next) => {
 /* Get team based on id*/
 exports.getTeamById = async (req, resp, next) => {
   try {
-    const team = await Team.findById({ _id: ObjectId(id) });
-    resp.status(200).json(team.length > 0 ? team.toJSON(): { message: 'No team found' });
+    const { id } = req.params;
+    if(id) {
+      const team = await Team.find({ _id: ObjectId(req.params.id) });
+      resp.status(200).json(team.length > 0 ? team: { message: 'No team found' });
+    }else{
+      resp.status(200).json({ message: 'Malformed Id provided' });
+    }
   } catch (error) {
     next(error);
   }
@@ -86,10 +91,10 @@ exports.getTeamById = async (req, resp, next) => {
 exports.updateTeam =  async (req, resp, next) => {
   try {
     const { id } = req.params;
-    let fetchTeam = await Team.findById({_id: ObjectId(id)});
+    if(id) {
+    let fetchTeam = await Team.find({_id: ObjectId(id)});
 
     if (!fetchTeam) return resp.status(404).json({ message: 'Team record not found' });
-    fetchTeam = fetchTeam.toJSON();
     fetchTeam = {
       ...fetchTeam,
       ...req.body
@@ -98,6 +103,9 @@ exports.updateTeam =  async (req, resp, next) => {
     const updatedTeam = await Team.findByIdAndUpdate(req.params.id, fetchTeam, { new: true });
 
     resp.status(200).json(updatedTeam);
+  } else {
+    resp.status(200).json({ message: 'Malformed Id provided' });
+  }
 
   } catch (error) {
     next(error);
@@ -109,11 +117,15 @@ exports.updateTeam =  async (req, resp, next) => {
 exports.deleteTeam = async (req, resp, next) => {
 
   try {
+    if(req.params && req.params.id) {
     const team = await Team.findByIdAndDelete( { _id: ObjectId(req.params.id)} );
     if(!team){
       resp.status(200).send(`Team record not found!`)
     }
     resp.status(200).send(`Team ${team.teamName} record deleted!`)
+  } else {
+    resp.status(200).json({ message: 'Malformed Id provided' });
+  }
   } catch (error) {
     next(error);
   }
