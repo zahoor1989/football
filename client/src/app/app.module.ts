@@ -4,7 +4,7 @@ import {
   CommonModule, LocationStrategy,
   PathLocationStrategy
 } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
@@ -29,6 +29,16 @@ import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthGuardService } from './guards/auth-guard.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './_store/reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CollectionsComponentComponent } from './collections-component/collections-component.component';
+import { EffectsModule } from '@ngrx/effects';
+import { UsersEffects } from './_store/effects/users.effects';
+
+const environment = {
+  production: false
+};
 
 
 @NgModule({
@@ -42,7 +52,8 @@ import { AuthGuardService } from './guards/auth-guard.service';
     BoardAdminComponent,
     BoardModeratorComponent,
     BoardUserComponent,
-    AdminComponent
+    AdminComponent,
+    CollectionsComponentComponent
   ],
   imports: [
     CommonModule,
@@ -56,6 +67,9 @@ import { AuthGuardService } from './guards/auth-guard.service';
     FullComponent,
     NavigationComponent,
     SidebarComponent,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([UsersEffects]),
   ],
   providers: [
     AuthGuardService,
