@@ -5,13 +5,26 @@ const User = db.user;
 const Role = db.role;
 
 verifyToken = (req, res, next) => {
-  let token = req.session.token;
+  // let token = req.session.token;
 
-  if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
-  }
+  // if (!token) {
+  //   return res.status(403).send({ message: "No token provided!" });
+  // }
 
-  jwt.verify(token,
+  // jwt.verify(token,
+  //           config.secret,
+  //           (err, decoded) => {
+  //             if (err) {
+  //               return res.status(401).send({
+  //                 message: "Unauthorized!",
+  //               });
+  //             }
+  //             req.userId = decoded.id;
+  //             next();
+  //           });
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    jwt.verify(token,
             config.secret,
             (err, decoded) => {
               if (err) {
@@ -22,10 +35,13 @@ verifyToken = (req, res, next) => {
               req.userId = decoded.id;
               next();
             });
+} catch (error) {
+    res.status(401).json({ message: "No token provided" });
+}
 };
 
 isAuthenticated = (req, res, next) => {
-  let token = req.session.token;
+  let token = req.headers.authorization.split(" ")[1];
 
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });

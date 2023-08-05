@@ -149,9 +149,9 @@ exports.deletePlayer = async (req, resp, next) => {
   try {
     const player = await Player.findByIdAndDelete({ _id: ObjectId(req.params.id)});
     if(!player){
-      resp.status(200).send(`Player ${player.firstName} record deleted!`)
+      resp.status(200).json({message: `Player ${player.firstName} record deleted!`})
     }
-    resp.status(200).send(`Player ${player.firstName} record deleted!`)
+    resp.status(200).json({message: `Player ${player.firstName} record deleted!`})
   } catch (error) {
     next(error);
   }
@@ -162,8 +162,7 @@ exports.deleteAllPlayers =  async (req, resp, next) => {
 
   try {
     const pl = await Player.remove({});
-    console.log(pl, "::: deleted records")
-    resp.status(200).send(`All players records has been deleted!`)
+    resp.status(200).json({ msg: `All players records has been deleted!`})
   } catch (error) {
     next(error);
   }

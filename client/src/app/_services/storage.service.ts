@@ -1,12 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 const USER_KEY = 'auth-user';
+const TOKEN = 'token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
-  constructor() {}
+  constructor(private http: HttpClient, public router: Router) {}
 
   clean(): void {
     window.sessionStorage.clear();
@@ -27,11 +30,24 @@ export class StorageService {
   }
 
   public isLoggedIn(): boolean {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return true;
-    }
-
-    return false;
+    let authToken = window.sessionStorage.getItem(TOKEN);
+    return authToken !== null ? true : false;
   }
+  public getToken() : any {
+    return window.sessionStorage.getItem(TOKEN);
+  }
+
+  public setSession(token:any) {
+    window.sessionStorage.setItem(TOKEN, token);
+  }
+
+
+  public doLogout() {
+    let removeToken =  window.sessionStorage.removeItem(TOKEN);
+    if (removeToken == null) {
+      this.router.navigate(['login']);
+    }
+  }
+
+
 }

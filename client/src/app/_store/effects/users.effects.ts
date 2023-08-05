@@ -11,12 +11,12 @@ export class UsersEffects {
 
   loadUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.loadUsersUserss),
+      ofType(UserActions.loadUsers),
       map((action: any) => action.payload),
       mergeMap(() => {
-        return this.usersService.loadUsers().pipe(
-          map(data => UserActions.loadUsersUserssSuccess({ data })),
-          catchError(error => of(UserActions.loadUsersUserssFailure({ error })))
+        debugger
+        return this.usersService.loadUsers().pipe(map(data => UserActions.loadUsersSuccess({ data })),
+          catchError(error => of(UserActions.loadUsersFailure({ error })))
         );
       })
     )

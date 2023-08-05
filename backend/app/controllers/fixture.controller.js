@@ -91,7 +91,7 @@ exports.updateFixture=  async (req, resp, next) => {
 exports.deleteFixture = async (req, resp, next) => {
   try {
     const fixture = await Fixture.findByIdAndDelete({_id: ObjectId(req.params.id)} );
-    resp.status(200).send(`Fixture has been record deleted!`)
+    resp.status(200).json({ message: `Fixture has been record deleted!`})
   } catch (error) {
     next(error);
   }
@@ -103,7 +103,7 @@ exports.deleteAllFixture =  async (req, resp, next) => {
   try {
     const fixture = await Fixture.deleteMany({});;
     console.log(fixture, "::: deleted records")
-    resp.status(200).send(`All fixtures records has been deleted!`)
+    resp.status(200).json({ message: `All fixtures records has been deleted!`})
   } catch (error) {
     next(error);
   }

@@ -1,9 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { StorageService } from './_services/storage.service';
 import { AuthService } from './_services/auth.service';
 import { EventBusService } from './_shared/event-bus.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+// importing actions
+import * as UserActions from "./_store/actions/users.actions";
+import * as TeamActions from "./_store/actions/teams.actions";
+import * as PlayerActions from "./_store/actions/players.actions";
+import * as LeagueActions from "./_store/actions/leagues.actions";
+import * as FixureActions from "./_store/actions/fixures.actions";
+import * as AcademyActions from "./_store/actions/academies.actions";
+
+// importing selectors
+import * as UserSelectors from "./_store/selectors/users.selectors";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +22,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
   private roles: string[] = [];
   isLoggedIn = false;
@@ -21,12 +32,17 @@ export class AppComponent {
 
   eventBusSub?: Subscription;
 
+  // user from store
+  users$:any;
   constructor(
     private storageService: StorageService,
     private authService: AuthService,
     private eventBusService: EventBusService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private store: Store
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
@@ -38,12 +54,22 @@ export class AppComponent {
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
       this.username = user.username;
-    }
+
+      // gettinga all listings for store
+      this.store.dispatch(UserActions.loadUsers());
+      this.store.dispatch(TeamActions.loadTeams());
+      this.store.dispatch(PlayerActions.loadPlayers());
+      this.store.dispatch(LeagueActions.loadLeagues());
+      this.store.dispatch(FixureActions.loadFixtures());
+      this.store.dispatch(AcademyActions.loadAcademies());
+}
 
     this.eventBusSub = this.eventBusService.on('logout', () => {
       this.logout();
     });
 
+    // select to get user from store
+    this.users$ = this.store.select(UserSelectors.getUsers);
   }
 
   logout(): void {
@@ -51,9 +77,6 @@ export class AppComponent {
       next: res => {
         console.log(res);
         this.storageService.clean();
-        // debugger
-        // console.log(window.location,"<<<")
-        // window.location.reload();
       },
       error: err => {
         console.log(err);

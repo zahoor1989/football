@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as UserActions from '../actions/users.actions';
 export const usersFeatureKey = 'users';
 
@@ -16,12 +16,12 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(UserActions.loadUsersUserss, (state) => ({...state,loading: false, error:null})),
-  on(UserActions.loadUsersUserssSuccess, (state, { data }) => ({
+  on(UserActions.loadUsers, (state) => ({...state,loading: false, error:null})),
+  on(UserActions.loadUsersSuccess, (state, { data }) => ({
     ...state,
-    users:data.users,
+    users: data,
     loading: true,
     error: null
   })),
-  on(UserActions.loadUsersUserssFailure, (state,{error}) => ({...state,loading: false, error})),
+  on(UserActions.loadUsersFailure, (state,{error}) => ({...state,loading: false, error})),
 );

@@ -9,7 +9,6 @@ exports.createLeague = async (req, resp, next) => {
     if(req.body && Array.isArray(req.body)) {
       let insertedLeagues = [];
       for (let i = 0; i < req.body.length; i++) {
-        console.log(req.body[i],"::::");
         const isValidated = req.body[i]['League Name'] && req.body[i]['League Name'].length > 0? true: false;
         if(isValidated) {
           let league = await League.findOne({ leagueName: req.body[i]['League Name'] }); 
@@ -61,8 +60,7 @@ exports.createLeague = async (req, resp, next) => {
 /* GET all Leagues. */
 exports.getLeagues =  async (req, resp, next) => {
   try {
-    const leagues = await League.find({}).toArray();
-    console.log(leagues)
+    const leagues = await League.find({});
     resp.status(200).json(leagues);
   } catch (error) {
     next(error);
@@ -85,7 +83,7 @@ exports.updateLeague =  async (req, resp, next) => {
   const { id } = req.params;
     let fetchLeague = await League.find({_id: ObjectId(id)});
 
-    if (!fetchLeague) return resp.status(404).json({ msg: 'League record not found' });
+    if (!fetchLeague) return resp.status(404).json({ message: 'League record not found' });
     fetchLeague = {
       ...fetchLeague,
       ...req.body
@@ -107,9 +105,11 @@ exports.deleteLeague = async (req, resp, next) => {
   try {
     const league = await League.findByIdAndDelete({ _id: ObjectId(req.params.id)});
     if(!league){
-      resp.status(200).send(`League ${league.leagueName} record deleted!`)
-    }
-    resp.status(200).send(`League ${league.leagueName} record deleted!`)
+      resp.status(200).json({ message: `League ${league.leagueName} record deleted!`})
+      }
+    resp.status(200).json({
+      message: `League ${league.leagueName} record deleted!`
+    })
   } catch (error) {
     next(error);
   }
@@ -119,8 +119,7 @@ exports.deleteLeague = async (req, resp, next) => {
 exports.deleteAllLeagues =  async (req, resp, next) => {
   try {
     const lg = await League.remove({});
-    console.log(lg, "::: deleted records")
-    resp.status(200).send(`All league records has been deleted!`)
+    resp.status(200).json({ message: 'All leagues deleted!' });
   } catch (error) {
     next(error);
   }

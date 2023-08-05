@@ -12,6 +12,8 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
+
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
@@ -21,8 +23,9 @@ export class AuthService {
         username,
         password,
       },
-      httpOptions
+      { headers: this.headers }
     );
+
   }
 
   register(username: string, email: string, password: string): Observable<any> {
@@ -33,11 +36,13 @@ export class AuthService {
         email,
         password,
       },
-      httpOptions
+      { headers: this.headers }
     );
   }
 
   logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'signout', { }, httpOptions);
+    return this.http.post(AUTH_API + 'signout', { }, { headers: this.headers });
   }
+
+
 }

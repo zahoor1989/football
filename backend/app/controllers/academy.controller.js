@@ -113,9 +113,9 @@ exports.deleteAcademy = async (req, resp, next) => {
   try {
     const academy = await Academy.findByIdAndDelete({ _id: ObjectId(req.params.id) });
     if(!academy) {
-      resp.status(404).send(`No academy record found!`)
+      resp.status(404).json({ message:`No academy record found!`})
     }
-    resp.status(200).send(`Academy ${academy.academyName} record deleted!`)
+    resp.status(200).json({ message: `Academy ${academy.academyName} record deleted!`})
   } catch (error) {
     next(error);
   }
@@ -126,7 +126,7 @@ exports.deleteAllAcademys =  async (req, resp, next) => {
 
   try {
     const academy = await Academy.remove({});
-    resp.status(200).send(`All academies records has been deleted!`)
+    resp.status(200).json({ message:`All academies records has been deleted!`})
   } catch (error) {
     next(error);
   }

@@ -31,22 +31,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
   onSubmit(): void {
     const { username, password } = this.form;
 
-    this.authService.login(username, password).subscribe({
-      next: data => {
-        debugger
-        this.storageService.saveUser(data);
+    this.authService.login(username, password).subscribe((data) => {
+      debugger
+        this.storageService.setSession(data.token);
+        // delete token from data
+        this.storageService.saveUser({ email: data.email, id: data.id, roles : data.roles, username: data.username});
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.storageService.getUser().roles;
         // this.reloadPage();
         this.redirectPage();
-      },
-      error: err => {
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
       }
-    });
+    );
   }
 
   reloadPage(): void {

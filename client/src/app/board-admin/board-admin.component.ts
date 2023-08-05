@@ -14,7 +14,7 @@ export class BoardAdminComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getAdminBoard().subscribe({
       next: data => {
-        this.content = data;
+        this.content = data.content;
       },
       error: err => {
         if (err.error) {

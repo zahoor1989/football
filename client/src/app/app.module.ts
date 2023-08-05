@@ -6,7 +6,7 @@ import {
 } from '@angular/common';
 import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -35,6 +35,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CollectionsComponentComponent } from './collections-component/collections-component.component';
 import { EffectsModule } from '@ngrx/effects';
 import { UsersEffects } from './_store/effects/users.effects';
+import { AcademiesEffects } from './_store/effects/academies.effects';
+import { TeamsEffects } from './_store/effects/teams.effects';
+import { LeaguesEffects } from './_store/effects/leagues.effects';
+import { FixuresEffects } from './_store/effects/fixures.effects';
+import { PlayersEffects } from './_store/effects/players.effects';
+import { HttpRequestInterceptor } from './_helpers/http.interceptor';
+import { AuthInterceptor } from './_helpers/authconfig.interceptor';
 
 const environment = {
   production: false
@@ -69,7 +76,7 @@ const environment = {
     SidebarComponent,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([UsersEffects]),
+    EffectsModule.forRoot([UsersEffects, AcademiesEffects, TeamsEffects, LeaguesEffects, FixuresEffects, PlayersEffects]),
   ],
   providers: [
     AuthGuardService,
@@ -77,6 +84,11 @@ const environment = {
       provide: LocationStrategy,
       useClass: PathLocationStrategy
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

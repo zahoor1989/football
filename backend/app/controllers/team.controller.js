@@ -137,7 +137,7 @@ exports.deleteAllTeams =  async (req, resp, next) => {
 
   try {
     const team = await Team.remove({});
-    resp.status(200).send(`All teams has been deleted!`)
+    resp.status(200).json({ message: `All teams has been deleted!`})
   } catch (error) {
     next(error);
   }

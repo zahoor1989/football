@@ -8,13 +8,15 @@ const morgan  = require('morgan');
 
 const app = express();
 
+const secret = require("./app/config/auth.config");
+
 app.use(morgan('tiny'));
 app.use(cors());
 /* for Angular Client (withCredentials) */
 app.use(
   cors({
     'Access-Control-Allow-Credentials': true,
-    origin:["http://localhost:4200"],
+    origin:"http://localhost:4200",
   })
 );
 
@@ -27,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cookieSession({
     name: "football-session",
-    keys: ["COOKIE_SECRET"], // should use as secret environment variable
+    keys: [secret],
     httpOnly: true
   })
 );
