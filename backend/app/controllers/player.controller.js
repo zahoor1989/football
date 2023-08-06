@@ -19,12 +19,12 @@ exports.createPlayer = async (req, resp, next) => {
               lastName: req.body[i]['Surname'],
               dob: new Date(req.body[i]['DOB']),
               squadNo: req.body[i]['Squad Number'],
-              league_id:  ObjectId(req.body[i]['league']),
+              league:  ObjectId(req.body[i]['league']),
               playerImage: req.body[i]['Player Image'],
               emiratesIdNo:  req.body[i]['Emirates ID No'],
               emirateIdImage:  req.body[i]['Emirates ID Image'],
               playerStatus: req.body[i]['Status'],
-              user_id: ObjectId(req.body[i].user['createdBy']),
+              user: ObjectId(req.body[i].user['createdBy']),
               createdAt:  new Date()
             });
             insertedPlayers.push(req.body[i]);
@@ -46,12 +46,12 @@ exports.createPlayer = async (req, resp, next) => {
             lastName: req.body['Surname'],
             dob: new Date(req.body['DOB']),
             squadNo: req.body['Squad Number'],
-            league_id:  ObjectId(req.body[i]['league']),
+            league:  ObjectId(req.body[i]['league']),
             playerImage: req.body['Player Image'],
             emiratesIdNo:  req.body['Emirates ID No'],
             emirateIdImage:  req.body['Emirates ID Image'],
             playerStatus: req.body['Status'],
-            user_id: ObjectId(req.body.user['createdBy']),
+            user: ObjectId(req.body.user['createdBy']),
             createdAt:  new Date()
           });
   
@@ -73,12 +73,16 @@ exports.createPlayer = async (req, resp, next) => {
 
 
 /* GET all players listing. */
-exports.getAllPlayers =  async (req, resp, next) => {
+exports.getAllPlayers = (req, res) => {
   try {
-    let players = await Player.find()
-      resp.status(200).json(players.length > 0? players: { message: 'No players found' });
+    Player.find().populate("user").exec((err, players) => {
+      if(err){
+        return res.status(500).send({ message: err });
+      }
+      return res.status(200).json(players.length > 0? players: { message: 'No players found' });  
+    });
   } catch (error) {
-    next(error);
+    return res.status(500).send({ message: error });
   }
 };
 
@@ -89,10 +93,10 @@ exports.playerByIdOrEID = async (req, resp, next) => {
     const { id } = req.params;
     if(id.includes('-') && id.split('-').length === 4){
       // check if emries id or normal id
-      pl = await Player.findOne({ emiratesIdNo: id });
+      pl = await Player.findOne({ emiratesIdNo: id }).populate("user", "league").exec();
     } else {
       // check if emries id or normal id
-      pl = await Player.find({ _id: ObjectId(id) });
+      pl = await Player.find({ _id: ObjectId(id) }).populate("user", "league").exec();
     }
     resp.status(200).json(pl? pl : { message: 'Player not found'});
   } catch (error) {

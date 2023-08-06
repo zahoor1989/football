@@ -38,7 +38,7 @@ exports.createAcademy = async (req, resp, next) => {
           const academyData = new Academy({
             academyName: req.body['Academy Name'],
             academyUserName: req.body['Academy User Name'],
-            email: new Date(req.body['Email']),
+            email: req.body['Email'],
             password: req.body['Password'],
             user_id: ObjectId(req.body.user['createdBy']),
             createdAt:  new Date()

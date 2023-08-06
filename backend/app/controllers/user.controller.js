@@ -1,6 +1,7 @@
 const  ObjectId = require('mongodb').ObjectId;
 const db = require("../models");
 const User = db.user;
+const bcrypt = require("bcryptjs");
 
 exports.allAccess = (req, res) => {
   res.status(200).send({ content: "Public Content." });
@@ -17,8 +18,42 @@ exports.moderatorBoard = (req, res) => {
   res.status(200).json({ content: "Moderator Content."});
 };
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = (req, res) => {
   // get users
-  const users = await User.find();
-  res.status(200).json(users.length > 0? users : { message: 'No user found' });
+   User.find().populate("roles").exec((err, users) => {
+    if(err){
+      return res.status(500).send({ message: err });
+    }
+     return res.status(200).json(users.length > 0? users : { message: 'No user found' });
+   });
+};
+
+exports.createUser = async (req, res) => {
+  // get users
+  if( req.body && req.body['username'] && req.body['password'].length > 0) {
+    // validate emirates id
+    const isValidated = req.body['username'] && req.body['username'].length > 0;
+    if(isValidated) {
+      // check if the same eid is already in the database
+      let user = await User.findOne({ email: req.body['email'] }); 
+      let roles = req.body.roles.map(role => ObjectId(role));
+      if (!user) {   
+        const userData = new User({
+          username: req.body['username'],
+          password: bcrypt.hashSync(req.body['password'], 8),
+          email: req.body['email'],
+          roles: [...roles]
+        });
+
+        const  savedUser = await userData.save();
+        res.status(200).json(savedUser);
+      } else {
+        res.status(200).json({ message: 'User already exists' });
+      }
+    } else {
+      res.status(200).json({ message: 'Name is not valid' });
+    }
+  } else {
+    res.status(200).json({ message: 'Username  is not valid' });
+  }
 };

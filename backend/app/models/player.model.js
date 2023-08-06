@@ -19,9 +19,9 @@ const Player = mongoose.model(
         type: Number,
         required: true
     },
-    league_id: {
+    league: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        ref: "League"
     },
     playerImage: {
         type: String,
@@ -43,7 +43,7 @@ const Player = mongoose.model(
         default: null,
         required: false
     },
-    user_id:  {
+    user:  {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },

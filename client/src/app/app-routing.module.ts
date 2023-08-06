@@ -52,7 +52,7 @@ export const Approutes: Routes = [
             component: LeagueManagementComponent,
           },
           {
-            path: 'Academies',
+            path: 'academies',
             component: SquadManagementComponent,
           },
           {

@@ -56,12 +56,15 @@ export class AppComponent implements OnInit {
       this.username = user.username;
 
       // gettinga all listings for store
-      this.store.dispatch(UserActions.loadUsers());
-      this.store.dispatch(TeamActions.loadTeams());
+      if(this.showAdminBoard) {
+        this.store.dispatch(UserActions.loadUsers());
+        this.store.dispatch(TeamActions.loadTeams());
+        this.store.dispatch(LeagueActions.loadLeagues());
+        this.store.dispatch(FixureActions.loadFixtures());
+        this.store.dispatch(AcademyActions.loadAcademies());
+      }
       this.store.dispatch(PlayerActions.loadPlayers());
-      this.store.dispatch(LeagueActions.loadLeagues());
-      this.store.dispatch(FixureActions.loadFixtures());
-      this.store.dispatch(AcademyActions.loadAcademies());
+
 }
 
     this.eventBusSub = this.eventBusService.on('logout', () => {

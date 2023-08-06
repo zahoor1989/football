@@ -5,23 +5,6 @@ const User = db.user;
 const Role = db.role;
 
 verifyToken = (req, res, next) => {
-  // let token = req.session.token;
-
-  // if (!token) {
-  //   return res.status(403).send({ message: "No token provided!" });
-  // }
-
-  // jwt.verify(token,
-  //           config.secret,
-  //           (err, decoded) => {
-  //             if (err) {
-  //               return res.status(401).send({
-  //                 message: "Unauthorized!",
-  //               });
-  //             }
-  //             req.userId = decoded.id;
-  //             next();
-  //           });
   try {
     const token = req.headers.authorization.split(" ")[1];
     jwt.verify(token,
@@ -60,8 +43,8 @@ isAuthenticated = (req, res, next) => {
             });
 };
 
-isAdmin = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
+isAdmin = async(req, res, next) => {
+  await User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -91,6 +74,23 @@ isAdmin = (req, res, next) => {
   });
 };
 
+isUserAllowed = (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    jwt.verify(token, config.secret, (err, decoded) => {
+              if (err) {
+                return res.status(401).send({
+                  message: "Unauthorized!",
+                });
+              }
+              req.userId = decoded.id;
+              next();
+            });
+} catch (error) {
+    res.status(401).json({ message: "No token provided" });
+}
+  
+}
 isModerator = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {

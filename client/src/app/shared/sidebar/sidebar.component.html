@@ -1,4 +1,4 @@
-<nav class="sidebar-nav">
+<nav class="sidebar-nav" [ngStyle]="{ display: sidebarnavItems.length > 0 ? 'block' : 'none'}">
     <ul id="sidebarnav">
         <!-- First level menu -->
         <li class="sidebar-item" [class.active]="showMenu === sidebarnavItem.title"

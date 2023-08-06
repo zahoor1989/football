@@ -64,6 +64,7 @@ require("./app/routes/fixture.routes")(app);
 require("./app/routes/league.routes")(app);
 require("./app/routes/player.routes")(app);
 require("./app/routes/team.routes")(app);
+require("./app/routes/roles.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
