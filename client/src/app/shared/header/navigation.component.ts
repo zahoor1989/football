@@ -120,7 +120,6 @@ export class NavigationComponent implements AfterViewInit {
   logout(): void {
     this.authService.logout().subscribe({
       next: res => {
-        debugger
         console.log(res);
         this.storageService.clean();
         window.location.reload();

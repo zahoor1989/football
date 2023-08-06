@@ -14,7 +14,6 @@ export class PlayerService {
   constructor(private http: HttpClient) {}
 
   loadPlayers(): Observable<any> {
-    debugger
     return this.http.get(`${API_URL}/player/all`,{headers:this.headers});
   }
 }

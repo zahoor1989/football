@@ -14,7 +14,6 @@ export class UsersEffects {
       ofType(UserActions.loadUsers),
       map((action: any) => action.payload),
       mergeMap(() => {
-        debugger
         return this.usersService.loadUsers().pipe(map(data => UserActions.loadUsersSuccess({ data })),
           catchError(error => of(UserActions.loadUsersFailure({ error })))
         );

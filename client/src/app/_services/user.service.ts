@@ -29,7 +29,6 @@ export class UserService {
     return this.http.get(API_URL + '/admin', {headers:this.headers});
   }
   loadUsers(): Observable<any> {
-    debugger
     return this.http.get(`${API_URL}/users/all`,{headers:this.headers});
   }
 }

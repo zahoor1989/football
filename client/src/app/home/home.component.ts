@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
         this.content = data.content;
       },
       error: err => {
-        debugger
         if (err.error) {
           try {
             const res = JSON.parse(err.error);

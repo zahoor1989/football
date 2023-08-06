@@ -21,18 +21,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private authService: AuthService, private storageService: StorageService) { }
 
   ngOnInit(): void {
-    debugger
    this.redirectPage();
   }
   ngAfterViewInit(): void {
-    debugger
     this.redirectPage();
   }
   onSubmit(): void {
     const { username, password } = this.form;
 
     this.authService.login(username, password).subscribe((data) => {
-      debugger
+
         this.storageService.setSession(data.token);
         // delete token from data
         this.storageService.saveUser({ email: data.email, id: data.id, roles : data.roles, username: data.username});
@@ -51,11 +49,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   redirectPage(): void {
-    debugger
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       this.roles = this.storageService.getUser().roles;
-      this.router.navigateByUrl('/dashboard')
+      this.router.navigateByUrl('/admin')
     } else {
       this.isLoggedIn = false
       this.router.navigate(['login'])

@@ -42,6 +42,8 @@ import { FixuresEffects } from './_store/effects/fixures.effects';
 import { PlayersEffects } from './_store/effects/players.effects';
 import { HttpRequestInterceptor } from './_helpers/http.interceptor';
 import { AuthInterceptor } from './_helpers/authconfig.interceptor';
+import { CoachComponent } from './coach/coach.component';
+import { RefereeComponent } from './referee/referee.component';
 
 const environment = {
   production: false
@@ -57,6 +59,8 @@ const environment = {
     HomeComponent,
     ProfileComponent,
     BoardAdminComponent,
+    CoachComponent,
+    RefereeComponent,
     BoardModeratorComponent,
     BoardUserComponent,
     AdminComponent,

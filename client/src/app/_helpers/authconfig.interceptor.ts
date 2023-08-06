@@ -12,7 +12,6 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private storageService: StorageService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    debugger
     const authToken = this.storageService.getToken();
     req = req.clone({
       setHeaders: {

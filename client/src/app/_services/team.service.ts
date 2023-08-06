@@ -14,7 +14,6 @@ export class TeamService {
   constructor(private http: HttpClient) {}
 
   loadTeams(): Observable<any> {
-    debugger
     return this.http.get(`${API_URL}/team/all`,{headers:this.headers});
   }
 }

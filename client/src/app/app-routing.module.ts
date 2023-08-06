@@ -3,18 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { FullComponent } from './layouts/full/full.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
-import { BoardUserComponent } from './board-user/board-user.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import {
   AuthGuardService as AuthGuard
 } from './guards/auth-guard.service';
-
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+
+import { UserManagementComponent } from './board-admin/user-management/user-management.component';
+import { LeagueManagementComponent } from './board-admin/league-management/league-management.component';
+import { SquadManagementComponent } from './board-admin/squad-management/squad-management.component';
+import { TeamManagementComponent } from './board-admin/team-management/team-management.component';
+import { CoachSquadManagementComponent } from './coach/coach-squad-management/coach-squad-management.component';
+import { CoachComponent } from './coach/coach.component';
+import { RefereeComponent } from './referee/referee.component';
+import { GameManagementComponent } from './referee/game-management/game-management.component';
 
 export const Approutes: Routes = [
   {
@@ -35,37 +39,57 @@ export const Approutes: Routes = [
         component: HomeComponent
       },
       {
-        path: 'dashboard',
-        canActivate: [AuthGuard],
-        component: DashboardComponent
-      },
-      {
-        path: 'profile',
-        canActivate: [AuthGuard],
-        component: ProfileComponent
-      },
-      {
-        path: 'user',
-        canActivate: [AuthGuard],
-        component: BoardUserComponent
-      },
-      {
-        path: 'mod',
-        canActivate: [AuthGuard],
-        component: BoardModeratorComponent
-      },
-      {
         path: 'admin',
         canActivate: [AuthGuard],
-        component: BoardAdminComponent
+        component: BoardAdminComponent,
+        children: [
+          {
+            path: 'users',
+            component: UserManagementComponent,
+          },
+          {
+            path: 'leagues',
+            component: LeagueManagementComponent,
+          },
+          {
+            path: 'Academies',
+            component: SquadManagementComponent,
+          },
+          {
+            path: 'squads',
+            component: SquadManagementComponent,
+          },
+          {
+            path: 'teams',
+            component: TeamManagementComponent,
+          }
+        ]
       },
       {
-        path: 'home',
+        path: 'coach',
         canActivate: [AuthGuard],
-        component: HomeComponent
+        component: CoachComponent,
+        children: [
+          {
+            path: 'squads',
+            component: CoachSquadManagementComponent,
+          }
+        ]
+      },
+      {
+        path: 'referee',
+        canActivate: [AuthGuard],
+        component: RefereeComponent,
+        children: [
+          {
+            path: 'mangegames',
+            component: GameManagementComponent,
+          }
+        ]
       },
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
