@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ROUTES } from './menu-items';
 import { RouteInfo } from './sidebar.metadata';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -13,10 +13,10 @@ import { StorageService } from 'src/app/_services/storage.service';
   imports:[RouterModule, CommonModule, NgIf],
   templateUrl: './sidebar.component.html'
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnChanges {
   showMenu = '';
   showSubMenu = '';
-  userRole = 'ROLE_USER';
+  @Input() userRole:string = 'ROLE_USER';
   public sidebarnavItems:RouteInfo[]=[];
   // this is for the open close
   addExpandClass(element: string) {
@@ -33,13 +33,23 @@ export class SidebarComponent implements OnInit {
     private route: ActivatedRoute,
     private storageService: StorageService
   ) {}
-
+  ngOnChanges(changes: SimpleChanges): void {
+    debugger
+    console.log(changes,"changes")
+    throw new Error('Method not implemented.');
+  }
+  OnChanges() {
+    if(this.storageService.getUser()){
+      // getting the roles
+      this.userRole = this.storageService.getUser().roles[0];
+    }
+  }
   // End open close
   ngOnInit() {
     debugger
     const user = this.storageService.getUser();
     if(user) {
-      this.userRole = user.roles[0];
+      // this.userRole = user.roles[0];
       let userRoutes:any = ROUTES.find(item => item['role'] === this.userRole);
       this.sidebarnavItems = userRoutes['routes']
     }

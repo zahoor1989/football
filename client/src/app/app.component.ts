@@ -64,8 +64,7 @@ export class AppComponent implements OnInit {
         this.store.dispatch(AcademyActions.loadAcademies());
       }
       this.store.dispatch(PlayerActions.loadPlayers());
-
-}
+    }
 
     this.eventBusSub = this.eventBusService.on('logout', () => {
       this.logout();

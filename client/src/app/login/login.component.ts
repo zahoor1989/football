@@ -52,10 +52,21 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       this.roles = this.storageService.getUser().roles;
-      this.router.navigateByUrl('/admin')
+      if(this.roles.includes("ROLE_ADMIN")) {
+        this.router.navigateByUrl('/admin')
+      }else if(this.roles.includes("ROLE_COACH")) {
+        this.router.navigateByUrl('/coach')
+      }else if(this.roles.includes("ROLE_REFEREE")){
+        this.router.navigateByUrl('/referee')
+      }else {
+        this.router.navigateByUrl('/404')
+      }
     } else {
       this.isLoggedIn = false
       this.router.navigate(['login'])
     }
+  }
+  ngOnDestroy(): void {
+    this.reloadPage()
   }
 }

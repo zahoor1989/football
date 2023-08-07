@@ -153,8 +153,8 @@ export const ROUTES: RouteUser[] = [
       },
       {
         path: '/referee/mangegames',
-        title: 'Alert',
-        icon: 'bi bi-bell',
+        title: 'Games Management',
+        icon: 'bi bi-pause-btn',
         class: '',
         extralink: false,
         submenu: []
