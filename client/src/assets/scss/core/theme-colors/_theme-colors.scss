@@ -28,31 +28,31 @@
     /*This is for the sidebar bg*/
     .left-sidebar {
       &[data-sidebarbg="skin5"] {
-        background: #414755;
+        // background: #414755;
         .sidebar-nav {
           ul {
-            background: #414755;
+            // background: #414755;
             .sidebar-item {
               &.active {
                 > .sidebar-link {
                   color: #fff;
                   i {
-                    color: #fff;
+                    color: #414755;
                   }
                 }
               }
               .sidebar-link {
-                color: #fff;
+                color: #414755;
                 .feather {
                   fill: rgba(41, 98, 255, 0.1);
                 }
                 &:hover {
                   .feather {
-                    color: #fff;
+                    color: #414755;
                   }
                 }
                 i {
-                  color: #fff;
+                  color: #414755;
                 }
               }
             }

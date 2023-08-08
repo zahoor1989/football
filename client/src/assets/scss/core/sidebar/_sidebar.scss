@@ -18,6 +18,7 @@ Main sidebar
   background: $sidebar;
   box-shadow: $shadow;
   transition: 0.2s ease-in;
+  border-right: #414755 1px solid;
 }
 
 /*******************
@@ -48,6 +49,7 @@ sidebar navigation
         }
         &.active,
         &:hover {
+          background: $black;
           opacity: 1;
           .feather {
             color: $white;

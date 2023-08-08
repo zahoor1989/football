@@ -20,11 +20,19 @@ export class SidebarComponent implements OnInit, OnChanges {
   public sidebarnavItems:RouteInfo[]=[];
   // this is for the open close
   addExpandClass(element: string) {
+    debugger
     if (element === this.showMenu) {
       this.showMenu = '0';
     } else {
       this.showMenu = element;
     }
+    this.sidebarnavItems = this.sidebarnavItems.map((sidebarnavItem) => {
+      sidebarnavItem.title === element? sidebarnavItem.class = 'active': sidebarnavItem.class = ''
+      return {
+        ...sidebarnavItem,
+        class: sidebarnavItem.class
+      }
+    })
   }
 
   constructor(
@@ -33,12 +41,8 @@ export class SidebarComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private storageService: StorageService
   ) {}
-  ngOnChanges(changes: SimpleChanges): void {
-    debugger
-    console.log(changes,"changes")
-    throw new Error('Method not implemented.');
-  }
-  OnChanges() {
+
+  ngOnChanges() {
     if(this.storageService.getUser()){
       // getting the roles
       this.userRole = this.storageService.getUser().roles[0];
@@ -52,6 +56,7 @@ export class SidebarComponent implements OnInit, OnChanges {
       // this.userRole = user.roles[0];
       let userRoutes:any = ROUTES.find(item => item['role'] === this.userRole);
       this.sidebarnavItems = userRoutes['routes']
+      this.sidebarnavItems[0].class = 'active';
     }
   }
 }
