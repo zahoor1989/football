@@ -48,12 +48,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
     window.location.reload();
   }
 
+  userChoice(choice: any): void {
+    this.router.navigateByUrl(`/${choice}`)
+  }
+
   redirectPage(): void {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       this.roles = this.storageService.getUser().roles;
       if(this.roles.includes("ROLE_ADMIN")) {
-        this.router.navigateByUrl('/admin')
+        this.router.navigateByUrl('/admin/dashboard')
       }else if(this.roles.includes("ROLE_COACH")) {
         this.router.navigateByUrl('/coach')
       }else if(this.roles.includes("ROLE_REFEREE")){

@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   form: any = {
+    firstname: null,
+    lastname: null,
     username: null,
     email: null,
     password: null
@@ -30,9 +32,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { username, email, password } = this.form;
+    const { firstname, lastname, username, email, password } = this.form;
 
-    this.authService.register(username, email, password).subscribe({
+    this.authService.register(firstname, lastname, username, email, password).subscribe({
       next: data => {
         console.log(data);
         this.isSuccessful = true;

@@ -30,6 +30,19 @@
     }
   }
 }
+@media (max-width: 991px) {
+  #main-wrapper {
+    .topbar {
+      font-family: NotoSansRegular;
+    }
+    .main-wrapper.ml-250 {
+      margin-left: 250px !important;
+    }
+    .main-wrapper.ml-0 {
+      margin-left: 0px !important;
+    }
+  }
+}
 @media (min-width: 767px) {
   #main-wrapper {
     .topbar {
@@ -37,3 +50,10 @@
     }
   }
 }
+
+@media (min-width: 1024px) {
+  .page-wrapper.ml-250 {
+    margin-left: 250px !important;
+  }
+}
+

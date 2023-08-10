@@ -25,6 +25,7 @@ export class FullComponent implements OnInit {
   public expandLogo = false;
   public sidebartype = "full";
   public userRole = "ROLE_USER";
+  public isLoggedIn = false;
 
   Logo() {
     this.expandLogo = !this.expandLogo;
@@ -36,11 +37,14 @@ export class FullComponent implements OnInit {
     if (this.router.url === "/") {
       this.router.navigate(["dashboard"]);
     }
+    this.isLoggedIn = this.storageService.isLoggedIn();
     this.defaultSidebar = this.sidebartype;
     this.handleSidebar();
-    if(this.storageService.getUser()){
+
+    const user = this.storageService.getUser()
+    if(user){
       // getting the roles
-      this.userRole = this.storageService.getUser().roles[0];
+      this.userRole = user.roles[0];
     }
   }
 

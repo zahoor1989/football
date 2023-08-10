@@ -6,8 +6,9 @@ import {
 } from '@angular/common';
 import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -44,6 +45,7 @@ import { HttpRequestInterceptor } from './_helpers/http.interceptor';
 import { AuthInterceptor } from './_helpers/authconfig.interceptor';
 import { CoachComponent } from './coach/coach.component';
 import { RefereeComponent } from './referee/referee.component';
+import { BoardAdminModule } from './board-admin/board-admin.module';
 
 const environment = {
   production: false
@@ -67,6 +69,7 @@ const environment = {
     CollectionsComponentComponent
   ],
   imports: [
+    NgxDatatableModule,
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -78,6 +81,7 @@ const environment = {
     FullComponent,
     NavigationComponent,
     SidebarComponent,
+    BoardAdminModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([UsersEffects, AcademiesEffects, TeamsEffects, LeaguesEffects, FixuresEffects, PlayersEffects]),

@@ -12,6 +12,53 @@
       #f="ngForm"
       novalidate
     >
+    <div class="form-group">
+      <label for="firstname">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="firstname"
+        [(ngModel)]="form.firstname"
+        required
+        minlength="3"
+        maxlength="20"
+        #firstname="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && firstname.errors }"
+      />
+      <div class="invalid-feedback" *ngIf="firstname.errors && f.submitted">
+        <div *ngIf="firstname.errors['required']">First name is required</div>
+        <div *ngIf="firstname.errors['minlength']">
+          First name must be at least 3 characters
+        </div>
+        <div *ngIf="firstname.errors['maxlength']">
+          First name must be at most 20 characters
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="lastname">Last name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="lastname"
+        [(ngModel)]="form.lastname"
+        required
+        minlength="3"
+        maxlength="20"
+        #lastname="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && lastname.errors }"
+      />
+      <div class="invalid-feedback" *ngIf="lastname.errors && f.submitted">
+        <div *ngIf="lastname.errors['required']">Last name is required</div>
+        <div *ngIf="lastname.errors['minlength']">
+          Last name must be at least 3 characters
+        </div>
+        <div *ngIf="lastname.errors['maxlength']">
+          Last name must be at most 20 characters
+        </div>
+      </div>
+    </div>
       <div class="form-group">
         <label for="username">Username</label>
         <input

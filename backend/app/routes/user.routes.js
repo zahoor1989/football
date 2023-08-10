@@ -36,5 +36,11 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.createUser
   );
+
+app.get("/api/users/:id", authJwt.isAuthenticated, controller.UserByIdOrEID);
+
+app.post("/api/users/update/:id", authJwt.isAuthenticated, controller.updateUser);
+
+app.post("/api/users/delete/:id", authJwt.isAuthenticated, controller.deleteUser);
 };
 

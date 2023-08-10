@@ -8,6 +8,9 @@ import { BoardAdminComponent } from './board-admin.component';
 import { AuthGuard } from '../_helpers/auth.guard';
 import { TeamManagementComponent } from './team-management/team-management.component';
 import { AcademyManagementComponent } from './academy-management/academy-management.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { AdminDataTableComponent } from './admin-data-table/admin-data-table.component';
 const adminRoutes: Routes = [
   {
     path: '',
@@ -39,10 +42,13 @@ const adminRoutes: Routes = [
     LeagueManagementComponent,
     SquadManagementComponent,
     TeamManagementComponent,
-    AcademyManagementComponent
+    AcademyManagementComponent,
+    AdminDashboardComponent,
+    AdminDataTableComponent,
   ],
   imports: [
     CommonModule,
+    NgxDatatableModule,
     RouterModule.forChild(adminRoutes),
   ],
   exports: [RouterModule]

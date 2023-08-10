@@ -19,6 +19,7 @@ import { CoachSquadManagementComponent } from './coach/coach-squad-management/co
 import { CoachComponent } from './coach/coach.component';
 import { RefereeComponent } from './referee/referee.component';
 import { GameManagementComponent } from './referee/game-management/game-management.component';
+import { AdminDashboardComponent } from './board-admin/admin-dashboard/admin-dashboard.component';
 
 export const Approutes: Routes = [
   {
@@ -43,6 +44,10 @@ export const Approutes: Routes = [
         canActivate: [AuthGuard],
         component: BoardAdminComponent,
         children: [
+          {
+            path: 'dashboard',
+            component: AdminDashboardComponent,
+          },
           {
             path: 'users',
             component: UserManagementComponent,

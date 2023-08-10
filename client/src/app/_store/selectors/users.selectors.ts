@@ -8,7 +8,4 @@ export const loading = createSelector(
     (state: fromUserReducer.State) => state.loading
 );
 
-export const getUsers = createSelector(
-    getUsersState,
-    (state: fromUserReducer.State) => state.users
-);
+export const getUsers = createSelector(getUsersState, (state: fromUserReducer.State) => state.users);

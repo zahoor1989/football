@@ -61,8 +61,13 @@
         </div>
       </div>
       <div class="form-group">
-        <div  class="text-primary float-end">
-          Forgot Password?
+        <div  class="text-primary float-start" (click)="userChoice('register')">
+          Register User
+        </div>
+      </div>
+      <div class="form-group">
+        <div  class="text-primary float-end" (click)="userChoice('reset')">
+          Forgot Password
         </div>
       </div>
     </form>

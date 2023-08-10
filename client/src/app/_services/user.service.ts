@@ -31,4 +31,15 @@ export class UserService {
   loadUsers(): Observable<any> {
     return this.http.get(`${API_URL}/users/all`,{headers:this.headers});
   }
+
+  getUserById(id:any): Observable<any> {
+    return this.http.get(`${API_URL}/users/${id}`,{headers:this.headers});
+  }
+  deleteUser(id:any): Observable<any> {
+    return this.http.post(`${API_URL}/users/delete/${id}`,{headers:this.headers});
+  }
+
+  updateUser(id:any): Observable<any> {
+    return this.http.post(`${API_URL}/users/update/${id}`,{headers:this.headers});
+  }
 }

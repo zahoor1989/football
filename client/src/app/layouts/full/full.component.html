@@ -90,6 +90,7 @@
     data-sidebarbg="skin5"
     (mouseover)="Logo()"
     (mouseout)="Logo()"
+    *ngIf="isLoggedIn"
   >
       <app-sidebar [userRole]="userRole"></app-sidebar>
   </aside>
@@ -99,7 +100,7 @@
   <!-- ============================================================== -->
   <!-- Page wrapper  -->
   <!-- ============================================================== -->
-  <div class="page-wrapper">
+  <div class="page-wrapper" [ngClass]="isLoggedIn || showMobileMenu? 'ml-250' : 'ml-0'">
     <!-- ============================================================== -->
     <!-- Container fluid  -->
     <!-- ============================================================== -->

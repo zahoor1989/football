@@ -39,6 +39,8 @@ exports.createUser = async (req, res) => {
       let roles = req.body.roles.map(role => ObjectId(role));
       if (!user) {   
         const userData = new User({
+          firstname: req.body['firstname'],
+          lastname: req.body['lastname'],
           username: req.body['username'],
           password: bcrypt.hashSync(req.body['password'], 8),
           email: req.body['email'],
@@ -55,5 +57,50 @@ exports.createUser = async (req, res) => {
     }
   } else {
     res.status(200).json({ message: 'Username  is not valid' });
+  }
+};
+
+
+exports.deleteUser = async (req, resp, next) => {
+  try {
+    const user = await User.findByIdAndDelete({ _id: ObjectId(req.params.id)});
+    if(!user){
+      return resp.status(200).json({message: `No record found`, type: 'error'})
+    }
+    return resp.status(200).json({message: `User ${user.firstName} record deleted!`})
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.UserByIdOrEID = async (req, resp, next) => {
+   try {
+    const { id } = req.params;
+      // check if emries id or normal id
+    const userData = await Player.find({ _id: ObjectId(id) }).populate("roles").exec();
+    resp.status(200).json(userData? userData : { message: 'User not found'});
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+exports.updateUser =  async (req, resp, next) => {
+  try {
+    const { id } = req.params;
+    let fetchUser = await User.find({_id: ObjectId(id)});
+
+    if (!fetchUser) return resp.status(404).json({ msg: 'User record not found' });
+    fetchUser = {
+      ...fetchUser,
+      ...req.body
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, fetchUser, { new: true });
+
+    resp.status(200).json(updatedUser);
+
+  } catch (error) {
+    next(error);
   }
 };

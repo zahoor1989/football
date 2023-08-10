@@ -1,9 +1,8 @@
 <div class="row">
-  <app-admin-data-table [users]="data" (delUser)="deleteUser($event)"></app-admin-data-table>
-  <!-- <ngx-datatable
+  <ngx-datatable
   #myTable
   class="material"
-  [rows]="data"
+  [rows]="users"
   [columns]="columns"
   [columnMode]="ColumnMode.force"
   [footerHeight]="100"
@@ -31,13 +30,11 @@
 </ngx-datatable-column>
 <ngx-datatable-column name="Actions" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                                   <button type="button" class="btn btn-outline-success"
-                                       (click)="edit(row['_id'])"><i class="bi bi-trash"></i></button>
-                                   <button type="button" class="btn btn-outline-danger"
-                                       (click)="delete(row['_id']) "><i class="bi bi-pencil-square"></i></button>
-
-
-             </ng-template>
+      <button type="button" class="btn btn-outline-success"
+          (click)="delete(row['_id'])"><i class="bi bi-trash"></i></button>
+      <button type="button" class="btn btn-outline-danger"
+          (click)="edit(row['_id']) "><i class="bi bi-pencil-square"></i></button>
+  </ng-template>
          </ngx-datatable-column>
   <ngx-datatable-footer *ngIf="true">
     <ng-template
@@ -48,7 +45,6 @@
       let-curPage="curPage"
       let-offset="offset"
     >
-
       <datatable-pager
                       [pagerLeftArrowIcon]="'datatable-icon-left'"
                       [pagerRightArrowIcon]="'datatable-icon-right'"
@@ -62,5 +58,5 @@
                   </datatable-pager>
     </ng-template>
   </ngx-datatable-footer>
-</ngx-datatable> -->
+</ngx-datatable>
 </div>
