@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       if(this.roles.includes("ROLE_ADMIN")) {
         this.router.navigateByUrl('/admin/dashboard')
       }else if(this.roles.includes("ROLE_COACH")) {
-        this.router.navigateByUrl('/coach')
+        this.router.navigateByUrl('/coach/dashboard')
       }else if(this.roles.includes("ROLE_REFEREE")){
         this.router.navigateByUrl('/referee')
       }else {

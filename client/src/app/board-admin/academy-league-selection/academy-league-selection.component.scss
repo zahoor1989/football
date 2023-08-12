@@ -1,3 +1,40 @@
+.academy-row {
+  height: 180px;
+  background: #FF5A5A;
+  padding: 10px;
+  margin-bottom: 35px;
+  .academy-name {
+    padding-top: 8px;
+    p {
+      color: #FFF;
+      font-family: NotoSansRegular;
+      font-size: 35px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+  }
+  .acedmy-plus {
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 45px;
+    padding-right: 35px;
+    border-radius: 75px;
+    width: 162px;
+    height: 156px;
+    background: white;
+    .btn-default {
+      b > i.academy-plus-inner-text {
+        color: #FF5A5A;
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+    }
+  }
+}
+
 form {
   .input-group {
     border: 1px black solid;
@@ -29,9 +66,16 @@ button.btn-default {
     border-radius: 50px !important;
     width: 8%;
     color: white;
-  b > i {
-    font-size: 25px;
-    font-weight: bold;
+  b {
+    i {
+      font-size: 25px;
+      font-weight: bold;
+    }
+    .academy-plus-inner-text {
+      color: #FF5A5A;
+      font-size: 30px;
+      font-weight: bold;
+    }
   }
 }
 .league-lable {
@@ -52,6 +96,18 @@ button.btn-default {
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+  }
+  .list-group-item {
+    color: #FFF;
+    font-family: NotoSansRegular;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    input {
+      position: absolute;
+      right: 0;
+      border-radius: 25px;
+    }
   }
 }
 

@@ -20,6 +20,12 @@ import { CoachComponent } from './coach/coach.component';
 import { RefereeComponent } from './referee/referee.component';
 import { GameManagementComponent } from './referee/game-management/game-management.component';
 import { AdminDashboardComponent } from './board-admin/admin-dashboard/admin-dashboard.component';
+import { AcademyDetailComponent } from './board-admin/academy-detail/academy-detail.component';
+import { AcademyLeagueSelectionComponent } from './board-admin/academy-league-selection/academy-league-selection.component';
+import { SquadAcademyListComponent } from './board-admin/squad-academy-list/squad-academy-list.component';
+import { SquadListComponent } from './board-admin/squad-list/squad-list.component';
+import { CoachDashbaordComponent } from './coach/coach-dashbaord/coach-dashbaord.component';
+import { CoachAcademyDetailsComponent } from './coach/coach-academy-details/coach-academy-details.component';
 
 export const Approutes: Routes = [
   {
@@ -61,8 +67,24 @@ export const Approutes: Routes = [
             component: SquadManagementComponent,
           },
           {
+            path: 'academy/:id',
+            component: AcademyDetailComponent,
+          },
+          {
+            path: 'academy/leagues/:id',
+            component: AcademyLeagueSelectionComponent,
+          },
+          {
             path: 'squads',
             component: SquadManagementComponent,
+          },
+          {
+            path: 'squads/academy/:id',
+            component: SquadAcademyListComponent,
+          },
+          {
+            path: 'squads/squadlist',
+            component: SquadListComponent,
           },
           {
             path: 'teams',
@@ -76,8 +98,16 @@ export const Approutes: Routes = [
         component: CoachComponent,
         children: [
           {
-            path: 'squads',
+            path: 'dashboard',
+            component: CoachDashbaordComponent,
+          },
+          {
+            path: 'academies',
             component: CoachSquadManagementComponent,
+          },
+          {
+            path: 'academydetails/:id',
+            component: CoachAcademyDetailsComponent,
           }
         ]
       },

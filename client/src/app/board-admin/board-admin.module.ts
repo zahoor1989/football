@@ -11,6 +11,11 @@ import { AcademyManagementComponent } from './academy-management/academy-managem
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminDataTableComponent } from './admin-data-table/admin-data-table.component';
+import { AcademyDetailComponent } from './academy-detail/academy-detail.component';
+import { AcademyLeagueSelectionComponent } from './academy-league-selection/academy-league-selection.component';
+import { SquadAcademyListComponent } from './squad-academy-list/squad-academy-list.component';
+import { SquadListComponent } from './squad-list/squad-list.component';
+import { AdminSquadListComponent } from './admin-squad-list/admin-squad-list.component';
 const adminRoutes: Routes = [
   {
     path: '',
@@ -45,6 +50,11 @@ const adminRoutes: Routes = [
     AcademyManagementComponent,
     AdminDashboardComponent,
     AdminDataTableComponent,
+    AcademyDetailComponent,
+    AcademyLeagueSelectionComponent,
+    SquadAcademyListComponent,
+    SquadListComponent,
+    AdminSquadListComponent,
   ],
   imports: [
     CommonModule,

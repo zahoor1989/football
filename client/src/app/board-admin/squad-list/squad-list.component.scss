@@ -35,47 +35,37 @@
   }
 }
 
+
 form {
-  .input-group {
-    border: 1px black solid;
-    padding: 20px;
-    border-radius: 75px;
+  .form-group {
+    .control-label {
+      color: #000;
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-family: NotoSansRegular;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 12.9px;
+      margin-bottom:20px;
+      margin-left: 5px;
+    }
+    .form-control {
+      background-color: transparent;
+      border-radius: 15px;
+      border: 1px black dotted;
+    }
   }
-  ::placeholder {
-    color: rgba(0, 0, 0, 0.50);
-    font-family: NotoSansRegular;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-  input.league-input {
-    border:none;
-    background-color: white;
-    border-radius: 50px;
-    position: relative;
-    border-radius: 35px;
-  }
+
 }
-input.form-control {
-  line-height: 93px;
- }
 
 button.btn-default {
   background: #000000;
     border-radius: 50px !important;
     width: 8%;
     color: white;
-  b {
-    i {
-      font-size: 25px;
-      font-weight: bold;
-    }
-    .academy-plus-inner-text {
-      color: #FF5A5A;
-      font-size: 30px;
-      font-weight: bold;
-    }
+  b > i {
+    font-size: 25px;
+    font-weight: bold;
   }
 }
 .league-lable {

@@ -46,6 +46,7 @@ import { AuthInterceptor } from './_helpers/authconfig.interceptor';
 import { CoachComponent } from './coach/coach.component';
 import { RefereeComponent } from './referee/referee.component';
 import { BoardAdminModule } from './board-admin/board-admin.module';
+import { CoachModule } from './coach/coach.module';
 
 const environment = {
   production: false
@@ -82,6 +83,7 @@ const environment = {
     NavigationComponent,
     SidebarComponent,
     BoardAdminModule,
+    CoachModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([UsersEffects, AcademiesEffects, TeamsEffects, LeaguesEffects, FixuresEffects, PlayersEffects]),

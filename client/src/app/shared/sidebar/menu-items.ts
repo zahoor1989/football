@@ -59,7 +59,7 @@ export const ROUTES: RouteUser[] = [
     role: 'ROLE_COACH',
     routes: [
       {
-        path: '/coach',
+        path: '/coach/dashboard',
         title: 'Dashboard',
         icon: 'bi bi-speedometer2',
         class: '',
@@ -83,7 +83,7 @@ export const ROUTES: RouteUser[] = [
       //   submenu: []
       // },
       {
-        path: '/coach/squads',
+        path: '/coach/academies',
         title: 'Squad Management',
         icon: 'bi bi-hdd-stack',
         class: '',

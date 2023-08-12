@@ -50,7 +50,7 @@ export class SidebarComponent implements OnInit, OnChanges {
   }
   // End open close
   ngOnInit() {
-    debugger
+    // get the query the params
     const user = this.storageService.getUser();
     if(user) {
       // this.userRole = user.roles[0];
