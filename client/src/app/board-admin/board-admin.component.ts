@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 // importing selectors
 import * as UserSelectors from "../_store/selectors/users.selectors";
 import * as TeamSelectors from "../_store/selectors/teams.selectors";
+import { StorageService } from '../_services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-board-admin',
@@ -17,27 +19,33 @@ export class BoardAdminComponent implements OnInit {
   users: any = [];
   teams: any = [];
 
-  constructor(private userService: UserService, private store: Store) {
+  constructor(private userService: UserService,  private router: Router, private storageService: StorageService) {
     this.topcards=topcards;
   }
 
   ngOnInit(): void {
-    this.userService.getAdminBoard().subscribe({
-      next: data => {
-        this.content = data.content;
-      },
-      error: err => {
-        if (err.error) {
-          try {
-            const res = JSON.parse(err.error);
-            this.content = res.message;
-          } catch {
-            this.content = `Error with status: ${err.status} - ${err.statusText}`;
+    debugger
+
+    if (!this.storageService.isLoggedIn()) {
+      this.router.navigateByUrl("/login");
+    } else {
+      this.userService.getAdminBoard().subscribe({
+        next: data => {
+          this.content = data.content;
+        },
+        error: err => {
+          if (err.error) {
+            try {
+              const res = JSON.parse(err.error);
+              this.content = res.message;
+            } catch {
+              this.content = `Error with status: ${err.status} - ${err.statusText}`;
+            }
+          } else {
+            this.content = `Error with status: ${err.status}`;
           }
-        } else {
-          this.content = `Error with status: ${err.status}`;
         }
-      }
-    });
+      });
+    }
   }
 }

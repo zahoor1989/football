@@ -42,11 +42,11 @@ Vertical layout
   }
 
   /*sidebar type*/
-  &[data-sidebartype="full"] {
-    .page-wrapper {
-      margin-left: $sidebar-width-full;
-    }
-  }
+  // &[data-sidebartype="full"] {
+  //   .page-wrapper {
+  //     margin-left: $sidebar-width-full;
+  //   }
+  // }
 }
 
 /*******************

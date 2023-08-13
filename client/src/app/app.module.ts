@@ -44,7 +44,6 @@ import { PlayersEffects } from './_store/effects/players.effects';
 import { HttpRequestInterceptor } from './_helpers/http.interceptor';
 import { AuthInterceptor } from './_helpers/authconfig.interceptor';
 import { CoachComponent } from './coach/coach.component';
-import { RefereeComponent } from './referee/referee.component';
 import { BoardAdminModule } from './board-admin/board-admin.module';
 import { CoachModule } from './coach/coach.module';
 
@@ -63,7 +62,6 @@ const environment = {
     ProfileComponent,
     BoardAdminComponent,
     CoachComponent,
-    RefereeComponent,
     BoardModeratorComponent,
     BoardUserComponent,
     AdminComponent,

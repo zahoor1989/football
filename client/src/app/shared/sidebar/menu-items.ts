@@ -144,7 +144,7 @@ export const ROUTES: RouteUser[] = [
     role: 'ROLE_REFEREE',
     routes: [
       {
-        path: '/referee',
+        path: '/referee/dashboard',
         title: 'Fixture Setup',
         icon: 'bi bi-speedometer2',
         class: '',

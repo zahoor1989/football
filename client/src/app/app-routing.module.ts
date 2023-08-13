@@ -26,6 +26,7 @@ import { SquadAcademyListComponent } from './board-admin/squad-academy-list/squa
 import { SquadListComponent } from './board-admin/squad-list/squad-list.component';
 import { CoachDashbaordComponent } from './coach/coach-dashbaord/coach-dashbaord.component';
 import { CoachAcademyDetailsComponent } from './coach/coach-academy-details/coach-academy-details.component';
+import { RefereeDashboardComponent } from './referee/referee-dashboard/referee-dashboard.component';
 
 export const Approutes: Routes = [
   {
@@ -111,16 +112,25 @@ export const Approutes: Routes = [
           }
         ]
       },
+      // {
+      //   path: 'referee',
+      //   canActivate: [AuthGuard],
+      //   component: RefereeComponent,
+      //   children: [
+      //     {
+      //       path: 'dashboard',
+      //       component: RefereeDashboardComponent,
+      //     },
+      //     {
+      //       path: 'mangegames',
+      //       component: GameManagementComponent,
+      //     }
+      //   ]
+      // },
       {
         path: 'referee',
         canActivate: [AuthGuard],
-        component: RefereeComponent,
-        children: [
-          {
-            path: 'mangegames',
-            component: GameManagementComponent,
-          }
-        ]
+        loadChildren: () => import('./referee/referee.module').then(m => m.RefereeModule),
       },
       {
         path: 'dashboard',
