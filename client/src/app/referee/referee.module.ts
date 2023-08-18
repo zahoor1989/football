@@ -7,6 +7,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FixtureListingComponent } from './fixture-listing/fixture-listing.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { RefereeSquadListingComponent } from './referee-squad-listing/referee-squad-listing.component';
+import { RefereeTeamSquadComponent } from './referee-team-squad/referee-team-squad.component';
+import { FixtureTeamDetailsComponent } from './fixture-team-details/fixture-team-details.component';
 const refereeRoutes: Routes = [
   {
     path: '',
@@ -32,7 +35,10 @@ const refereeRoutes: Routes = [
     RefereeComponent,
     GameManagementComponent,
     RefereeDashboardComponent,
-    FixtureListingComponent
+    FixtureListingComponent,
+    RefereeSquadListingComponent,
+    RefereeTeamSquadComponent,
+    FixtureTeamDetailsComponent
   ],
   imports: [
     CommonModule,

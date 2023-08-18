@@ -13,15 +13,15 @@
   padding: 10px !important;
   border: 1px dotted #000 !important;
   margin: 20px;
-  border-radius: 20px;;
+  border-radius: 20px;
 }
 :host ::ng-deep .datatable-body-cell:nth-child(4) {
   width: 60px !important;
   border: none !important;
 }
 
-:host ::ng-deep .datatable-body-cell:first-child {
-  border: 1px dotted #000 !important;
+:host ::ng-deep .datatable-body-cell:nth-child(1) {
+  border: 1px solid #000 !important;
   border-radius: 10px;
   width: 60px !important;
 }
@@ -29,7 +29,9 @@
   padding: 10px !important;
   border: none !important;
   margin: 20px;
-  border-radius: 20px;;
+  border-radius: 20px;
+  background-color:  #000 !important;
+  color: #fefefe !important;
 }
 :host ::ng-deep .datatable-coloumn {
  background-color: #000;
@@ -40,9 +42,16 @@
   text-align: center;
   font-size: 16px;
   font-weight: 600;
+  button {
+    color: #fefefe !important;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+  }
 }
 
 // :host ::ng-deep .datatable-header-cell {
 //   background-color: #ccc;
 //   border: 2px solid #000;
 // }
+

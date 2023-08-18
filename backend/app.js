@@ -16,7 +16,7 @@ app.use(cors());
 app.use(
   cors({
     'Access-Control-Allow-Credentials': true,
-    origin:"http://localhost:51727",
+    origin:"http://localhost:4200",
   })
 );
 

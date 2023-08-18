@@ -11,7 +11,16 @@
     [limit]="10"
     rowHeight="auto"
   >
-  <ngx-datatable-column name="Fixture" prop="row" size="50">
+    <!-- Row Detail Template -->
+    <ngx-datatable-row-detail [rowHeight]="350" #myDetailRow (toggle)="onDetailToggle($event)"  >
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <div class="fixture-team-details" style="overflow: hidden;" class="d-flex">
+          <app-fixture-team-details></app-fixture-team-details>
+          <app-fixture-team-details></app-fixture-team-details>
+        </div>
+      </ng-template>
+    </ngx-datatable-row-detail>
+  <ngx-datatable-column name="Fixture" prop="row" size="60">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                                     {{row.fixture}}
     </ng-template>
@@ -37,15 +46,12 @@
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Actions" prop="row">
-    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" class="d-flex">
-        <button type="button" class="btn btn-outline-danger d-inline"
-            (click)="delete(row['_id'])"><i class="bi bi-trash"></i>
-          </button>
-          <button type="button" class="btn btn-outline-primary d-inline" style="margin-left:10px;"
-            (click)="delete(row['_id'])"><i class="bi bi-arrow-up-right-circle-fill"></i>
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" class="d-flex" let-expanded="expanded">
+        <button type="button" class="btn d-inline"  (click)="toggleExpandRow(row)">
+          See Squad List
           </button>
     </ng-template>
-           </ngx-datatable-column>
+    </ngx-datatable-column>
     <ngx-datatable-footer>
       <ng-template
         ngx-datatable-footer-template
