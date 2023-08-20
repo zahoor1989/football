@@ -16,7 +16,7 @@ exports.createTeam = async (req, resp, next) => {
           if (!team) { 
             const teamData = new Team({
               teamName:  req.body[i]['Team Name'],
-              academyId: req.body[i]['Academy Id'],
+              academy_id: req.body[i]['Academy Id'],
               leagues: [...req.body[i].leagues],
               user_id: ObjectId(req.body[i].user['createdBy']),
               createdAt: new Date()
@@ -38,7 +38,7 @@ exports.createTeam = async (req, resp, next) => {
         if (!team) {   
           const teamData = new Team({
             teamName:  req.body['Team Name'],
-            academyId: req.body['Academy Id'],
+            academy_id: req.body['Academy Id'],
             leagues: [...req.body.leagues ],
             user_id: ObjectId(req.body.user['createdBy']),
             createdAt: new Date()
@@ -77,7 +77,20 @@ exports.getTeamById = async (req, resp, next) => {
   try {
     const { id } = req.params;
     if(id) {
-      const team = await Team.find({ _id: ObjectId(req.params.id) });
+      const team = await Team.findOne({ _id: ObjectId(id) }).populate("academy_id").exec();
+      resp.status(200).json(team ? team: { message: 'No team found' });
+    }else{
+      resp.status(200).json({ message: 'Malformed Id provided' });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+exports.getTeamByAcademyId = async (req, resp, next) => {
+  try {
+    const { id } = req.params;
+    if(id) {
+      const team = await Team.find({ academy_id: ObjectId(req.params.id) });
       resp.status(200).json(team.length > 0 ? team: { message: 'No team found' });
     }else{
       resp.status(200).json({ message: 'Malformed Id provided' });
@@ -102,7 +115,7 @@ exports.updateTeam =  async (req, resp, next) => {
 
     const updatedTeam = await Team.findByIdAndUpdate(req.params.id, fetchTeam, { new: true });
 
-    resp.status(200).json(updatedTeam);
+    resp.status(200).json(updatedTeam).status(200);
   } else {
     resp.status(200).json({ message: 'Malformed Id provided' });
   }

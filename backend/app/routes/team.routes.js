@@ -15,6 +15,8 @@ app.get("/team/all", authJwt.isAuthenticated, team.getAllTeams);
 
 app.get("/team/:id", authJwt.isAuthenticated, team.getTeamById);
 
+app.get("/team/foracademy/:id", authJwt.isAuthenticated, team.getTeamByAcademyId);
+
 app.post("/team/update/:id", authJwt.isAuthenticated, team.updateTeam);
 
 app.post("/team/delete/:id", authJwt.isAuthenticated, team.deleteTeam);

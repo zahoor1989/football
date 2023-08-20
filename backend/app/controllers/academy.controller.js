@@ -33,7 +33,7 @@ exports.createAcademy = async (req, resp, next) => {
       const isValidated = req.body['Academy Name'] && req.body['Academy Name'].length > 0;
       if(isValidated) {
         // check if the same eid is already in the database
-        let academy = await Academy.findOne({ emiratesIdNo: req.body['Academy Name'] });  
+        let academy = await Academy.findOne({ academyName: req.body['Academy Name'] });  
         if (!academy) {   
           const academyData = new Academy({
             academyName: req.body['Academy Name'],
@@ -75,7 +75,7 @@ exports.getAllAcademys =  async (req, resp, next) => {
 exports.getAcademyById = async (req, resp, next) => {
   try {
     if( req.params && req.params.id ) {
-      const academy = await Academy.find({ _id: ObjectId(req.params.id)});
+      const academy = await Academy.findOne({ _id: ObjectId(req.params.id)});
       resp.status(200).json(academy);
     } else {
       resp.status(200).json({message: 'Academy id is required to found'});
