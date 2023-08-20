@@ -49,49 +49,7 @@ export const Approutes: Routes = [
       {
         path: 'admin',
         canActivate: [AuthGuard],
-        component: BoardAdminComponent,
-        children: [
-          {
-            path: 'dashboard',
-            component: AdminDashboardComponent,
-          },
-          {
-            path: 'users',
-            component: UserManagementComponent,
-          },
-          {
-            path: 'leagues',
-            component: LeagueManagementComponent,
-          },
-          {
-            path: 'academies',
-            component: SquadManagementComponent,
-          },
-          {
-            path: 'academy/:id',
-            component: AcademyDetailComponent,
-          },
-          {
-            path: 'academy/leagues/:id',
-            component: AcademyLeagueSelectionComponent,
-          },
-          {
-            path: 'squads',
-            component: SquadManagementComponent,
-          },
-          {
-            path: 'squads/academy/:id',
-            component: SquadAcademyListComponent,
-          },
-          {
-            path: 'squads/squadlist',
-            component: SquadListComponent,
-          },
-          {
-            path: 'teams',
-            component: TeamManagementComponent,
-          }
-        ]
+        loadChildren: () => import('./board-admin/board-admin.module').then(m => m.BoardAdminModule),
       },
       {
         path: 'coach',

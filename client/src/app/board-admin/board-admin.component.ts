@@ -24,8 +24,6 @@ export class BoardAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
-
     if (!this.storageService.isLoggedIn()) {
       this.router.navigateByUrl("/login");
     } else {

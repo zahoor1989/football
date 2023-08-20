@@ -20,6 +20,7 @@ export class CoachAcademyDetailsComponent {
   ColumnMode = ColumnMode;
   constructor(private store: Store, private userService: UserService) { }
   ngOnInit() {
+    debugger
     this.getPlayersFromStore();
   }
 

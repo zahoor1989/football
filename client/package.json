@@ -28,7 +28,9 @@
     "@ngrx/store": "^16.1.0",
     "@ngrx/store-devtools": "^16.1.0",
     "@popperjs/core": "^2.11.7",
+    "@sweetalert2/ngx-sweetalert2": "^12.2.0",
     "@swimlane/ngx-datatable": "^20.1.0",
+    "angular-notifier": "^14.0.0",
     "apexcharts": "^3.40.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
@@ -36,6 +38,7 @@
     "ng-apexcharts": "^1.7.6",
     "npm-check-updates": "^16.10.12",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.7.25",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

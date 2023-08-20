@@ -16,30 +16,103 @@ import { AcademyLeagueSelectionComponent } from './academy-league-selection/acad
 import { SquadAcademyListComponent } from './squad-academy-list/squad-academy-list.component';
 import { SquadListComponent } from './squad-list/squad-list.component';
 import { AdminSquadListComponent } from './admin-squad-list/admin-squad-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+
+/**
+ * Custom angular notifier options
+ */
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'right',
+			distance: 12
+		},
+		vertical: {
+			position: 'bottom',
+			distance: 12,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
+
+
 const adminRoutes: Routes = [
   {
     path: '',
+    canActivate: [AuthGuard],
     component: BoardAdminComponent,
-    pathMatch: 'full',
     children: [
+      {
+        path: 'dashboard',
+        component: AdminDashboardComponent,
+      },
       {
         path: 'users',
         component: UserManagementComponent,
       },
       {
         path: 'leagues',
-        canActivate: [AuthGuard],
         component: LeagueManagementComponent,
+      },
+      // {
+      //   path: 'academies',
+      //   component: SquadManagementComponent,
+      // },
+      {
+        path: 'academies/academy/:id',
+        component: AcademyDetailComponent,
+      },
+      {
+        path: 'academy/team/:id',  // select leagues for team
+        component: AcademyLeagueSelectionComponent,
       },
       {
         path: 'squads',
-        canActivate: [AuthGuard],
         component: SquadManagementComponent,
+      },
+      {
+        path: 'squads/academy/:id',
+        component: SquadAcademyListComponent,
+      },
+      {
+        path: 'squads/squadlist',
+        component: SquadListComponent,
+      },
+      {
+        path: 'academies',
+        component: TeamManagementComponent,
       }
     ]
-  }
-];
-
+  },
+]
 
 @NgModule({
   declarations: [
@@ -59,6 +132,9 @@ const adminRoutes: Routes = [
   imports: [
     CommonModule,
     NgxDatatableModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NotifierModule.withConfig(customNotifierOptions),
     RouterModule.forChild(adminRoutes),
   ],
   exports: [RouterModule]

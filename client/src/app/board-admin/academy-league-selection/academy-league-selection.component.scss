@@ -80,15 +80,46 @@ button.btn-default {
 }
 .league-lable {
   display: flex;
-  width: 230px;
   height: 53px;
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
   background: #000000;
   border-radius: 30px;
-  margin: 16px;
+  margin: 15px;
+  padding: 15px;
   .league-text {
+    color: #FFF;
+    text-align: center;
+    font-family: NotoSansRegular;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  .list-group-item {
+    color: #FFF;
+    font-family: NotoSansRegular;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    input {
+      position: absolute;
+      right: 0;
+      border-radius: 25px;
+    }
+  }
+}
+.league-btn-lable {
+  display: flex;
+  height: 53px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #68eb43;
+  border-radius: 30px;
+  margin: 15px;
+  .btn {
     color: #FFF;
     text-align: center;
     font-family: NotoSansRegular;

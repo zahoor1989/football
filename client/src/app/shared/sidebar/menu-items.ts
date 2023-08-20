@@ -29,14 +29,14 @@ export const ROUTES: RouteUser[] = [
         extralink: false,
         submenu: []
       },
-      {
-        path: '/admin/academies',
-        title: 'Academy Management',
-        icon: 'bi bi-speedometer2',
-        class: '',
-        extralink: false,
-        submenu: []
-      },
+      // {
+      //   path: '/admin/academies',
+      //   title: 'Academy Management',
+      //   icon: 'bi bi-speedometer2',
+      //   class: '',
+      //   extralink: false,
+      //   submenu: []
+      // },
       {
         path: '/admin/squads',
         title: 'Squad Management',
@@ -46,7 +46,7 @@ export const ROUTES: RouteUser[] = [
         submenu: []
       },
       {
-        path: '/admin/teams',
+        path: '/admin/academies',
         title: 'Team Management',
         icon: 'bi bi-speedometer2',
         class: '',

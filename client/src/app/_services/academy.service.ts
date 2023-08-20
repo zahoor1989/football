@@ -16,4 +16,10 @@ export class AcademyService {
   loadAcademies(): Observable<any> {
     return this.http.get(`${API_URL}/academy/all`,{headers:this.headers});
   }
+  createAcademy(academy: any): Observable<any> {
+    return this.http.post(`${API_URL}/academy/create`, academy , { headers:this.headers });
+  }
+  getAcademyById(id: any): Observable<any> {
+    return this.http.get(`${API_URL}/academy/${id}`, { headers:this.headers });
+  }
 }

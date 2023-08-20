@@ -46,9 +46,56 @@ import { AuthInterceptor } from './_helpers/authconfig.interceptor';
 import { CoachComponent } from './coach/coach.component';
 import { BoardAdminModule } from './board-admin/board-admin.module';
 import { CoachModule } from './coach/coach.module';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
 const environment = {
   production: false
+};
+
+
+/**
+ * Custom angular notifier options
+ */
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'left',
+			distance: 12
+		},
+		vertical: {
+			position: 'bottom',
+			distance: 12,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
 };
 
 
@@ -76,6 +123,9 @@ const environment = {
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
+    SweetAlert2Module.forRoot(),
+    NotifierModule.withConfig(customNotifierOptions),
+    NotifierModule,
     RouterModule.forRoot(Approutes, { useHash: false }),
     FullComponent,
     NavigationComponent,
