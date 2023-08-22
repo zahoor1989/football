@@ -43,7 +43,7 @@
   </div>
 </div>
 <div class="row">
-  <app-admin-squad-list [players]="data" (delUser)="deletePlayer($event)"></app-admin-squad-list>
+  <app-admin-squad-list [players]="data" (delUser)="deletePlayer($event)" (approvePlayer)="approve($event)"></app-admin-squad-list>
 </div>
 
 

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ROUTES } from './menu-items';
 import { RouteInfo } from './sidebar.metadata';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -19,29 +19,28 @@ export class SidebarComponent implements OnInit, OnChanges {
   @Input() userRole:string = 'ROLE_USER';
   public sidebarnavItems:RouteInfo[]=[];
   // this is for the open close
-  addExpandClass(element: string) {
-    debugger
-    if (element === this.showMenu) {
-      this.showMenu = '0';
-    } else {
-      this.showMenu = element;
-    }
-    this.sidebarnavItems = this.sidebarnavItems.map((sidebarnavItem) => {
-      sidebarnavItem.title === element? sidebarnavItem.class = 'active': sidebarnavItem.class = ''
-      return {
-        ...sidebarnavItem,
-        class: sidebarnavItem.class
-      }
-    })
-  }
 
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private storageService: StorageService
-  ) {}
+    ) {}
 
+    addExpandClass(element: string) {
+      if (element === this.showMenu) {
+        this.showMenu = '0';
+      } else {
+        this.showMenu = element;
+      }
+      this.sidebarnavItems = this.sidebarnavItems.map((sidebarnavItem) => {
+        sidebarnavItem.title === element? sidebarnavItem.class = 'active': sidebarnavItem.class = ''
+        return {
+          ...sidebarnavItem,
+          class: sidebarnavItem.class
+        }
+      })
+    }
   ngOnChanges() {
     if(this.storageService.getUser()){
       // getting the roles
@@ -50,13 +49,15 @@ export class SidebarComponent implements OnInit, OnChanges {
   }
   // End open close
   ngOnInit() {
+    debugger
+    console.log(this.activatedRoute.params, this.router.getCurrentNavigation());
     // get the query the params
     const user = this.storageService.getUser();
     if(user) {
-      // this.userRole = user.roles[0];
       let userRoutes:any = ROUTES.find(item => item['role'] === this.userRole);
       this.sidebarnavItems = userRoutes['routes']
-      this.sidebarnavItems[0].class = 'active';
+      userRoutes['routes'].forEach((item:any) => item.path === this.router.url? item.class = 'active': item.class = '')
     }
   }
+
 }
