@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row text-center">
   <ngx-datatable
   #myTable
   class="material"
@@ -22,11 +22,11 @@
 </ngx-datatable-column>
 <ngx-datatable-column name="DOB" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                {{row.dob}}
+                {{row.dob | date:'dd/MM/yyyy'}}
   </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Squad Number" prop="row">
-  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+<ngx-datatable-column name="Squad Number" prop="row" size="50">
+  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" >
                 {{row.squadNo}}
   </ng-template>
 </ngx-datatable-column>
@@ -37,7 +37,7 @@
 </ngx-datatable-column>
 <ngx-datatable-column name="Player ID Number" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                {{row.playerIdNumber}}
+                {{row.emiratesIdNo}}
   </ng-template>
 </ngx-datatable-column>
 <ngx-datatable-column name="EID" prop="row">
@@ -58,15 +58,15 @@
 </ngx-datatable-column>
 <ngx-datatable-column name="Actions" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" class="d-flex">
-      <button type="button" class="btn btn-outline-success d-inline"
-          (click)="delete(row['_id'])"><i class="bi bi-trash"></i>
-        </button>
-      <button type="button" class="btn btn-outline-danger d-inline"
+      <button type="button" class="btn btn-sm btn-primary d-inline m-1" title="Edit"
           (click)="edit(row['_id']) "><i class="bi bi-pencil-square"></i>
       </button>
-      <button type="button" class="btn btn-outline-danger d-inline"
+      <button type="button" class="btn btn-sm btn-info d-inline m-1" title="Approve"
           (click)="edit(row['_id'])"><i class="bi bi-check"></i>
       </button>
+      <button type="button" class="btn btn-sm btn-danger d-inline m-1" title="Delete"
+      (click)="delete(row['_id'])"><i class="bi bi-trash"></i>
+  </button>
   </ng-template>
          </ngx-datatable-column>
   <ngx-datatable-footer *ngIf="true">

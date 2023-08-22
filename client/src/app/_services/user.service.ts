@@ -42,4 +42,7 @@ export class UserService {
   updateUser(id:any): Observable<any> {
     return this.http.post(`${API_URL}/users/update/${id}`,{headers:this.headers});
   }
+  createUser(user:any): Observable<any> {
+    return this.http.post(`${API_URL}/users/create`, user ,{headers:this.headers});
+  }
 }

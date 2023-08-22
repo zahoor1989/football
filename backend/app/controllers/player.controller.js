@@ -12,7 +12,7 @@ exports.createPlayer = async (req, resp, next) => {
       for (let i = 0; i < req.body.length; i++) {
         const isValidated = req.body[i]['Emirates ID No'] && req.body[i]['Emirates ID No'].split('-').length === 4;
         if(isValidated) {
-          let player = await Player.findOne({ emiratesIdNo: req.body['Emirates ID No'] }); 
+          let player = await Player.findOne({ emiratesIdNo: req.body[i]['Emirates ID No'] }); 
           if (!player) { 
             const playerData = new Player({
               firstName: req.body[i]['First Name'],
@@ -75,7 +75,7 @@ exports.createPlayer = async (req, resp, next) => {
 /* GET all players listing. */
 exports.getAllPlayers = (req, res) => {
   try {
-    Player.find().populate("user").exec((err, players) => {
+    Player.find().populate("league").populate("user").exec((err, players) => {
       if(err){
         return res.status(500).send({ message: err });
       }
@@ -93,10 +93,10 @@ exports.playerByIdOrEID = async (req, resp, next) => {
     const { id } = req.params;
     if(id.includes('-') && id.split('-').length === 4){
       // check if emries id or normal id
-      pl = await Player.findOne({ emiratesIdNo: id }).populate("user", "league").exec();
+      pl = await Player.findOne({ emiratesIdNo: id }).populate(["user", "league"]).exec();
     } else {
       // check if emries id or normal id
-      pl = await Player.find({ _id: ObjectId(id) }).populate("user", "league").exec();
+      pl = await Player.find({ _id: ObjectId(id) }).populate(["user", "league"]).exec();
     }
     resp.status(200).json(pl? pl : { message: 'Player not found'});
   } catch (error) {

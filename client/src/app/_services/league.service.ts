@@ -16,4 +16,7 @@ export class LeagueService {
   loadLeagues(): Observable<any> {
     return this.http.get(`${API_URL}/league/all`,{headers:this.headers});
   }
+  createLeague(league: any): Observable<any> {
+    return this.http.post(`${API_URL}/league/create`, league ,{headers:this.headers});
+  }
 }

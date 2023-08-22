@@ -1,6 +1,7 @@
 const  ObjectId = require('mongodb').ObjectId;
 const db = require("../models");
 const User = db.user;
+const Role = db.role;
 const bcrypt = require("bcryptjs");
 
 exports.allAccess = (req, res) => {
@@ -35,8 +36,10 @@ exports.createUser = async (req, res) => {
     const isValidated = req.body['username'] && req.body['username'].length > 0;
     if(isValidated) {
       // check if the same eid is already in the database
-      let user = await User.findOne({ email: req.body['email'] }); 
-      let roles = req.body.roles.map(role => ObjectId(role));
+      let user = await User.findOne({ email: req.body['email'] });
+      // get role by name
+      let role = await Role.findOne({ name: req.body['role']  });
+     
       if (!user) {   
         const userData = new User({
           firstname: req.body['firstname'],
@@ -44,7 +47,7 @@ exports.createUser = async (req, res) => {
           username: req.body['username'],
           password: bcrypt.hashSync(req.body['password'], 8),
           email: req.body['email'],
-          roles: [...roles]
+          roles: [ObjectId(role._id)]
         });
 
         const  savedUser = await userData.save();
@@ -77,7 +80,7 @@ exports.UserByIdOrEID = async (req, resp, next) => {
    try {
     const { id } = req.params;
       // check if emries id or normal id
-    const userData = await Player.find({ _id: ObjectId(id) }).populate("roles").exec();
+    const userData = await User.findOne({ _id: ObjectId(id) }).populate("roles").exec();
     resp.status(200).json(userData? userData : { message: 'User not found'});
   } catch (error) {
     next(error);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from 'src/app/_services/team.service';
 import { FormGroup, FormControl,FormArray, FormBuilder } from '@angular/forms'
 // importing selectors
@@ -18,7 +18,7 @@ export class AcademyLeagueSelectionComponent implements OnInit {
   public academy: any;
   public leagues:any = []
   public leagueForm: FormGroup;
-  constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService, private fb:FormBuilder, private store: Store,  notifier: NotifierService) {
+  constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService, private fb:FormBuilder, private store: Store,  notifier: NotifierService, private router: Router) {
     this.notifier = notifier;
     this.leagueForm = this.fb.group({
       leagues: new FormArray([]),
@@ -75,5 +75,8 @@ export class AcademyLeagueSelectionComponent implements OnInit {
   }
   onCheckBox() {
    console.log(this.leagues)
+  }
+  redirectTo(){
+    this.router.navigate(["/admin/academies/academy/"+this.academy._id]);
   }
 }

@@ -22,4 +22,7 @@ export class AcademyService {
   getAcademyById(id: any): Observable<any> {
     return this.http.get(`${API_URL}/academy/${id}`, { headers:this.headers });
   }
+  getAcademyByName(academy: any): Observable<any> {
+    return this.http.post(`${API_URL}/academy/academybyname`, academy , { headers:this.headers });
+  }
 }

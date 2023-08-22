@@ -18,6 +18,8 @@ import { SquadListComponent } from './squad-list/squad-list.component';
 import { AdminSquadListComponent } from './admin-squad-list/admin-squad-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { ConfirmationDialogService } from '../_services/confirmation-dialog.service';
 
 /**
  * Custom angular notifier options
@@ -103,7 +105,7 @@ const adminRoutes: Routes = [
         component: SquadAcademyListComponent,
       },
       {
-        path: 'squads/squadlist',
+        path: 'squads/squadlist/:id',
         component: SquadListComponent,
       },
       {
@@ -128,6 +130,7 @@ const adminRoutes: Routes = [
     SquadAcademyListComponent,
     SquadListComponent,
     AdminSquadListComponent,
+    ConfirmationModalComponent,
   ],
   imports: [
     CommonModule,
@@ -137,6 +140,7 @@ const adminRoutes: Routes = [
     NotifierModule.withConfig(customNotifierOptions),
     RouterModule.forChild(adminRoutes),
   ],
+  providers: [ ConfirmationDialogService ],
   exports: [RouterModule]
 })
 export class BoardAdminModule { }

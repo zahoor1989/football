@@ -8,6 +8,7 @@ import * as AcademyActions from "../../_store/actions/academies.actions";
 import * as AcademySelectors from "../../_store/selectors/academies.selectors";
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-team-management',
@@ -22,7 +23,7 @@ export class TeamManagementComponent implements OnInit {
     academyName: new FormControl('')
   });
 
-  constructor( private storageService: StorageService, notifier: NotifierService, private academyService: AcademyService, private store: Store, private router: Router) {
+  constructor( private storageService: StorageService, notifier: NotifierService, private academyService: AcademyService, private store: Store, private router: Router, private userService: UserService) {
     this.notifier = notifier;
    }
 
@@ -54,12 +55,34 @@ ngOnInit(): void {
               "createdBy": user.id
           }
         }
-        this.academyService.createAcademy(academyData).subscribe((res:any) => {
-          debugger
-          console.log(res);
-          if(res._id){
-            this.notifier.notify('success', 'Academy created successfully!');
-            this.store.dispatch(AcademyActions.loadAcademies());
+        const userData = {
+          firstname: this.makeAcademyUserName(this.academyForm.value.academyName),
+          lastname: this.makeAcademyUserName(this.academyForm.value.academyName),
+          username: this.makeAcademyUserName(this.academyForm.value.academyName),
+          email: `${this.makeAcademyUserName(this.academyForm.value.academyName)}@dummy.com`,
+          password: `Password@${this.makeAcademyUserName(this.academyForm.value.academyName)}`,
+          role : 'coach'
+        }
+        // check if academy exists
+        this.academyService.getAcademyByName({name: this.academyForm.value.academyName}).subscribe((res:any) => {
+          if(!res.message) {
+            this.notifier.notify('error', 'Academy Name already exists!');
+            return;
+          }else {
+            this.userService.createUser(userData).subscribe((user:any) => {
+              if(user) {
+                // add owner for new academy.
+                academyData.user = {
+                  "createdBy": user._id
+                }
+                this.academyService.createAcademy(academyData).subscribe((res:any) => {
+                  if(res._id) {
+                    this.notifier.notify('success', 'Academy created successfully!');
+                    this.store.dispatch(AcademyActions.loadAcademies());
+                  }
+                })
+              }
+            })
           }
         })
       }
@@ -75,5 +98,7 @@ ngOnInit(): void {
   academyDetails(id:string) {
     this.router.navigate([`/academies/academy/${id}`]);
   }
-
+  redirectTo(){
+    this.router.navigate(["/admin/academies/academy"]);
+  }
 }

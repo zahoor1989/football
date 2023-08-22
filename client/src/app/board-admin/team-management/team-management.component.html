@@ -1,8 +1,10 @@
 <div class="row">
-  <h4>Academies</h4>
+  <div class="col-12 mt-5">
+    <h4>Academies</h4>
+  </div>
   <hr/>
 </div>
-<div class="row">
+<div class="row m-5">
   <form class="form-inline"[formGroup]="academyForm" (ngSubmit)="onSubmit()">
     <div class="input-group mb-3">
       <input type="text" class="form-control col-lg-9 col-sm-12 league-input" placeholder="Type name of Academy" aria-label="academy" formControlName="academyName">
@@ -14,7 +16,7 @@
     </div>
   </form>
 </div>
-<div class="row">
+<div class="row mb-5">
   <div>
     <hr/>
   </div>
@@ -28,5 +30,7 @@
     </div>
   </div>
 </div>
-
+<!-- <div style ="position: absolute; bottom: 0;right:0; background-color: transparent;">
+  <button class="btn" style="font-size: 40px; color: black;" (click)="redirectTo()">Back</button>
+</div> -->
 

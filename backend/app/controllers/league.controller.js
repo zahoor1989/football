@@ -43,13 +43,13 @@ exports.createLeague = async (req, resp, next) => {
           const savedLeague = await leagueData.save();
           resp.status(200).json(savedLeague);
         } else {
-          resp.status(200).json({ message: 'League already exists' });
+          resp.status(200).json({ type: 'error', message: 'League already exists' });
         }
       }else {
-        resp.status(200).json({ message: 'Name is not valid' });
+        resp.status(200).json({ type: 'error', message: 'Name is not valid' });
       }
    } else {
-      resp.status(200).json({ message: 'Malformed data provided' });
+      resp.status(200).json({ type: 'error', message: 'Malformed data provided' });
    }
   } catch (error) {
     next(error);

@@ -60,6 +60,19 @@ exports.createAcademy = async (req, resp, next) => {
   }
 };
 
+exports.getAcademyByName = async (req, resp, next) => {
+  try {
+    if( req.body && req.body.name) {
+      const academy = await Academy.findOne({ academyName: req.body.name }).exec();
+      resp.status(200).json(academy? academy: { message: 'No academy found' });
+    } else {
+      resp.status(200).json({message: 'Academy name is required to found'});
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 /* GET all academies. */
 exports.getAllAcademys =  async (req, resp, next) => {

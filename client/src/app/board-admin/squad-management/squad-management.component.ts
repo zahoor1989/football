@@ -3,6 +3,11 @@ import * as AcademyActions from "../../_store/actions/academies.actions";
 // importing selectors
 import * as AcademySelectors from "../../_store/selectors/academies.selectors";
 import { Store } from '@ngrx/store';
+import { NotifierService } from 'angular-notifier';
+import { StorageService } from 'src/app/_services/storage.service';
+import { AcademyService } from 'src/app/_services/academy.service';
+import { TeamService } from 'src/app/_services/team.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -12,9 +17,12 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./squad-management.component.scss']
 })
 export class SquadManagementComponent {
+  private notifier: NotifierService;
+  academy: any = {};
+  teams: any = [];
   public academies: any = []
-  constructor(private store: Store) {
-
+  constructor(private storageService: StorageService, notifier: NotifierService, private academyService: AcademyService, private teamService: TeamService, private store: Store, private router: Router,  public activatedRoute: ActivatedRoute){
+    this.notifier = notifier;
   }
 
   ngOnInit(): void {
@@ -25,5 +33,4 @@ export class SquadManagementComponent {
       this.academies = academy;
       });
     }
-
 }

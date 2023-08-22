@@ -1,66 +1,18 @@
 <div class="row">
-  <h4>Academies</h4>
-  <hr/>
+  <div class="col-12 p-5">
+    <h4 class="mb-3">Academies</h4>
+    <hr/>
+  </div>
 </div>
 
 <div class="container">
   <div class="row">
-    <div class="league-lable col-lg-2 col-sm-6" *ngFor="let academy of academies">
-      <span class="league-text">{{academy.academyName}}</span>
-    </div>
-    <!-- <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Champions</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Alliance</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">SK Academy</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">IJF Academy</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Star Academy</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 6 A Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Star Academy</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 7 A Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 6 A Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 6 B Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 7 A Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 6 A Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 6 B Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 7 A Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 6 A Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Under 6 B Division</span>
-    </div>
-    <div class="league-lable col-lg-2 col-sm-6">
-      <span class="league-text">Star Academy</span>
-    </div> -->
+    <ng-container *ngFor="let academy of academies">
+      <div class="col-lg-3 col-sm-6 col-xs-6">
+        <div class="league-lable">
+          <span class="league-text" [routerLink]="['/admin/squads/academy/', academy._id]">{{academy.academyName}}</span>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
-
-
-
