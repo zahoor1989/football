@@ -8,25 +8,10 @@ const Academy = mongoose.model(
         unique : true,
         required: true
     },
-    user_id: {
+    coach: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
-        },
-    academyUserName: {
-        type: String,
-        required: false
-    },
-    email: {
-        type: String,
-        default: null,
-        unique : true,
-        required: false
-    },
-    password: {
-        type: String,
-        default: null,
-        required: false
-    },
+        }, 
     createdAt: {
         type: Date,
         default: Date.now,

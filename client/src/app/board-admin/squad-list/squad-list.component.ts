@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { UserService } from 'src/app/_services/user.service';
@@ -18,7 +18,7 @@ import { PlayerService } from 'src/app/_services/player.service';
   templateUrl: './squad-list.component.html',
   styleUrls: ['./squad-list.component.scss']
 })
-export class SquadListComponent {
+export class SquadListComponent implements OnInit {
   @ViewChild('myTable') table:any;
   options = {}
   data:any = [];
@@ -53,7 +53,9 @@ export class SquadListComponent {
 
 getPlayersFromStore () {
   this.store.select(PlayerSelectors.getPlayers).subscribe(players => {
-    this.data = players;
+    if(players.length > 0) {
+      this.data = players.filter(player => (player?.team?._id == this.currentTeam._id) && (player?.academy._id == this.academy._id));
+    }
     });
   }
 

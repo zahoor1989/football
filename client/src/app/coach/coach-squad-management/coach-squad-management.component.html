@@ -6,70 +6,20 @@
     </div>
   </div>
   <div class="col-sm-10 academy-name">
-    <p>Academy Name Goes here</p>
+    <p>{{academy?.academyName}}</p>
   </div>
   </div>
   <div class="row">
     <h4>Teams</h4>
     <hr/>
   </div>
-
     <div class="container-fluid">
       <div class="row">
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Reds Academy</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Champions</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Alliance</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">SK Academy</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">IJF Academy</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Star Academy</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 6 A Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Star Academy</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 7 A Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 6 A Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 6 B Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 7 A Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 6 A Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 6 B Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 7 A Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 6 A Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Under 6 B Division</span>
-        </div>
-        <div class="league-lable col-lg-2 col-sm-6">
-          <span class="league-text">Star Academy</span>
-        </div>
+        <ng-container *ngFor="let team of teams">
+          <div class="league-lable col-lg-2 col-sm-6">
+            <span class="league-text" (click)="onTeamClick(team)">{{team.teamName}}</span>
+          </div>
+        </ng-container>
       </div>
     </div>
 

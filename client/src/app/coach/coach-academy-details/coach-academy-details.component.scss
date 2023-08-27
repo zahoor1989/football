@@ -5,10 +5,9 @@
   margin-bottom: 35px;
   .academy-name {
     padding-top: 8px;
-    p {
+    h1, h2, h3, h4, h5, h6 {
       color: #FFF;
       font-family: NotoSansRegular;
-      font-size: 35px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -76,7 +75,6 @@ button.btn-default {
 }
 .league-lable {
   display: flex;
-  width: 230px;
   height: 53px;
   flex-direction: column;
   justify-content: center;
@@ -84,6 +82,7 @@ button.btn-default {
   background: #000000;
   border-radius: 30px;
   margin: 16px;
+  padding: 10px;
   .league-text {
     color: #FFF;
     text-align: center;
@@ -149,18 +148,18 @@ button.btn-default {
 }
 .player-form {
   .form-group {
-    width: 115px;
+    // width: 100%;
     .control-label {
-    margin-bottom: 5px !important;
+    margin-bottom: 12px !important;
     color: #000;
     font-family: NotoSansRegular;
     font-style: normal;
     font-size: 12px;
     line-height: 12px;
-    margin-left: 5px;
+    margin-left: 6px;
     }
     button {
-      margin: 34px 0px 0px 6px;
+      margin: 42px 0px 0px 6px;
       display: block;
       border-radius: 15px;
       background: black;

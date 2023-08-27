@@ -1,7 +1,80 @@
+const uploadFile = require("../middlewares/upload");
 const  ObjectId = require('mongodb').ObjectId;
 const db = require("../models");
 const Player = db.player;
+const fs = require('fs');
+// global.__basedir = __dirname;
 
+
+// upload file
+exports.upload = async (req, res) => {
+  try {
+   
+    await uploadFile(req, res);
+
+    if (req.file == undefined) {
+      return res.status(400).send({ message: "Please upload a file!" });
+    }
+
+    // // rename the file 
+    const file_name = Date.now()+'_'+req.file.originalname;
+    const folderPath = __basedir+'/public/resources/assets/';
+    // Rename the file
+    fs.rename(folderPath+req.file.originalname, folderPath+'/'+file_name, () => {
+      return res.status(200).send({
+        message: "Uploaded the file successfully: " + file_name,
+        filename: file_name
+      });
+    });   
+  } catch (err) {
+    if (err.code == "LIMIT_FILE_SIZE") {
+      return res.status(500).send({
+        message: "File size cannot be larger than 2MB!",
+      });
+    }
+
+    res.status(500).send({
+      message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+    });
+  }
+};
+
+
+exports.getListFiles = (req, res) => {
+  const directoryPath = __basedir + "/public/resources/assets/";
+
+  fs.readdir(directoryPath, function (err, files) {
+    if (err) {
+      res.status(500).send({
+        message: "Unable to scan files!",
+      });
+    }
+
+    let fileInfos = [];
+
+    files.forEach((file) => {
+      fileInfos.push({
+        name: file,
+        url: __basedir+'/'+ file,
+      });
+    });
+
+    res.status(200).send(fileInfos);
+  });
+};
+
+exports.download = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + "/public/resources/assets/";
+
+  res.download(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not download the file. " + err,
+      });
+    }
+  });
+};
 /* Add new employee*/
 exports.createPlayer = async (req, resp, next) => {
 // Emirates ID formate:  '784-1986-123456-2'
@@ -10,20 +83,23 @@ exports.createPlayer = async (req, resp, next) => {
     if(req.body && Array.isArray(req.body)) {
       let insertedPlayers = [];
       for (let i = 0; i < req.body.length; i++) {
-        const isValidated = req.body[i]['Emirates ID No'] && req.body[i]['Emirates ID No'].split('-').length === 4;
+        const isValidated = req.body[i]['eidNo'] && req.body[i]['eidNo'].split('-').length === 4;
         if(isValidated) {
-          let player = await Player.findOne({ emiratesIdNo: req.body[i]['Emirates ID No'] }); 
+          let player = await Player.findOne({ emiratesIdNo: req.body[i]['eidNo'] }); 
           if (!player) { 
             const playerData = new Player({
-              firstName: req.body[i]['First Name'],
-              lastName: req.body[i]['Surname'],
-              dob: new Date(req.body[i]['DOB']),
-              squadNo: req.body[i]['Squad Number'],
+              firstName: req.body[i]['firstName'],
+              lastName: req.body[i]['surName'],
+              dob: new Date(req.body[i]['dob']),
+              squadNo: req.body[i]['squadNo'],
               league:  ObjectId(req.body[i]['league']),
-              playerImage: req.body[i]['Player Image'],
-              emiratesIdNo:  req.body[i]['Emirates ID No'],
-              emirateIdImage:  req.body[i]['Emirates ID Image'],
-              playerStatus: req.body[i]['Status'],
+              academy:  ObjectId(req.body[i]['academy']),
+              team:  ObjectId(req.body[i]['team']),
+              playerImage: req.body[i]['playerImage'],
+              emiratesIdNo:  req.body[i]['eidNo'],
+              eidFront: req.body[i]['eidFront'],
+              eidBack:  req.body[i]['eidBack'],
+              playerStatus: req.body[i]['status'],
               user: ObjectId(req.body[i].user['createdBy']),
               createdAt:  new Date()
             });
@@ -34,29 +110,32 @@ exports.createPlayer = async (req, resp, next) => {
       };
       resp.status(200).json(insertedPlayers);
 
-    } else if( req.body && req.body['Emirates ID No']) {
+    } else if( req.body && req.body['eidNo']) {
       // validate emirates id
-      const isValidated = req.body['Emirates ID No'] && req.body['Emirates ID No'].split('-').length === 4;
+      const isValidated = req.body['eidNo'] && req.body['eidNo'].split('-').length === 4;
       if(isValidated) {
         // check if the same eid is already in the database
-        let player = await Player.findOne({ emiratesIdNo: req.body['Emirates ID No'] });    
+        let player = await Player.findOne({ emiratesIdNo: req.body['eidNo'] });    
         if (!player) {   
           const playerData = new Player({
-            firstName: req.body['First Name'],
-            lastName: req.body['Surname'],
-            dob: new Date(req.body['DOB']),
-            squadNo: req.body['Squad Number'],
-            league:  ObjectId(req.body[i]['league']),
-            playerImage: req.body['Player Image'],
-            emiratesIdNo:  req.body['Emirates ID No'],
-            emirateIdImage:  req.body['Emirates ID Image'],
-            playerStatus: req.body['Status'],
+            firstName: req.body['firstName'],
+            lastName: req.body['surName'],
+            dob: new Date(req.body['dob']),
+            squadNo: req.body['squadNo'],
+            league:  ObjectId(req.body['league']),
+            academy:  ObjectId(req.body['academy']),
+            team:  ObjectId(req.body['team']),
+            playerImage: req.body['playerImage'],
+            emiratesIdNo:  req.body['eidNo'],
+            eidFront: req.body['eidFront'],
+            eidBack:  req.body['eidBack'],
+            playerStatus: req.body['status'],
             user: ObjectId(req.body.user['createdBy']),
             createdAt:  new Date()
           });
   
           const savedPlayer = await playerData.save();
-          resp.status(200).json(savedPlayer);
+          resp.status(200).json({ player: savedPlayer, message: 'Player created successfully' });
         } else {
           resp.status(200).json({ message: 'Player already exists' });
         }
@@ -75,7 +154,7 @@ exports.createPlayer = async (req, resp, next) => {
 /* GET all players listing. */
 exports.getAllPlayers = (req, res) => {
   try {
-    Player.find().populate("league").populate("user").exec((err, players) => {
+    Player.find().populate("league").populate("academy").populate("team").populate("user").exec((err, players) => {
       if(err){
         return res.status(500).send({ message: err });
       }
@@ -93,12 +172,26 @@ exports.playerByIdOrEID = async (req, resp, next) => {
     const { id } = req.params;
     if(id.includes('-') && id.split('-').length === 4){
       // check if emries id or normal id
-      pl = await Player.findOne({ emiratesIdNo: id }).populate(["user", "league"]).exec();
+      pl = await Player.findOne({ emiratesIdNo: id }).populate(["user", "league", "academy", "team"]).exec();
     } else {
       // check if emries id or normal id
-      pl = await Player.find({ _id: ObjectId(id) }).populate(["user", "league"]).exec();
+      pl = await Player.find({ _id: ObjectId(id) }).populate(["user", "league", "academy", "team"]).exec();
     }
     resp.status(200).json(pl? pl : { message: 'Player not found'});
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.playerByAcademy = async (req, resp, next) => {
+  let pl = {};
+  try {
+    const { id } = req.params;
+    if(id) {
+      // check if emries id or normal id
+      pl = await Player.find({ academy: ObjectId(id) }).populate(["user", "league", "academy", "team"]).exec();
+    } 
+    resp.status(200).json(pl ? pl : { message: 'Player not found'});
   } catch (error) {
     next(error);
   }
@@ -112,7 +205,7 @@ exports.updatePlayer =  async (req, resp, next) => {
 
     if (!fetchPlayer) return resp.status(404).json({ msg: 'Player record not found' });
     fetchPlayer = {
-      ...fetchPlayer,
+      ...fetchPlayer._doc,
       ...req.body
     }
 
@@ -172,3 +265,5 @@ exports.deleteAllPlayers =  async (req, resp, next) => {
   }
 
 };
+
+

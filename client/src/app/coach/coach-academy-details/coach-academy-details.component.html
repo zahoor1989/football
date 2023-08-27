@@ -6,7 +6,8 @@
     </div>
   </div>
   <div class="col-sm-10 academy-name">
-    <p>Academy Name Goes here</p>
+      <h1>{{academy.academyName}}</h1>
+      <h3>TEAM: {{team.teamName}}</h3>
   </div>
   </div>
   <div class="row">
@@ -14,52 +15,44 @@
     <hr/>
   </div>
   <div class="row">
-    <div class="league-lable col-lg-4 col-sm-6">
-      <div class="list-group-item">
-        Under 6 A Divising
-        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+    <form>
+      <div class="row d-flex justify-content-between m-3">
+        <ng-container *ngFor="let league of  leagues; let i = index">
+          <div class="col-lg-3 col-sm-3 col-xs-6">
+            <div class="league-lable">
+              <div class="list-group-item">
+                {{league.leagueName}}
+                <input class="form-check-input me-1" type="checkbox" value="false" (change)="onCheckBox(league)" [checked]="league.selected" [(ngModel)]="league.selected" [ngModelOptions]="{standalone: true}"/>
+              </div>
+              </div>
+          </div>
+        </ng-container>
       </div>
-    </div>
-    <div class="league-lable col-lg-4 col-sm-6">
-      <div class="list-group-item">
-        Under 6 A Divising
-        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-      </div>
-    </div>
-    <div class="league-lable col-lg-4 col-sm-6">
-      <div class="list-group-item">
-        Under 6 A Divising
-        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-      </div>
-    </div>
-    <div class="league-lable col-lg-4 col-sm-6">
-      <div class="list-group-item">
-        Under 6 A Divising
-        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-      </div>
-    </div>
-    <div class="league-lable col-lg-4 col-sm-6">
-      <div class="list-group-item">
-        Under 6 A Divising
-        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-      </div>
-    </div>
-    <div class="league-lable col-lg-4 col-sm-6">
-      <div class="list-group-item">
-        Under 6 A Divising
-        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-      </div>
-    </div>
-    <div class="league-lable col-lg-4 col-sm-6">
-      <div class="list-group-item">
-        Under 6 A Divising
-        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
-      </div>
-    </div>
-</div>
+      <!-- <div class="row d-flex justify-content-end">
+        <div class="col-4">
+          <div class="league-btn-lable">
+            <button type="submit" class="btn text-center">Sign in</button>
+          </div>
+        </div>
+      </div> -->
+    </form>
+  </div>
 
-<div class="row">
-  <hr/>
+  <div class="row">
+    <br>
+    <hr/>
+  </div>
+<div class="row text-center mb-4">
+  <div class="d-flex justify-content-end">
+    <div class="col-lg-6 col-sm-12 pe-5">
+      <h2 class="me-5">
+        {{team.teamName}}
+      </h2>
+    </div>
+    <div class="col-lg-6 col-sm-12 text-end me-5">
+      <h2 *ngIf="selectedLeague">{{selectedLeague.leagueName? selectedLeague.leagueName: 'No League Selected'}}</h2>
+    </div>
+  </div>
 </div>
 <div class="row">
   <h4>Coaches Details</h4>
@@ -69,15 +62,15 @@
   <form class="col-sm-12 col-lg-12 d-flex">
       <div class="form-group col-xs-3 col-md-3 m-3">
           <label for="name" class="control-label">Name</label>
-          <input type="email" value='' class="form-control" id="name" placeholder="Name">
+          <input type="email" value='' class="form-control" id="name" [value]="coach.firatname ? coach.firatname+' '+coach.lastname: coach.username"   placeholder="Name" disabled />
       </div>
       <div class="form-group col-xs-3 col-md-3 m-3">
           <label for="name" class="control-label">Email</label>
-          <input type="email" value='' class="form-control" id="name" placeholder="Email">
+          <input type="email" value='' class="form-control" id="name" [value]="coach?.email" placeholder="Email" disabled>
       </div>
       <div class="form-group col-xs-3 col-md-3 m-3">
           <label for="name" class="control-label">Mobile</label>
-          <input type="email" value='' class="form-control" id="name" placeholder="Mobile">
+          <input type="email" value='' class="form-control" id="name" [value]="coach.mobile? coach.mobile: '+9711224322344'" placeholder="Mobile" disabled>
       </div>
   </form>
 </div>
@@ -88,17 +81,17 @@
   <h4>Squad</h4>
 </div>
 
-<div class="row squads">
+<div class="row squads p-5">
   <div class="col-lg-8 col-sm-12 d-flex squad">
     <div class="squads-lable col-lg-5 col-sm-6 mt-4">
       <span class="squads-text">Download CSV Template</span>
     </div>
     <div class="squads-lable col-lg-5 col-sm-6 mt-4">
-      <span class="squads-text">Buld Uploads</span>
+      <span class="squads-text">BulK Uploads</span>
     </div>
   </div>
   <div class="col-lg-4 col-sm-12">
-    <div class="col-lg-12 col-sm-12">
+    <div class="col-lg-12 col-sm-12 ms-2">
       <p>To move a player or player doesn't have a EID</p>
     </div>
     <div class="squads-lable col-lg-12 col-sm-6" style="width: 250px; margin-left: 45px;">
@@ -107,47 +100,99 @@
   </div>
 </div>
 <div class="row">
-  <form class="col-sm-12 col-lg-12 d-flex player-form">
-      <div class="form-group col-xs-2 col-md-1 m-2">
-          <label for="name" class="control-label">First Name</label>
-          <input type="email" value='' class="form-control" id="name" placeholder="FirstName">
+  <form [formGroup]="playerForm" class="justify-content-around" method="post" enctype="multipart/form-data" (ngSubmit)="onFormSubmit()">
+    <div class="row d-flex justify-content-between m-3">
+        <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2 p-2">
+            <label for="name" class="control-label">First Name</label>
+            <input type="text" [value]='784-1234-1234567-1' class="form-control" placeholder="First Name"  formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }">
+            <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
+              <div *ngIf="f['firstName'].errors['required']">
+              <small>First Name is required</small>
+              </div>
+            </div>
+        </div>
+        <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+          <label for="name" class="control-label">Surname</label>
+          <input type="text" value='' class="form-control" id="name" placeholder="Surname" formControlName="surName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['surName'].errors }">
+          <div *ngIf="submitted && f['surName'].errors" class="invalid-feedback">
+            <div *ngIf="f['surName'].errors['required']">
+            <small>Surname is required</small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+            <label for="name" class="control-label">Date of birth</label>
+            <input type="date" value='' class="form-control" id="name" placeholder="DOB" formControlName="dob" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['dob'].errors }">
+            <div *ngIf="submitted && f['dob'].errors" class="invalid-feedback">
+              <div *ngIf="f['dob'].errors['required']">
+              <small>Date of birth is required</small>
+              </div>
+            </div>
+          </div>
+        <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+            <label for="squadNo" class="control-label">Squad Number</label>
+            <input type="number" value='' class="form-control" id="squadNo" placeholder="squadNo" formControlName="squadNo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['squadNo'].errors }">
+            <div *ngIf="submitted && f['squadNo'].errors" class="invalid-feedback">
+              <div *ngIf="f['squadNo'].errors['required']">
+              <small>Squad no is required</small>
+              </div>
+            </div>
+          </div>
+        <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+          <label for="name" class="control-label">League</label>
+          <input type="text" value='' class="form-control" id="name" placeholder="League" formControlName="league" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['league'].errors }">
+          <div *ngIf="submitted && f['league'].errors" class="invalid-feedback">
+            <div *ngIf="f['league'].errors['required']">
+            <small>League is required</small>
+            </div>
+          </div>
+        </div>
+      <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+          <label for="playerEidNo" class="control-label">Player ID Number</label>
+          <input type="text" value="784-1234-1234567-1" name="playerEidNo" class="form-control" placeholder="784-1234-1234567-1"formControlName="playerEidNo" [ngClass]="{ 'is-invalid': submitted && f['playerEidNo'].errors }" size="18">
+          <div *ngIf="submitted && f['playerEidNo'].errors" class="invalid-feedback">
+            <div *ngIf="f['playerEidNo'].errors['required']">
+              <small>Player EID no and pattern should is required</small>
+            </div>
+          </div>
+        </div>
+      <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+          <label for="eidFront" class="control-label">EID Front</label>
+          <input type="file" value='' class="form-control" id="eidFront" name="eidFront" placeholder="EID Front" (change)="uploadEmiratesID($event)" formControlName="eidFront" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['eidFront'].errors }">
+          <div *ngIf="submitted && f['eidFront'].errors" class="invalid-feedback">
+            <div *ngIf="f['eidFront'].errors['required']">
+            <small>EID Front is required</small>
+            </div>
+          </div>
+        </div>
+      <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+        <label for="eidBack" class="control-label">EID Back</label>
+        <input type="file" value='' class="form-control" id="eidBack" name="eidBack" placeholder="EID Back" (change)="uploadEmiratesID($event)" formControlName="eidBack" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['eidBack'].errors }">
+        <div *ngIf="submitted && f['eidBack'].errors" class="invalid-feedback">
+          <div *ngIf="f['eidBack'].errors['required']">
+          <small>EID Back is required</small>
+          </div>
+        </div>
       </div>
-      <div class="form-group col-xs-2 col-md-1 m-2">
-        <label for="name" class="control-label">Surname</label>
-        <input type="email" value='' class="form-control" id="name" placeholder="Surname">
+      <div class="form-group col-xs-6 col-md-3 col-lg-3 m-2">
+        <label for="name" class="control-label">Playing a player up</label>
+        <input type="number" value='' class="form-control" id="name" placeholder="League Age" formControlName="playingUp" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['playingUp'].errors }">
+        <div *ngIf="submitted && f['playingUp'].errors" class="invalid-feedback">
+          <div *ngIf="f['playingUp'].errors['required']">
+          <small>Playing Up is required</small>
+          </div>
+        </div>
       </div>
-      <div class="form-group col-xs-2 col-md-1 m-2">
-          <label for="name" class="control-label">DOB</label>
-          <input type="email" value='' class="form-control" id="name" placeholder="DOB">
+      <div class="row d-flex justify-content-center">
+        <div class="form-group col-xs-6 col-md-3 col-lg-3 mt-2 align-items-end">
+          <div class="ms-3 w-100 league-lable">
+            <button type="submit" class="btn btn-defaul col-12 text-white">Add player</button>
+          </div>
+        </div>
       </div>
-      <div class="form-group col-xs-2 col-md-1 m-2">
-          <label for="name" class="control-label">Squad Number</label>
-          <input type="email" value='' class="form-control" id="name" placeholder="squadNo">
-      </div>
-      <div class="form-group col-xs-2 col-md-1 m-2">
-        <label for="name" class="control-label">League</label>
-        <input type="email" value='' class="form-control" id="name" placeholder="League">
     </div>
-    <div class="form-group col-xs-2 col-md-1 m-2">
-        <label for="name" class="control-label">Player ID Number</label>
-        <input type="email" value='' class="form-control" id="name" placeholder="Player Id No">
-    </div>
-    <div class="form-group col-xs-2 col-md-1 m-2">
-        <label for="name" class="control-label">EID Front</label>
-        <input type="email" value='' class="form-control" id="name" placeholder="EID Front">
-    </div>
-    <div class="form-group col-xs-2 col-md-1 m-2">
-      <label for="name" class="control-label">EID Back</label>
-      <input type="email" value='' class="form-control" id="name" placeholder="EID Back">
-    </div>
-    <div class="form-group col-xs-2 col-md-1 m-2">
-      <label for="name" class="control-label">Playing a player up</label>
-      <input type="email" value='' class="form-control" id="name" placeholder="League Age">
-    </div>
-    <div class="form-group col-xs-2 col-md-1">
-      <button type="submit" class="btn btn-primary">Add player</button>
-    </div>
-  </form>
+    </form>
+
 </div>
 <div class="row">
   <br>
@@ -156,9 +201,7 @@
 <div class="row">
   <app-coach-squad-list [players]="data" (delUser)="deletePlayer($event)"></app-coach-squad-list>
 </div>
-
-
-
-
-
+<div style ="position: absolute; bottom: 55px;right:0; background-color: transparent; z-index: 2;">
+  <button class="btn" style="font-size: 40px; color: black;" (click)="redirectTo()">Back</button>
+</div>
 

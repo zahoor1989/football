@@ -49,14 +49,13 @@ export class SidebarComponent implements OnInit, OnChanges {
   }
   // End open close
   ngOnInit() {
-    debugger
     console.log(this.activatedRoute.params, this.router.getCurrentNavigation());
     // get the query the params
     const user = this.storageService.getUser();
     if(user) {
       let userRoutes:any = ROUTES.find(item => item['role'] === this.userRole);
       this.sidebarnavItems = userRoutes['routes']
-      userRoutes['routes'].forEach((item:any) => item.path === this.router.url? item.class = 'active': item.class = '')
+      userRoutes['routes'].forEach((item:any) => this.router.url.includes(item.path)? item.class = 'active': item.class = '')
     }
   }
 

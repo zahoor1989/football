@@ -61,11 +61,11 @@ export const Approutes: Routes = [
             component: CoachDashbaordComponent,
           },
           {
-            path: 'academies',
+            path: 'teams',
             component: CoachSquadManagementComponent,
           },
           {
-            path: 'academydetails/:id',
+            path: 'squads/:id',
             component: CoachAcademyDetailsComponent,
           }
         ]

@@ -65,7 +65,7 @@ exports.createTeam = async (req, resp, next) => {
 exports.getAllTeams =  async (req, resp, next) => {
  
   try {
-    const teams = await Team.find();
+    const teams = await Team.find().populate(["academy_id", "leagues", "user_id"]).exec();
     resp.status(200).json(teams.length > 0? teams : { message: 'No team found' });
   } catch (error) {
     next(error);
@@ -77,7 +77,7 @@ exports.getTeamById = async (req, resp, next) => {
   try {
     const { id } = req.params;
     if(id) {
-      const team = await Team.findOne({ _id: ObjectId(id) }).populate("academy_id").exec();
+      const team = await Team.findOne({ _id: ObjectId(id) }).populate(["academy_id", "leagues", "user_id"]).exec();
       resp.status(200).json(team ? team: { message: 'No team found' });
     }else{
       resp.status(200).json({ message: 'Malformed Id provided' });
@@ -90,7 +90,7 @@ exports.getTeamByAcademyId = async (req, resp, next) => {
   try {
     const { id } = req.params;
     if(id) {
-      const team = await Team.find({ academy_id: ObjectId(req.params.id) });
+      const team = await Team.find({ academy_id: ObjectId(req.params.id) }).populate(["academy_id", "leagues", "user_id"]).exec();
       resp.status(200).json(team.length > 0 ? team: { message: 'No team found' });
     }else{
       resp.status(200).json({ message: 'Malformed Id provided' });
@@ -105,11 +105,11 @@ exports.updateTeam =  async (req, resp, next) => {
   try {
     const { id } = req.params;
     if(id) {
-    let fetchTeam = await Team.find({_id: ObjectId(id)});
+    let fetchTeam = await Team.find({_id: ObjectId(id)}).populate(["academy_id", "leagues", "user_id"]).exec();
 
     if (!fetchTeam) return resp.status(404).json({ message: 'Team record not found' });
     fetchTeam = {
-      ...fetchTeam,
+      ...fetchTeam._doc,
       ...req.body
     }
 

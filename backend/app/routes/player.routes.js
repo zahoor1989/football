@@ -14,8 +14,6 @@ app.post("/player/create", authJwt.isAuthenticated, player.createPlayer);
 
 app.get("/player/all", authJwt.isAuthenticated, player.getAllPlayers);
 
-app.get("/player/:id", authJwt.isAuthenticated, player.playerByIdOrEID);
-
 app.post("/player/approve/:id", authJwt.isAuthenticated, player.approvePlayer);
 
 app.post("/player/update/:id", authJwt.isAuthenticated, player.updatePlayer);
@@ -23,5 +21,15 @@ app.post("/player/update/:id", authJwt.isAuthenticated, player.updatePlayer);
 app.post("/player/delete/:id", authJwt.isAuthenticated, player.deletePlayer);
 
 app.post("/player/delete/all", authJwt.isAuthenticated, player.deleteAllPlayers);
+
+app.get("/player/academy/:id", authJwt.isAuthenticated, player.playerByAcademy);
+
+app.post("/player/upload", authJwt.isAuthenticated, player.upload);
+
+app.get("/player/getuploads", authJwt.isAuthenticated, player.getListFiles);
+
+app.get("/player/:id", authJwt.isAuthenticated, player.playerByIdOrEID);
+
+app.get("/player/getuploads/:id", authJwt.isAuthenticated, player.download);
 
 };

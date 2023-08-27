@@ -23,17 +23,30 @@ const Player = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: "League"
     },
-    playerImage: {
-        type: String,
-        default: null,
-        required: false
+    academy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Academy"
+    },
+    team: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Team"
     },
     emiratesIdNo: {
         type: String,
         unique : true,
         required: true
     },
-    emirateIdImage: {
+    eidFront: {
+        type: String,
+        default: null,
+        required: false
+    },
+    eidBack: {
+        type: String,
+        default: null,
+        required: false
+    },
+    playerImage: {
         type: String,
         default: null,
         required: false

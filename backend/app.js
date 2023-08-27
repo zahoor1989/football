@@ -1,12 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-
 const dbConfig = require("./app/config/db.config");
-
 const morgan  = require('morgan');
-
 const app = express();
+const path = require('path')
+global.__basedir = __dirname;
 
 const secret = require("./app/config/auth.config");
 
@@ -68,6 +67,11 @@ require("./app/routes/roles.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
+
+
+app.use('/static', express.static(path.join(__basedir, 'public/resources/assets')))
+app.use('/csv', express.static(path.join(__basedir, 'public/resources/csv')))
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

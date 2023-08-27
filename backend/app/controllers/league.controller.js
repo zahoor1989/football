@@ -85,7 +85,7 @@ exports.updateLeague =  async (req, resp, next) => {
 
     if (!fetchLeague) return resp.status(404).json({ message: 'League record not found' });
     fetchLeague = {
-      ...fetchLeague,
+      ...fetchLeague._doc,
       ...req.body
     }
 

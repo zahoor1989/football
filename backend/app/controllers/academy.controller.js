@@ -14,11 +14,8 @@ exports.createAcademy = async (req, resp, next) => {
           let academy = await Academy.findOne({ academyName: req.body[i]['Academy Name'] }); 
           if (!academy) { 
             const academyData = new Academy({
-              academyName: req.body[i]['Academy Name'],
-              academyUserName: req.body[i]['Academy User Name'],
-              email: req.body[i]['Email'],
-              password: req.body[i]['Password'],
-              user_id: ObjectId(req.body[i].user['createdBy']),
+              academyName: req.body[i]['Academy Name'],   
+              coach: ObjectId(req.body[i].user['createdBy']),
               createdAt:  new Date()
             });
             insertedAcademies.push(req.body[i]);
@@ -36,11 +33,8 @@ exports.createAcademy = async (req, resp, next) => {
         let academy = await Academy.findOne({ academyName: req.body['Academy Name'] });  
         if (!academy) {   
           const academyData = new Academy({
-            academyName: req.body['Academy Name'],
-            academyUserName: req.body['Academy User Name'],
-            email: req.body['Email'],
-            password: req.body['Password'],
-            user_id: ObjectId(req.body.user['createdBy']),
+            academyName: req.body['Academy Name'],           
+            coach: ObjectId(req.body.user['createdBy']),
             createdAt:  new Date()
           });
   
@@ -63,7 +57,7 @@ exports.createAcademy = async (req, resp, next) => {
 exports.getAcademyByName = async (req, resp, next) => {
   try {
     if( req.body && req.body.name) {
-      const academy = await Academy.findOne({ academyName: req.body.name }).exec();
+      const academy = await Academy.findOne({ academyName: req.body.name }).populate("coach").exec();
       resp.status(200).json(academy? academy: { message: 'No academy found' });
     } else {
       resp.status(200).json({message: 'Academy name is required to found'});
@@ -77,7 +71,7 @@ exports.getAcademyByName = async (req, resp, next) => {
 /* GET all academies. */
 exports.getAllAcademys =  async (req, resp, next) => {
   try {
-    const academies = await Academy.find();
+    const academies = await Academy.find().populate("coach").exec();
     resp.status(200).json(academies.length > 0? academies : { message: 'No academy found' });
   } catch (error) {
     next(error);
@@ -88,7 +82,7 @@ exports.getAllAcademys =  async (req, resp, next) => {
 exports.getAcademyById = async (req, resp, next) => {
   try {
     if( req.params && req.params.id ) {
-      const academy = await Academy.findOne({ _id: ObjectId(req.params.id)});
+      const academy = await Academy.findOne({ _id: ObjectId(req.params.id)}).populate("coach").exec();
       resp.status(200).json(academy);
     } else {
       resp.status(200).json({message: 'Academy id is required to found'});
@@ -98,17 +92,29 @@ exports.getAcademyById = async (req, resp, next) => {
   }
 };
 
+exports.getAcademyByCoach  = async (req, resp, next) => {
+  try {
+    if( req.params && req.params.id ) {
+      const academy = await Academy.findOne({ coach: ObjectId(req.params.id)}).populate("coach").exec();
+      resp.status(200).json(academy);
+    } else {
+      resp.status(200).json({message: 'Academy id is required to found'});
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 /* Edit existing academy based on id*/
 exports.updateAcademy =  async (req, resp, next) => {
 
   try {
     const { id } = req.params;
-    let fetchAcademy = await Academy.find({_id: ObjectId(id)});
+    let fetchAcademy = await Academy.findOne({_id: ObjectId(id)}).populate("coach").exec();
 
     if (!fetchAcademy) return resp.status(404).json({ message: 'Academy record not found' });
     // updating academy
     fetchAcademy = {
-      ...fetchAcademy,
+      ...fetchAcademy._doc,
       ...req.body
     }
 

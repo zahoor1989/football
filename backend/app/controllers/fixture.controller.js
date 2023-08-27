@@ -70,7 +70,7 @@ exports.updateFixture=  async (req, resp, next) => {
     if (!fetchFixture) return resp.status(404).json({ msg: 'Fixture record not found' });
 
     fetchFixture = {
-      ...fetchFixture,
+      ...fetchFixture._doc,
       ...req.body
     }
 

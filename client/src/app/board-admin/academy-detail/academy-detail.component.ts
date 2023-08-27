@@ -75,7 +75,6 @@ export class AcademyDetailComponent implements OnInit {
   }
   onTeamClick(team: any) {
     this.router.navigate([`/admin/academy/team/${team._id}`]);
-
   }
   redirectTo(){
     this.router.navigate(["/admin/academies"]);

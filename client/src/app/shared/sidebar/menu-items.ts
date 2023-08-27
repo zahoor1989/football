@@ -83,7 +83,7 @@ export const ROUTES: RouteUser[] = [
       //   submenu: []
       // },
       {
-        path: '/coach/academies',
+        path: '/coach/teams',
         title: 'Squad Management',
         icon: 'bi bi-hdd-stack',
         class: '',

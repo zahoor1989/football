@@ -6,6 +6,7 @@ import { CoachDashbaordComponent } from './coach-dashbaord/coach-dashbaord.compo
 import { CoachAcademyDetailsComponent } from './coach-academy-details/coach-academy-details.component';
 import { CoachSquadListComponent } from './coach-squad-list/coach-squad-list.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -18,7 +19,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
   ],
   imports: [
     CommonModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [RouterModule]
 })

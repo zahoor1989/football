@@ -25,5 +25,7 @@ app.post("/academy/delete/all", authJwt.isAuthenticated, academy.deleteAllAcadem
 
 app.post("/academy/academybyname", authJwt.isAuthenticated, academy.getAcademyByName);
 
+app.get("/academy/academybycoach/:id", authJwt.isAuthenticated, academy.getAcademyByCoach);
+
 };
 

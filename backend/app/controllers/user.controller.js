@@ -45,6 +45,7 @@ exports.createUser = async (req, res) => {
           firstname: req.body['firstname'],
           lastname: req.body['lastname'],
           username: req.body['username'],
+          contact: req.body['contact'],
           password: bcrypt.hashSync(req.body['password'], 8),
           email: req.body['email'],
           roles: [ObjectId(role._id)]
@@ -91,17 +92,23 @@ exports.UserByIdOrEID = async (req, resp, next) => {
 exports.updateUser =  async (req, resp, next) => {
   try {
     const { id } = req.params;
-    let fetchUser = await User.find({_id: ObjectId(id)});
+    let fetchUser = await User.findOne({_id: ObjectId(id)});
 
     if (!fetchUser) return resp.status(404).json({ msg: 'User record not found' });
+    req.body.password = bcrypt.hashSync(req.body.password, 8);
     fetchUser = {
-      ...fetchUser,
+      ...fetchUser._doc,
       ...req.body
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, fetchUser, { new: true });
-
-    resp.status(200).json(updatedUser);
+   User.findByIdAndUpdate({ _id : ObjectId(req.params.id)},
+   {
+    $set: fetchUser
+   },
+   { new: true }).then((updatedUser) => {
+     return resp.status(200).json(updatedUser);
+     
+   });
 
   } catch (error) {
     next(error);

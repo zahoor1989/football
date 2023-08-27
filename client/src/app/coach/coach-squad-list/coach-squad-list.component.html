@@ -32,17 +32,17 @@
 </ngx-datatable-column>
 <ngx-datatable-column name="League" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                {{row.league}}
+                {{row.league?.leagueName}}
   </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Player ID Number" prop="row">
-  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                {{row.playerIdNumber}}
-  </ng-template>
-</ngx-datatable-column>
-<ngx-datatable-column name="EID" prop="row">
+<ngx-datatable-column name="EID No" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 {{row.emiratesIdNo}}
+  </ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Player EID" prop="row">
+  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                <img src='http://localhost:8080/static/{{row.eidBack}}' width="100" />
   </ng-template>
 </ngx-datatable-column>
 <ngx-datatable-column name="Player Status" prop="row">
@@ -61,12 +61,12 @@
       <button type="button" class="btn btn-outline-success d-inline"
           (click)="delete(row['_id'])"><i class="bi bi-trash"></i>
         </button>
-      <button type="button" class="btn btn-outline-danger d-inline"
+      <!-- <button type="button" class="btn btn-outline-danger d-inline"
           (click)="edit(row['_id']) "><i class="bi bi-pencil-square"></i>
-      </button>
-      <button type="button" class="btn btn-outline-danger d-inline"
+      </button> -->
+      <!-- <button type="button" class="btn btn-outline-danger d-inline"
           (click)="edit(row['_id'])"><i class="bi bi-check"></i>
-      </button>
+      </button> -->
   </ng-template>
          </ngx-datatable-column>
   <ngx-datatable-footer *ngIf="true">

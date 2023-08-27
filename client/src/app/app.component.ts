@@ -58,11 +58,11 @@ export class AppComponent implements OnInit {
       // gettinga all listings for store
       if(this.showAdminBoard) {
         this.store.dispatch(UserActions.loadUsers());
-        this.store.dispatch(TeamActions.loadTeams());
-        this.store.dispatch(LeagueActions.loadLeagues());
-        this.store.dispatch(FixureActions.loadFixtures());
-        this.store.dispatch(AcademyActions.loadAcademies());
       }
+      this.store.dispatch(TeamActions.loadTeams());
+      this.store.dispatch(LeagueActions.loadLeagues());
+      this.store.dispatch(FixureActions.loadFixtures());
+      this.store.dispatch(AcademyActions.loadAcademies());
       this.store.dispatch(PlayerActions.loadPlayers());
     }
 
