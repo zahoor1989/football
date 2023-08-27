@@ -14,6 +14,7 @@ import { UserService } from 'src/app/_services/user.service';
 export class AdminDataTableComponent implements OnInit {
   @ViewChild('myTable') table:any;
   @Output() delUser = new EventEmitter<string>();
+  @Output() editUser = new EventEmitter<string>();
   options = {}
   @Input() users:any = [];
   columns:any = [{ prop: 'firstname' }, { name: 'lastname' }, { name: 'username' } , { name: 'email' }];
@@ -36,9 +37,7 @@ export class AdminDataTableComponent implements OnInit {
     }
 
     edit(value: any) {
-      // this.userService.deleteUser(value).subscribe((result:any)  => {
-        console.log(value)
-      // })
+      this.editUser.emit(value);
     }
 
     delete(value: any) {

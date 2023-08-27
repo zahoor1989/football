@@ -39,9 +39,10 @@ export class AcademyLeagueSelectionComponent implements OnInit {
         this.academy = res.academy_id;
         if(this.leagues.length > 0) {
           this.leagues = this.leagues.map((league:any) => {
+            let selectedLeague = this.team.leagues.find((lg:any) => lg._id == league._id)
             return {
               ...league,
-              selected: this.team.leagues.includes(league._id)? true : false,
+              selected: selectedLeague ? true : false,
             }
           })
         }

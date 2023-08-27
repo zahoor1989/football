@@ -10,6 +10,6 @@ module.exports = function(app) {
     next();
   });
 
-app.get("/api/routes/all", [authJwt.verifyToken, authJwt.isAdmin], controller.allRoles);
+app.get("/api/roles/all", [authJwt.verifyToken, authJwt.isAdmin], controller.allRoles);
 
 };

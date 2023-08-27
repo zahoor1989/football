@@ -54,11 +54,12 @@ export class AcademyDetailComponent implements OnInit {
           }
         }
         this.teamService.createTeam(teamData).subscribe((res:any) => {
-          console.log(res);
           this.getTeamsByAcademy( this.academy._id);
           if(res._id){
             this.notifier.notify('success', 'Team created successfully!');
             this.store.dispatch(AcademyActions.loadAcademies());
+          } else {
+            this.notifier.notify('error', res.message);
           }
         })
       }

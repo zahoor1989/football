@@ -39,10 +39,16 @@ export class UserService {
     return this.http.post(`${API_URL}/users/delete/${id}`,{headers:this.headers});
   }
 
-  updateUser(id:any): Observable<any> {
+  updateUserStatus(id:any): Observable<any> {
     return this.http.post(`${API_URL}/users/update/${id}`,{headers:this.headers});
+  }
+  updateUser(id:any, values: any): Observable<any> {
+    return this.http.post(`${API_URL}/users/update/${id}`,values, {headers:this.headers});
   }
   createUser(user:any): Observable<any> {
     return this.http.post(`${API_URL}/users/create`, user ,{headers:this.headers});
+  }
+  getAllRoles(): Observable<any> {
+    return this.http.get(`${API_URL}/roles/all`, {headers:this.headers});
   }
 }
