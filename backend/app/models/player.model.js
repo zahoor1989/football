@@ -31,6 +31,11 @@ const Player = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Team"
     },
+    playerNo: {
+        type: Number,
+        unique : true,
+        required: true
+    },
     emiratesIdNo: {
         type: String,
         unique : true,

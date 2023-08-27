@@ -12,6 +12,7 @@ db.fixture = require("./fixture.model");
 db.league = require("./league.model");
 db.player = require("./player.model");
 db.team = require("./team.model");
+db.increment = require("./increment.model");
 
 
 db.ROLES = ["user", "admin", "coach", "referee"];

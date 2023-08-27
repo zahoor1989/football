@@ -2,9 +2,31 @@ const uploadFile = require("../middlewares/upload");
 const  ObjectId = require('mongodb').ObjectId;
 const db = require("../models");
 const Player = db.player;
+const Increment = db.increment;
 const fs = require('fs');
 // global.__basedir = __dirname;
 
+
+const getNextSequence = async(nm) => {
+let counter = await Increment.findOne({name: nm});
+if (!counter) {
+  const increment = new Increment({
+    name: nm,
+    sequence_value: 0
+  })
+  await increment.save();
+}
+let sequenceDoc = await Increment.findOneAndUpdate(
+  {
+    name : nm
+  },
+  {
+    $inc : {
+      sequence_value: 1
+    }
+  }).exec();
+  return sequenceDoc.sequence_value;
+}
 
 // upload file
 exports.upload = async (req, res) => {
@@ -86,7 +108,8 @@ exports.createPlayer = async (req, resp, next) => {
         const isValidated = req.body[i]['eidNo'] && req.body[i]['eidNo'].split('-').length === 4;
         if(isValidated) {
           let player = await Player.findOne({ emiratesIdNo: req.body[i]['eidNo'] }); 
-          if (!player) { 
+          if (!player) {
+            const playerNo = await getNextSequence("item_id");
             const playerData = new Player({
               firstName: req.body[i]['firstName'],
               lastName: req.body[i]['surName'],
@@ -95,6 +118,7 @@ exports.createPlayer = async (req, resp, next) => {
               league:  ObjectId(req.body[i]['league']),
               academy:  ObjectId(req.body[i]['academy']),
               team:  ObjectId(req.body[i]['team']),
+              playerNo: playerNo,
               playerImage: req.body[i]['playerImage'],
               emiratesIdNo:  req.body[i]['eidNo'],
               eidFront: req.body[i]['eidFront'],
@@ -116,7 +140,8 @@ exports.createPlayer = async (req, resp, next) => {
       if(isValidated) {
         // check if the same eid is already in the database
         let player = await Player.findOne({ emiratesIdNo: req.body['eidNo'] });    
-        if (!player) {   
+        if (!player) {  
+          const playerNo = await getNextSequence("item_id");
           const playerData = new Player({
             firstName: req.body['firstName'],
             lastName: req.body['surName'],
@@ -125,6 +150,7 @@ exports.createPlayer = async (req, resp, next) => {
             league:  ObjectId(req.body['league']),
             academy:  ObjectId(req.body['academy']),
             team:  ObjectId(req.body['team']),
+            playerNo: playerNo,
             playerImage: req.body['playerImage'],
             emiratesIdNo:  req.body['eidNo'],
             eidFront: req.body['eidFront'],

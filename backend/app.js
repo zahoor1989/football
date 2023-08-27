@@ -35,6 +35,7 @@ app.use(
 
 const db = require("./app/models");
 const Role = db.role;
+const Increment  = db.increment;
 
 db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
@@ -107,6 +108,17 @@ function initial() {
 
         console.log("added 'referee' to roles collection");
       });
+    }
+  });
+
+  Increment.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      new Increment({ name: "item_id" , sequence_value : 0 }).save(err => {
+        if (err) {
+          console.log("error", err);
+        }
+        console.log("added 'Counter for sequence' to increment collection");
+      });     
     }
   });
 }
