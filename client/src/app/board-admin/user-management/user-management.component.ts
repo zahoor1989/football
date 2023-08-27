@@ -112,7 +112,6 @@ onFormSubmit = () => {
 
   getRoles() {
     this.userService.getAllRoles().subscribe((result: any) => {
-      debugger
       if(result){
         this.roles = result;
       }

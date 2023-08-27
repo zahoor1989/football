@@ -197,7 +197,6 @@ export class CoachAcademyDetailsComponent {
   }
 
   deletePlayer(value: any) {
-    debugger
     this.userService.deleteUser(value).subscribe((result: any) => {
       this.store.dispatch(UserActions.loadUsers());
     });
@@ -242,7 +241,6 @@ export class CoachAcademyDetailsComponent {
 
 
   onDeletePlayer(leagueId:any) {
-    debugger
     this.openConfirmationDialog(leagueId);
   }
 
@@ -254,7 +252,6 @@ export class CoachAcademyDetailsComponent {
 
   // if eid already exist
   playerbyEmirateId(event:any) {
-    debugger
     const id = event.target.value;
     if(id && id.length > 17 ) {
       const pattern = new RegExp('^\\d\\d\\d\\-\\d\\d\\d\\d\\-\\d\\d\\d\\d\\d\\d\\d\\-\\d$', 'gm')

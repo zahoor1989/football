@@ -13,7 +13,6 @@ export class FixtureTeamDetailsComponent implements OnInit {
 
   }
 ngOnInit(): void {
-  debugger
   if(this.team){
     this.getPlayersByTeam(this.team._id);
   }

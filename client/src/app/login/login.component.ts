@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { StorageService } from '../_services/storage.service';
 import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, AfterViewInit {
+  notifier: NotifierService;
   form: any = {
     username: null,
     password: null
@@ -18,7 +20,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   errorMessage = '';
   roles: string[] = [];
 
-  constructor(private router: Router, private authService: AuthService, private storageService: StorageService) { }
+  constructor(private router: Router, private authService: AuthService, private storageService: StorageService, notifier: NotifierService) {
+    this.notifier = notifier;
+  }
 
   ngOnInit(): void {
    this.redirectPage();
@@ -28,20 +32,29 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
   onSubmit(): void {
     const { username, password } = this.form;
+    try {
+      this.authService.login(username, password).subscribe({
+        next: (data) => {
+          this.storageService.setSession(data.token);
+          // delete token from data
+          this.storageService.saveUser({ email: data.email, id: data.id, roles : data.roles, username: data.username});
 
-    this.authService.login(username, password).subscribe((data) => {
-
-        this.storageService.setSession(data.token);
-        // delete token from data
-        this.storageService.saveUser({ email: data.email, id: data.id, roles : data.roles, username: data.username});
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.storageService.getUser().roles;
-        // this.reloadPage();
-        this.redirectPage();
-      }
-    );
+          this.isLoginFailed = false;
+          this.isLoggedIn = true;
+          this.roles = this.storageService.getUser().roles;
+          // this.reloadPage();
+          this.redirectPage();
+        },
+        error: (err) => {
+          this.notifier.notify('error', 'login failed');
+        },
+        complete: () => {
+          // this.notifier.notify('error', 'login failed');
+        }
+      });
+    }catch(err:any) {
+      this.notifier.notify('error', 'login failed');
+    }
   }
 
   reloadPage(): void {

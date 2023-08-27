@@ -27,12 +27,10 @@ export class CoachDashbaordComponent implements OnInit {
     if(this.loggedInCoach) {
       this.academyService.getAcademyByCoachId(this.loggedInCoach.id).subscribe((res:any) => {
         if(res) {
-          debugger
           this.academy = res;
           this.getTeamsByAcademy(res._id);
           // select to get user from store
           this.store.select(PlayerSelectors.getPlayers).subscribe(players => {
-            debugger
           this.players = players.filter((player: any) => player.academy && player.academy._id == this.academy._id);
           });
         }
