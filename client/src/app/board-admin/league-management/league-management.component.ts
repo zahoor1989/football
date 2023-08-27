@@ -74,7 +74,6 @@ export class LeagueManagementComponent implements OnInit {
 
 
   onDeleteLeague(leagueId:any) {
-    debugger
     this.openConfirmationDialog();
   }
 

@@ -34,7 +34,6 @@ getUsersFromStore () {
   }
 
 edit(value: any) {
-    debugger
     console.log(value);
     this.userService.deleteUser(value).subscribe((result:any)  => {
       console.log(result)

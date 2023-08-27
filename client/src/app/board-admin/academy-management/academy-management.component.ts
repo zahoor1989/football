@@ -21,7 +21,6 @@ export class AcademyManagementComponent implements OnInit {
   }
   getAcademiesFromStore () {
     this.store.select(AcademySelectors.getAcademies).subscribe(academy => {
-      debugger
       this.academies = academy;
       });
     }

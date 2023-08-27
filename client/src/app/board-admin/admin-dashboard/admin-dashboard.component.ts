@@ -25,7 +25,6 @@ export class AdminDashboardComponent implements OnInit {
        });
 
        this.store.select(TeamSelectors.getTeams).subscribe(teams => {
-        debugger
         this.teams = teams;
        });
   }
