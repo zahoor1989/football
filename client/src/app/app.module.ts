@@ -60,7 +60,7 @@ const environment = {
 const customNotifierOptions: NotifierOptions = {
   position: {
 		horizontal: {
-			position: 'left',
+			position: 'right',
 			distance: 12
 		},
 		vertical: {

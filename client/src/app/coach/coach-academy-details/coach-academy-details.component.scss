@@ -104,6 +104,9 @@ button.btn-default {
       border-radius: 25px;
     }
   }
+  .btn:disabled {
+    border: none;
+  }
 }
 .squads {
   border-top: 1px black solid;

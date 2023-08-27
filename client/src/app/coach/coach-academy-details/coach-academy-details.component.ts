@@ -11,6 +11,7 @@ import { NotifierService } from 'angular-notifier';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from 'src/app/_services/storage.service';
 import { PlayerService } from 'src/app/_services/player.service';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-coach-academy-details',
@@ -45,6 +46,8 @@ export class CoachAcademyDetailsComponent {
     eidFront: null,
     eidBack: null
   }
+  emiratesIdPattern = '^\d\d\d\-\d\d\d\d\-\d\d\d\d\d\d\d\-\d$';
+  playerExists: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
@@ -54,7 +57,8 @@ export class CoachAcademyDetailsComponent {
     private teamService: TeamService,
     notifier: NotifierService,
     private storageService: StorageService,
-    private palyerService: PlayerService
+    private palyerService: PlayerService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {
     this.notifier = notifier;
     this.submitted = false;
@@ -71,7 +75,7 @@ export class CoachAcademyDetailsComponent {
     });
   }
   ngOnInit() {
-    const eidPattern = '^\d\d\d\-\d\d\d\d\-\d\d\d\d\d\d\d\-\d$';
+    const eidPattern = new RegExp('^\\d\\d\\d\\-\\d\\d\\d\\d\\-\\d\\d\\d\\d\\d\\d\\d\\-\\d$', 'gm');
     this.playerForm = this.formBuilder.group(
       {
         firstName: ['', Validators.required],
@@ -93,7 +97,7 @@ export class CoachAcademyDetailsComponent {
         ],
         dob: ['', Validators.required],
         league: ['', Validators.required],
-        playerEidNo: ['', Validators.required, Validators.pattern(eidPattern), Validators.maxLength(18)],
+        playerEidNo: [null, [Validators.required, Validators.pattern(eidPattern), Validators.maxLength(18)]],
         eidFront: ['', Validators.required],
         eidBack: ['', Validators.required],
         playingUp: ['', Validators.required]
@@ -193,6 +197,7 @@ export class CoachAcademyDetailsComponent {
   }
 
   deletePlayer(value: any) {
+    debugger
     this.userService.deleteUser(value).subscribe((result: any) => {
       this.store.dispatch(UserActions.loadUsers());
     });
@@ -212,7 +217,11 @@ export class CoachAcademyDetailsComponent {
     this.palyerService.upload(file).subscribe((res:any) => {
       if(res){
         this.eidImages[inputName] = res.filename;
-        this.notifier.notify('success', `${res.message}`);
+        try {
+          this.notifier.notify('success', `${res.message}`);
+        } catch(error) {
+          console.log(error)
+        }
       }
     })
   }
@@ -230,6 +239,38 @@ export class CoachAcademyDetailsComponent {
     let nameArray = leagueName.match(/(\d+)/)
     return nameArray.find((nm:any) => !isNaN(nm))
    }
+
+
+  onDeletePlayer(leagueId:any) {
+    debugger
+    this.openConfirmationDialog(leagueId);
+  }
+
+  public openConfirmationDialog(id:any) {
+    this.confirmationDialogService.confirm('Please confirm', 'Do you really want to delete Player?')
+    .then((confirmed) => this.deletePlayer(id))
+    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+  }
+
+  // if eid already exist
+  playerbyEmirateId(event:any) {
+    debugger
+    const id = event.target.value;
+    if(id && id.length > 17 ) {
+      const pattern = new RegExp('^\\d\\d\\d\\-\\d\\d\\d\\d\\-\\d\\d\\d\\d\\d\\d\\d\\-\\d$', 'gm')
+      if(pattern.test(id)){
+        this.palyerService.getPlayerbyEmirateId(id).subscribe(res => {
+          if(res._id || res._emiratesIdNo) {
+            this.playerExists = true
+            this.notifier.notify('error', 'Player having this Emirates ID already exists!');
+          } else {
+            this.playerExists = false
+          }
+        })
+      }
+    }
+
+  }
 
   redirectTo() {
     this.router.navigate(['/coach/teams']);
