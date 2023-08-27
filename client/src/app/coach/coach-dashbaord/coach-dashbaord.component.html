@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="col-sm-10 academy-name">
-    <p>Academy Name Goes here</p>
+    <p *ngIf="academy">{{academy.academyName}}</p>
   </div>
   </div>
 <div class="row justify-content-center">
@@ -19,7 +19,7 @@
                       <i class="bi bi-wallet"></i>
                   </div>
                   <div class="ms-3">
-                      <h3 class="mb-0 font-weight-bold">{{3}}</h3>
+                      <h3 class="mb-0 font-weight-bold">{{players.length}}</h3>
                   </div>
               </div>
           </div>
