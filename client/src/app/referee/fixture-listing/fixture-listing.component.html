@@ -3,7 +3,7 @@
     <ngx-datatable
     #myTable
     class="material"
-    [rows]="players"
+    [rows]="fixtures"
     [columns]="columns"
     [columnMode]="ColumnMode.force"
     [footerHeight]="100"
@@ -13,17 +13,17 @@
   >
   <ngx-datatable-column name="Fixture" prop="row" size="50">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                                    {{row.fixture}}
+                                    {{row.index}}
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="League" prop="row">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{row.league}}
+                  {{row.league?.leagueName}}
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Team 1" prop="row">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{row.homeTeam}}
+                  {{row.homeTeam?.teamName}}
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column>
@@ -33,7 +33,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Team 2" prop="row">
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{row.awayTeam}}
+                  {{row.awayTeam?.teamName}}
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Actions" prop="row">
@@ -41,9 +41,9 @@
         <button type="button" class="btn btn-outline-danger d-inline"
             (click)="delete(row['_id'])"><i class="bi bi-trash"></i>
           </button>
-          <button type="button" class="btn btn-outline-primary d-inline" style="margin-left:10px;"
+          <!-- <button type="button" class="btn btn-outline-primary d-inline" style="margin-left:10px;"
             (click)="delete(row['_id'])"><i class="bi bi-arrow-up-right-circle-fill"></i>
-          </button>
+          </button> -->
     </ng-template>
            </ngx-datatable-column>
     <ngx-datatable-footer>

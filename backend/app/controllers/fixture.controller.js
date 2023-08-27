@@ -9,10 +9,11 @@ exports.createFixture = async (req, resp, next) => {
     if(req.body && Array.isArray(req.body)) {
       let insertedFixtures = [];
       for (let i = 0; i < req.body.length; i++) {
-        if(req.body[i]['Home Team'] && req.body[i]['Away Team']) {
+        if(req.body[i]['homeTeam'] && req.body[i]['awayTeam']) {
             const fixtureData = new Fixture({
-                homeTeam: req.body[i]['Home Team'],
-                awayTeam: req.body[i]['Away Team'],
+                homeTeam: req.body[i]['homeTeam'],
+                awayTeam: req.body[i]['awayTeam'],
+                league: ObjectId(req.body[i]['league']),
                 user_id: ObjectId(req.body[i].user['createdBy']),
                 createdAt:  new Date()
             });
@@ -21,10 +22,11 @@ exports.createFixture = async (req, resp, next) => {
           };
         }
       resp.status(200).json(insertedFixtures);
-    } else if(req.body['Home Team'] && req.body['Away Team']) {
+    } else if(req.body['homeTeam'] && req.body['awayTeam']) {
         const fixtureData = new Fixture({
-          homeTeam: req.body['Home Team'],
-          awayTeam: req.body['Away Team'],
+          homeTeam: req.body['homeTeam'],
+          awayTeam: req.body['awayTeam'],
+          league: ObjectId(req.body['league']),
           user_id: ObjectId(req.body.user['createdBy']),
           createdAt:  new Date()
         });
@@ -42,7 +44,7 @@ exports.createFixture = async (req, resp, next) => {
 exports.getAllFixture =  async (req, resp, next) => {
 
   try {
-    const fixture = await Fixture.find();
+    const fixture = await Fixture.find({}).populate(["league", "homeTeam", "awayTeam"]);
     resp.status(200).json( fixture.length > 0 ? fixture : { message: 'No fixture found' });
   } catch (error) {
     next(error);
@@ -53,7 +55,7 @@ exports.getAllFixture =  async (req, resp, next) => {
 /* Get fixture based on id*/
 exports.getFixtureById = async (req, resp, next) => {
   try {
-    const fixture = await Fixture.find({ _id: ObjectId(req.params.id) });
+    const fixture = await Fixture.find({ _id: ObjectId(req.params.id) }).populate(["league", "homeTeam", "awayTeam"]);
     resp.status(200).json(fixture);
   } catch (error) {
     next(error);

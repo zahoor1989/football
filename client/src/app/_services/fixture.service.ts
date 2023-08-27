@@ -16,4 +16,10 @@ export class FixtureService {
   loadFixtures(): Observable<any> {
     return this.http.get(`${API_URL}/fixture/all`,{headers:this.headers});
   }
+  createFixture(fixture: any): Observable<any> {
+    return this.http.post(`${API_URL}/fixture/create`, fixture, {headers:this.headers});
+  }
+  deleteFixture(id:any): Observable<any> {
+    return this.http.post(`${API_URL}/fixture/delete/${id}`, {headers:this.headers});
+  }
 }

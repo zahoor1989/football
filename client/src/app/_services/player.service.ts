@@ -43,4 +43,7 @@ export class PlayerService {
   getPlayerbyEmirateId(id:any): Observable<any> {
     return this.http.get(`${API_URL}/player/${id}`, {headers:this.headers});
   }
+  getPlayerByTeamId(id:any): Observable<any> {
+    return this.http.get(`${API_URL}/player/team/${id}`, {headers:this.headers});
+  }
 }

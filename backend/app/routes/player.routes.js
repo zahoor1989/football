@@ -30,6 +30,8 @@ app.get("/player/getuploads", authJwt.isAuthenticated, player.getListFiles);
 
 app.get("/player/:id", authJwt.isAuthenticated, player.playerByIdOrEID);
 
+app.get("/player/team/:id", authJwt.isAuthenticated, player.playerByTeam);
+
 app.get("/player/getuploads/:id", authJwt.isAuthenticated, player.download);
 
 };

@@ -183,6 +183,21 @@ exports.playerByIdOrEID = async (req, resp, next) => {
   }
 };
 
+
+exports.playerByTeam = async (req, resp, next) => {
+  let pl = {};
+  try {
+    const { id } = req.params;
+    if(id) {
+      // check if emries id or normal id
+      pl = await Player.find({ team: ObjectId(id) }).populate(["user", "league", "academy", "team"]).exec();
+    } 
+    resp.status(200).json(pl ? pl : { message: 'Player not found'});
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.playerByAcademy = async (req, resp, next) => {
   let pl = {};
   try {

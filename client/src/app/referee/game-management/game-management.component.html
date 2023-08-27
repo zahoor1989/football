@@ -1,11 +1,11 @@
-<div class="container-fluid">
-  <div class="row">
+
+  <div class="row m-5">
     <h4>Game Management</h4>
   </div>
-</div>
+
 <div class="row">
   <hr/>
 </div>
 <div class="row">
-  <app-referee-squad-listing [players]="data" (delUser)="deletePlayer($event)"></app-referee-squad-listing>
+  <app-referee-squad-listing [fixtures]="fixtures" (fixtureDetail)="getFixtureDetails($event)" (delUser)="deletePlayer($event)"></app-referee-squad-listing>
 </div>

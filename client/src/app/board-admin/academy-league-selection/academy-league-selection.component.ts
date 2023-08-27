@@ -77,6 +77,7 @@ export class AcademyLeagueSelectionComponent implements OnInit {
   onCheckBox() {
    console.log(this.leagues)
   }
+
   redirectTo(){
     this.router.navigate(["/admin/academies/academy/"+this.academy._id]);
   }

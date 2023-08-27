@@ -12,24 +12,19 @@ import * as PlayerSelectors from "../../_store/selectors/players.selectors";
 export class RefereeSquadListingComponent {
   @ViewChild('myTable') table:any;
   @Output() delPlayer = new EventEmitter<string>();
+  @Output() fixtureDetail = new EventEmitter<string>();
   options = {}
-  @Input() players:any = [];
+  @Input() fixtures:any = [];
   columns:any = [{ prop: 'Fixture' }, { name: 'League' }, { name: 'Team 1' } , { name: 'Team 2' }];
   loadingIndicator = true;
   reorderable = true;
   ColumnMode = ColumnMode;
   constructor(private store: Store, private userService: UserService) {
-    console.log(this.players)
+
   }
 
   ngOnInit() {
 
-  }
-
-  getUsersFromStore () {
-    this.store.select(PlayerSelectors.getPlayers).subscribe(players => {
-      this.players = players;
-     });
   }
 
   edit(value: any) {
@@ -43,11 +38,12 @@ export class RefereeSquadListingComponent {
   }
 
   toggleExpandRow(row:any) {
-    console.log('Toggled Expand Row!', row);
+    this.fixtureDetail.emit(row);
     this.table.rowDetail.toggleExpandRow(row);
+
 }
 
-onDetailToggle(event:any) {
-    console.log('Detail Toggled', event);
-}
+  onDetailToggle(event:any) {
+      console.log('Detail Toggled', event);
+  }
 }

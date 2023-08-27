@@ -11,26 +11,26 @@ import * as PlayerSelectors from "../../_store/selectors/players.selectors";
 })
 export class FixtureListingComponent {
   @ViewChild('myTable') table:any;
-  @Output() delPlayer = new EventEmitter<string>();
+  @Output() delFixture = new EventEmitter<string>();
   options = {}
-  @Input() players:any = [];
+  @Input() fixtures:any = [];
   columns:any = [{ prop: 'Fixture' }, { name: 'League' }, { name: 'Team 1' } , { name: 'Team 2' }];
   loadingIndicator = true;
   reorderable = true;
   ColumnMode = ColumnMode;
   constructor(private store: Store, private userService: UserService) {
-    console.log(this.players)
+    console.log(this.fixtures)
   }
 
   ngOnInit() {
 
   }
 
-  getUsersFromStore () {
-    this.store.select(PlayerSelectors.getPlayers).subscribe(players => {
-      this.players = players;
-     });
-  }
+  // getUsersFromStore () {
+  //   this.store.select(PlayerSelectors.getPlayers).subscribe(fixtures => {
+  //     this.fixtures = fixtures;
+  //    });
+  // }
 
   edit(value: any) {
     // this.userService.deleteUser(value).subscribe((result:any)  => {
@@ -39,7 +39,7 @@ export class FixtureListingComponent {
   }
 
   delete(value: any) {
-    this.delPlayer.emit(value);
+    this.delFixture.emit(value);
   }
 
 }

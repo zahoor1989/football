@@ -41,10 +41,11 @@ export class SquadListComponent implements OnInit {
     // Now get team by id
     this.teamService.getTeamById(teamId).subscribe((res:any) => {
       if(res){
+        debugger
         this.academy = res.academy_id;
         this.currentTeam = res
-        if(res.user_id){
-          this.userById(res.user_id);
+        if(this.academy.coach){
+          this.userById(this.academy.coach);
         }
       }
       this.getPlayersFromStore();
@@ -72,6 +73,7 @@ edit(value: any) {
   }
   userById(id: any) {
     this.userService.getUserById(id).subscribe((result:any)  => {
+      debugger
       this.coach = result
     })
   }
