@@ -9,15 +9,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { FullComponent } from './layouts/full/full.component';
-
-
 import { NavigationComponent } from './shared/header/navigation.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-
 import { Approutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './shared/spinner.component';
@@ -41,13 +36,17 @@ import { TeamsEffects } from './_store/effects/teams.effects';
 import { LeaguesEffects } from './_store/effects/leagues.effects';
 import { FixuresEffects } from './_store/effects/fixures.effects';
 import { PlayersEffects } from './_store/effects/players.effects';
-import { HttpRequestInterceptor } from './_helpers/http.interceptor';
 import { AuthInterceptor } from './_helpers/authconfig.interceptor';
 import { CoachComponent } from './coach/coach.component';
 import { BoardAdminModule } from './board-admin/board-admin.module';
 import { CoachModule } from './coach/coach.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+// Import the library
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+
 
 const environment = {
   production: false
@@ -112,9 +111,10 @@ const customNotifierOptions: NotifierOptions = {
     BoardModeratorComponent,
     BoardUserComponent,
     AdminComponent,
-    CollectionsComponentComponent
+    CollectionsComponentComponent,
   ],
   imports: [
+    NgxImageZoomModule,
     NgxDatatableModule,
     CommonModule,
     BrowserModule,
@@ -132,6 +132,7 @@ const customNotifierOptions: NotifierOptions = {
     SidebarComponent,
     BoardAdminModule,
     CoachModule,
+    FontAwesomeModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([UsersEffects, AcademiesEffects, TeamsEffects, LeaguesEffects, FixuresEffects, PlayersEffects]),

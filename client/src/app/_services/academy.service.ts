@@ -28,4 +28,11 @@ export class AcademyService {
   getAcademyByCoachId(coachId:any): Observable<any> {
     return this.http.get(`${API_URL}/academy/academybycoach/${coachId}`, { headers:this.headers });
   }
+  updateAcademy(id: any, academy: any): Observable<any> {
+    return this.http.post(`${API_URL}/academy/update/${id}`, academy , { headers:this.headers });
+  }
+  updateAcademyCoach(id: any, academy: any): Observable<any> {
+    debugger
+    return this.http.post(`${API_URL}/academy/updatecoach/${id}`, academy , { headers:this.headers });
+  }
 }

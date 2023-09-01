@@ -19,6 +19,8 @@ app.get("/academy/:id", authJwt.isAuthenticated, academy.getAcademyById);
 
 app.post("/academy/update/:id", authJwt.isAuthenticated, academy.updateAcademy);
 
+app.post("/academy/updatecoach/:id", authJwt.isAuthenticated, academy.updateAcademyCoach);
+
 app.post("/academy/delete/:id", authJwt.isAuthenticated, academy.deleteAcademy);
 
 app.post("/academy/delete/all", authJwt.isAuthenticated, academy.deleteAllAcademys);

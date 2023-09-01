@@ -20,6 +20,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ConfirmationDialogService } from '../_services/confirmation-dialog.service';
+// Import the library
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+
 
 /**
  * Custom angular notifier options
@@ -133,6 +136,7 @@ const adminRoutes: Routes = [
     ConfirmationModalComponent,
   ],
   imports: [
+    NgxImageZoomModule,
     CommonModule,
     NgxDatatableModule,
     ReactiveFormsModule,

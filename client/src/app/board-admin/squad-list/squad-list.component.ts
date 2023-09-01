@@ -11,6 +11,7 @@ import { AcademyService } from 'src/app/_services/academy.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TeamService } from 'src/app/_services/team.service';
 import { PlayerService } from 'src/app/_services/player.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { PlayerService } from 'src/app/_services/player.service';
 export class SquadListComponent implements OnInit {
   @ViewChild('myTable') table:any;
   options = {}
-  data:any = [];
+  players:any = [];
   columns:any = [{ prop: 'firstname' }, { name: 'lastname' }, { name: 'dob' } , { name: 'email' }];
   loadingIndicator = true;
   reorderable = true;
@@ -31,9 +32,14 @@ export class SquadListComponent implements OnInit {
   public academies: any = []
   public academy: any = {};
   public currentTeam: any = {};
-  public coach: any = {};
+  public coaches: any = [];
+  public leagues: any = [];
+  filterLeague: FormGroup;
   constructor(private playerService: PlayerService, private userService: UserService, private storageService: StorageService, notifier: NotifierService, private academyService: AcademyService, private teamService: TeamService, private store: Store, private router: Router,  public activatedRoute: ActivatedRoute){
     this.notifier = notifier;
+    this.filterLeague = new FormGroup({
+      league: new FormControl('0')
+    })
   }
 
   ngOnInit() {
@@ -51,12 +57,27 @@ export class SquadListComponent implements OnInit {
     })
   }
 
-getPlayersFromStore () {
+getPlayersFromStore (leagueId?: any) {
   this.store.select(PlayerSelectors.getPlayers).subscribe(players => {
-    if(players.length > 0) {
-      this.data = players.filter(player => (player?.team?._id == this.currentTeam._id) && (player?.academy._id == this.academy._id));
-    }
+      if(players.length > 0) {
+        players.forEach(player => player?.league && !this.alreadyExists(player?.league) ? this.leagues.push(player?.league): null);
+        if(!leagueId || leagueId == 0) {
+          this.players = players.filter(player => (player?.team?._id == this.currentTeam._id) && (player?.academy._id == this.academy._id));
+        } else {
+          this.players = players.filter(player => (player?.team?._id == this.currentTeam._id) && (player?.academy._id == this.academy._id && player?.league?._id == leagueId));
+        }
+      }
     });
+  }
+
+  alreadyExists(league: any): boolean {
+    return this.leagues.find((l: any) => l._id == league._id) ? true : false
+  }
+  filterPlayers() {
+    let leagueId = this.filterLeague.value.league;
+    if(leagueId){
+      this.getPlayersFromStore(leagueId);
+    }
   }
 
 edit(value: any) {
@@ -72,7 +93,7 @@ edit(value: any) {
   }
   userById(id: any) {
     this.userService.getUserById(id).subscribe((result:any)  => {
-      this.coach = result
+      this.coaches = result
     })
   }
   approve(id:any){

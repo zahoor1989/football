@@ -80,9 +80,15 @@ exports.deleteUser = async (req, resp, next) => {
 exports.UserByIdOrEID = async (req, resp, next) => {
    try {
     const { id } = req.params;
+    if(id && id.includes(',')){
+      let userIds = id.split(",");
+      const users = await User.find({ _id: { "$in" : userIds } }).populate("roles").exec();
+      resp.status(200).json(users? users : { message: 'Users not found'});
+    } else {
       // check if emries id or normal id
-    const userData = await User.findOne({ _id: ObjectId(id) }).populate("roles").exec();
-    resp.status(200).json(userData? userData : { message: 'User not found'});
+      const userData = await User.findOne({ _id: ObjectId(id) }).populate("roles").exec();
+      resp.status(200).json(userData? userData : { message: 'User not found'});
+    }
   } catch (error) {
     next(error);
   }

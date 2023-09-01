@@ -8,6 +8,11 @@ import { CoachSquadListComponent } from './coach-squad-list/coach-squad-list.com
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+// Import the library
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ContactAdminComponent } from './contact-admin/contact-admin.component';
+
 /**
  * Custom angular notifier options
  */
@@ -59,13 +64,16 @@ const customNotifierOptions: NotifierOptions = {
     CoachSquadManagementComponent,
     CoachDashbaordComponent,
     CoachAcademyDetailsComponent,
-    CoachSquadListComponent
+    CoachSquadListComponent,
+    ContactAdminComponent
   ],
   imports: [
+    NgxImageZoomModule,
     CommonModule,
     NgxDatatableModule,
     FormsModule,
     NotifierModule.withConfig(customNotifierOptions),
+    AngularEditorModule,
     ReactiveFormsModule
   ],
   exports: [RouterModule]

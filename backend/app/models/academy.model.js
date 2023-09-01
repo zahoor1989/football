@@ -8,10 +8,10 @@ const Academy = mongoose.model(
         unique : true,
         required: true
     },
-    coach: {
+    coach: [{
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
-        }, 
+        }],
     createdAt: {
         type: Date,
         default: Date.now,

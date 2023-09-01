@@ -269,6 +269,11 @@ export class CoachAcademyDetailsComponent {
 
   }
 
+  onContactUs = () => {
+    debugger
+    this.router.navigate(['/coach/contacts']);
+  }
+
   redirectTo() {
     this.router.navigate(['/coach/teams']);
   }

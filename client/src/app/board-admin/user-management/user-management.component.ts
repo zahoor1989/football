@@ -7,6 +7,9 @@ import * as UserActions from "../../_store/actions/users.actions";
 import { NotifierService } from 'angular-notifier';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from 'src/app/_services/storage.service';
+// importing selectors
+import * as AcademySelectors from "../../_store/selectors/academies.selectors";
+import { AcademyService } from 'src/app/_services/academy.service';
 
 @Component({
   selector: 'app-user-management',
@@ -27,8 +30,11 @@ export class UserManagementComponent implements OnInit {
   public roles: any = [];
   public userToEdit: any = {};
   public loggedInUser: any = {};
-  displayEditForm: boolean = false;
-  constructor(    private formBuilder: FormBuilder, private store: Store, private userService: UserService, notifier: NotifierService,private storageService: StorageService) {
+  public displayEditForm: boolean = false;
+  public displayAddForm: boolean = false;
+  public academies: any = [];
+
+  constructor( private formBuilder: FormBuilder, private store: Store, private userService: UserService, notifier: NotifierService,private storageService: StorageService, private academyService: AcademyService) {
     this.notifier = notifier;
     this.userForm = new FormGroup({
       username: new FormControl(''),
@@ -37,7 +43,8 @@ export class UserManagementComponent implements OnInit {
       contact: new FormControl(''),
       password: new FormControl(''),
       email: new FormControl(''),
-      roles: new FormControl('')
+      role: new FormControl(''),
+      academy: new FormControl('')
     });
   }
 
@@ -51,10 +58,13 @@ export class UserManagementComponent implements OnInit {
         contact: ['', Validators.required],
         password: [''],
         email: ['', Validators.required],
-        roles: ['', Validators.required]
+        role: ['', Validators.required],
+        academy: ['']
       });
     this.getUsersFromStore();
+    this.getAcademiesFromStore();
     this.getRoles();
+
   }
 
 getUsersFromStore () {
@@ -64,29 +74,84 @@ getUsersFromStore () {
   }
 
 editUser(value: any) {
+  debugger
+    this.displayAddForm = false;
     this.userToEdit = this.data.find((user: any) => user._id === value);
+    debugger
     if(this.userToEdit) {
       this.displayEditForm = true;
-      // Patch the values to form
-      this.userForm.patchValue({
-        username: this.userToEdit.username,
-        firstname: this.userToEdit.firstname,
-        lastname: this.userToEdit.lastname,
-        contact: this.userToEdit?.contact,
-        email: this.userToEdit.email,
-        roles: this.userToEdit?.roles[0]?._id
+      this.academyService.getAcademyByCoachId(this.userToEdit._id).subscribe((res)=> {
+        debugger
+        if(res){
+          // Patch the values to form
+           this.userForm.patchValue({
+             username: this.userToEdit.username,
+             firstname: this.userToEdit.firstname,
+             lastname: this.userToEdit.lastname,
+             contact: this.userToEdit?.contact,
+             email: this.userToEdit.email,
+             role: this.userToEdit?.roles[0]?.name,
+             academy: res?._id
+           })
+        }
       })
+
     }
     this.store.dispatch(UserActions.loadUsers());
   }
 
+getAcademyByCoach = (id: any): any => {
+  debugger
+  this.academyService.getAcademyByCoachId(id).subscribe((res)=> {
+    return res;
+  })
+}
+
 deleteUser(value: any) {
   this.userService.deleteUser(value).subscribe((result:any)  => {
-    this.store.dispatch(UserActions.loadUsers());
+    debugger
+    console.log(result);
+    if(result){
+      this.notifier.notify('success', 'User deleted successfully!');
+      this.store.dispatch(UserActions.loadUsers());
+    }
   })
 }
 get f() { return this.userForm.controls; }
 
+onAddFormSubmit = () => {
+  this.submitted = true;
+  if(this.userForm.invalid) {
+    return this.notifier.notify ('error', 'Please fill all the required fields!');
+  } else {
+    const userObj = {
+      username: this.userForm.value.username,
+      firstname: this.userForm.value.firstname,
+      lastname: this.userForm.value.lastname,
+      contact: this.userForm.value.contact,
+      password: this.userForm.value.password,
+      email: this.userForm.value.email,
+      role: this.userForm.value.role
+    }
+    this.userService.createUser(userObj).subscribe((result:any) => {
+      if(result && this.userForm.value.academy) {
+        let coachId = result._id;
+       this.associateCoach(coachId);
+      }
+    })
+  }
+}
+associateCoach(coachId: any) {
+  if(this.userForm.value.academy) {
+  this.academyService.updateAcademyCoach(this.userForm.value.academy, { coach: coachId }).subscribe((academy:any) => {
+    if(academy){
+      this.notifier.notify('success', 'Coach created successfully!');
+      this.store.dispatch(UserActions.loadUsers());
+      this.displayAddForm = false;
+    }
+    })
+  }
+}
 onFormSubmit = () => {
   this.submitted = true;
   if(!this.userForm.value.password) {
@@ -103,6 +168,7 @@ onFormSubmit = () => {
         this.notifier.notify('success', 'User updated successfully!');
         this.store.dispatch(UserActions.loadUsers());
         this.displayEditForm = false;
+        this.associateCoach(this.userToEdit._id);
       } else {
         this.notifier.notify('error', 'User updating failed!');
       }
@@ -117,4 +183,15 @@ onFormSubmit = () => {
       }
     })
   }
+
+  getAcademiesFromStore () {
+    this.store.select(AcademySelectors.getAcademies).subscribe(academy => {
+      this.academies = academy;
+      });
+    }
+    toggleForm() {
+      this.userForm.reset();
+      this.displayEditForm = false;
+      this.displayAddForm = !this.displayAddForm;
+    }
 }

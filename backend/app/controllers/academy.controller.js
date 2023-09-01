@@ -15,7 +15,7 @@ exports.createAcademy = async (req, resp, next) => {
           if (!academy) { 
             const academyData = new Academy({
               academyName: req.body[i]['Academy Name'],   
-              coach: ObjectId(req.body[i].user['createdBy']),
+              coach: [ ObjectId(req.body[i].user['createdBy'])],
               createdAt:  new Date()
             });
             insertedAcademies.push(req.body[i]);
@@ -34,7 +34,7 @@ exports.createAcademy = async (req, resp, next) => {
         if (!academy) {   
           const academyData = new Academy({
             academyName: req.body['Academy Name'],           
-            coach: ObjectId(req.body.user['createdBy']),
+            coach: [ObjectId(req.body.user['createdBy'])],
             createdAt:  new Date()
           });
   
@@ -96,10 +96,55 @@ exports.getAcademyByCoach  = async (req, resp, next) => {
   try {
     if( req.params && req.params.id ) {
       const academy = await Academy.findOne({ coach: ObjectId(req.params.id)}).populate("coach").exec();
-      resp.status(200).json(academy);
+      if(academy) resp.status(200).json(academy);
     } else {
       resp.status(200).json({message: 'Academy id is required to found'});
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateAcademyCoach  =  async (req, resp, next) => {
+
+  try {
+    const { id } = req.params;
+    let fetchAcademy = await Academy.findOne({_id: ObjectId(id)});
+
+    if (!fetchAcademy) return resp.status(404).json({ message: 'Academy record not found' });
+    // updating academy
+    fetchAcademy = {
+      ...fetchAcademy,
+      coach: fetchAcademy.coach.push(ObjectId(req.body.coach)) 
+    }
+
+    const updatedAcademy = await Academy.findByIdAndUpdate(req.params.id, fetchAcademy, { new: true });
+
+    resp.status(200).json(updatedAcademy);
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateAcademyCoach  =  async (req, resp, next) => {
+  try {
+    const { id } = req.params;
+    let fetchAcademy = await Academy.findOne({_id: ObjectId(id)});
+
+    if (!fetchAcademy) return resp.status(404).json({ message: 'Academy record not found' });
+    // coach already existing
+    if(fetchAcademy.coach && fetchAcademy.coach.includes(ObjectId(req.body.coach))) {
+    let fetchAcademy = await Academy.findOne({_id: ObjectId(id)});
+      fetchAcademy.coach = fetchAcademy.coach.filter(ch => ObjectId(ch) !== ObjectId(req.body.coach)) 
+    } else {
+      fetchAcademy.coach.push(ObjectId(req.body.coach)) 
+    }
+ 
+    const updatedAcademy = await Academy.findByIdAndUpdate(req.params.id, fetchAcademy, { new: true });
+
+    resp.status(200).json(updatedAcademy);
+
   } catch (error) {
     next(error);
   }

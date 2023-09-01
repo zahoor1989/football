@@ -18,6 +18,7 @@ export class AdminSquadListComponent {
   @Output() approvePlayer = new EventEmitter<string>();
   options = {}
   @Input() players:any = [];
+  @Input() leaguesFilter: any = [];
   columns:any = [{ prop: 'firstname' }, { name: 'lastname' }, { name: 'username' } , { name: 'email' }];
   loadingIndicator = true;
   reorderable = true;
@@ -40,6 +41,10 @@ export class AdminSquadListComponent {
     // this.userService.deleteUser(value).subscribe((result:any)  => {
       console.log(value)
     // })
+  }
+  getImage(image:any){
+    debugger
+    return "http://localhost:8080/static/"+image;
   }
 
   delete(value: any) {

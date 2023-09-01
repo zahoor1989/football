@@ -12,6 +12,10 @@ import { RefereeTeamSquadComponent } from './referee-team-squad/referee-team-squ
 import { FixtureTeamDetailsComponent } from './fixture-team-details/fixture-team-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { NgxImageMagnifierModule } from 'ngx-image-magnifier';
+// Import the library
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+
 const refereeRoutes: Routes = [
   {
     path: '',
@@ -88,6 +92,7 @@ const customNotifierOptions: NotifierOptions = {
     FixtureTeamDetailsComponent
   ],
   imports: [
+    NgxImageZoomModule,
     CommonModule,
     NgbDropdownModule,
     NgxDatatableModule,

@@ -10,16 +10,21 @@
   [limit]="10"
   rowHeight="auto"
 >
-<ngx-datatable-column name="First Name" prop="row">
+<ngx-datatable-column name="Name" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                                  {{row.firstName}}
+                                  {{row?.playerNo}}
   </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Sir Name" prop="row">
+<ngx-datatable-column name="Name" prop="row">
+  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                  {{row.firstName}}   {{row.lastName}}
+  </ng-template>
+</ngx-datatable-column>
+<!-- <ngx-datatable-column name="Sir Name" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 {{row.lastName}}
   </ng-template>
-</ngx-datatable-column>
+</ngx-datatable-column> -->
 <ngx-datatable-column name="DOB" prop="row">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 {{row.dob | date:'dd/MM/yyyy'}}
@@ -41,8 +46,16 @@
   </ng-template>
 </ngx-datatable-column>
 <ngx-datatable-column name="EID" prop="row">
-  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                {{row.emiratesIdNo}}
+  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" height="200">
+    <!-- <ngx-image-magnifier [image]="getImage(row.eidFront)" [width]="200" [lensWidth]='100'>
+    </ngx-image-magnifier> -->
+    <!-- <lib-ngx-image-zoom
+    [thumbImage]="getImage(row.eidFront)"
+    [fullImage]="getImage(row.eidFront)"
+    zoomMode="hover"
+></lib-ngx-image-zoom> -->
+
+    <img src="http://localhost:8080/static/{{row.eidFront}}" width="50"/>
   </ng-template>
 </ngx-datatable-column>
 <ngx-datatable-column name="Player Status" prop="row">

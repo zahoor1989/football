@@ -27,6 +27,7 @@ import { SquadListComponent } from './board-admin/squad-list/squad-list.componen
 import { CoachDashbaordComponent } from './coach/coach-dashbaord/coach-dashbaord.component';
 import { CoachAcademyDetailsComponent } from './coach/coach-academy-details/coach-academy-details.component';
 import { RefereeDashboardComponent } from './referee/referee-dashboard/referee-dashboard.component';
+import { ContactAdminComponent } from './coach/contact-admin/contact-admin.component';
 
 export const Approutes: Routes = [
   {
@@ -67,6 +68,10 @@ export const Approutes: Routes = [
           {
             path: 'squads/:id',
             component: CoachAcademyDetailsComponent,
+          },
+          {
+            path: 'contacts',
+            component: ContactAdminComponent,
           }
         ]
       },
