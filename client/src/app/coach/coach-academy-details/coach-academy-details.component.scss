@@ -123,6 +123,23 @@ button.btn-default {
     background: #000000;
     border-radius: 30px;
     margin: 16px;
+    .input-container {
+      position: relative;
+      overflow: hidden;
+      color: #FFF;
+      text-align: center;
+      font-family: NotoSansRegular;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+    input {
+      position: absolute;
+      font-size: 50px;
+      opacity: 0;
+      right: 0;
+      top: 0;
+    }
     .squads-contact {
       width: 220px !important;
       margin-left: 50px;

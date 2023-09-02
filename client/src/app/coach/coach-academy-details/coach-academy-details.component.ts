@@ -224,6 +224,20 @@ export class CoachAcademyDetailsComponent {
       }
     })
   }
+  getImages = (event: any) => {
+    debugger
+    const file: File[] = event.target.files;
+    console.log(event.target.files)
+    this.palyerService.uploadImages(file).subscribe((res:any) => {
+      if(res) {
+        try {
+          this.notifier.notify('success', `${res.message}`);
+        } catch(error) {
+          console.log(error)
+        }
+      }
+    })
+  }
 
   get f() { return this.playerForm.controls; }
 

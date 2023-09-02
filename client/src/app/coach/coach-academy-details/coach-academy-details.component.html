@@ -87,10 +87,16 @@
       <span class="squads-text">Download CSV Template</span>
     </div>
     <div class="squads-lable col-lg-3 col-sm-6 mt-4">
-      <span class="squads-text">BulK Uploads</span>
+      <div class="input-container">
+        Uploads Players <small>(.csv / .xls)</small>
+          <input type="file" name="file"/>
+      </div>
     </div>
     <div class="squads-lable col-lg-3 col-sm-6 mt-4">
-      <span class="squads-text">BulK EID Uploads</span>
+      <div class="input-container">
+        BulK EID Uploads
+          <input type="file" name="file" (change)="getImages($event)" multiple/>
+      </div>
     </div>
   </div>
   <div class="col-lg-3 col-sm-12">

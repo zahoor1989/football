@@ -51,4 +51,25 @@ export class UserService {
   getAllRoles(): Observable<any> {
     return this.http.get(`${API_URL}/roles/all`, {headers:this.headers});
   }
+
+  createContact(data: any): Observable<any> {
+    return this.http.post(`${API_URL}/user/createcontact`, data, { headers:this.headers});
+  }
+
+  getAllContentsByCoach(id:any): Observable<any> {
+    return this.http.get(`${API_URL}/user/contents/${id}`,  { headers:this.headers});
+  }
+
+  getAllContents(): Observable<any> {
+    return this.http.get(`${API_URL}/user/contents`,  { headers:this.headers});
+  }
+
+  updateContent(id:any, data: any): Observable<any> {
+    return this.http.post(`${API_URL}/user/contentsupdate/${id}`, data,  { headers:this.headers});
+  }
+
+  deleteContent(id:any): Observable<any> {
+    return this.http.post(`${API_URL}/user/contentdelete/${id}`,  { headers:this.headers});
+  }
+
 }

@@ -27,7 +27,24 @@ export class PlayerService {
     const formData = new FormData();
     // Store form name as "file" with file data
     formData.append("file", file);
-    return this.http.post(`${API_URL}/player/upload`, formData);
+    return this.http.post(`${API_URL}/player/upload`, formData, {headers:this.headers});
+  }
+
+  uploadImages(files: File[]): Observable<any> {
+    debugger
+    const formData = new FormData();
+    // Store form name as "file" with file data
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i])
+    }
+    return this.http.post(`${API_URL}/player/multiupload`, formData );
+  }
+
+  uploadContact(file: File): Observable<any> {
+    const formData = new FormData();
+    // Store form name as "file" with file data
+    formData.append("file", file);
+    return this.http.post(`${API_URL}/player/contactdata`, formData, {headers:this.headers});
   }
 
   getListFiles(): Observable<any> {
