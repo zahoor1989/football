@@ -24,6 +24,8 @@ app.post("/player/delete/all", authJwt.isAuthenticated, player.deleteAllPlayers)
 
 app.get("/player/academy/:id", authJwt.isAuthenticated, player.playerByAcademy);
 
+app.post("/player/bulkuploads", authJwt.isAuthenticated, player.bulkUploadPlayers);
+
 app.post("/player/upload", authJwt.isAuthenticated, player.upload);
 
 app.get("/player/getuploads", authJwt.isAuthenticated, player.getListFiles);
@@ -33,5 +35,8 @@ app.get("/player/:id", authJwt.isAuthenticated, player.playerByIdOrEID);
 app.get("/player/team/:id", authJwt.isAuthenticated, player.playerByTeam);
 
 app.get("/player/getuploads/:id", authJwt.isAuthenticated, player.download);
+
+app.post("/player/multiupload", authJwt.isAuthenticated, player.multiUpload);
+
 
 };

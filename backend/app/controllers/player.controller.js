@@ -1,4 +1,5 @@
 const uploadFile = require("../middlewares/upload");
+const uploadFiles = require("../middlewares/uploads");
 const  ObjectId = require('mongodb').ObjectId;
 const db = require("../models");
 const Player = db.player;
@@ -61,6 +62,33 @@ exports.upload = async (req, res) => {
   }
 };
 
+exports.multiUpload = async (req, res) => {
+  try {
+   
+    await uploadFiles(req, res);
+
+    if (req.files == undefined) {
+      return res.status(400).send({ message: "Please upload a file!" });
+    }
+
+    // // rename the file   
+    return res.status(200).send({
+      message: "Uploaded the files successfully",
+      count: req.files.length
+    });
+   
+  } catch (err) {
+    if (err.code == "LIMIT_FILE_SIZE") {
+      return res.status(500).send({
+        message: "File size cannot be larger than 2MB!",
+      });
+    }
+
+    res.status(500).send({
+      message: `Could not upload the file ${err}`,
+    });
+  }
+};
 
 exports.getListFiles = (req, res) => {
   const directoryPath = __basedir + "/public/resources/assets/";
@@ -176,6 +204,44 @@ exports.createPlayer = async (req, resp, next) => {
   }
 };
 
+exports.bulkUploadPlayers = async (req, resp, next) => {
+    try {
+      // multiple creation
+      if(req.body && Array.isArray(req.body)) {
+        let bkPlayers = req.body;
+        let insertedPlayers = [];
+        let Players = await Player.find().exec();
+        let fltPlayers = bkPlayers.filter(bk => !Players.find(p => p.emiratesIdNo === bk['EID No']));
+        for (let i = 0; i < fltPlayers.length; i++) {                    
+              const playerData = new Player({
+                firstName: fltPlayers[i]['First Name'],
+                lastName: fltPlayers[i]['Surname'],
+                dob: new Date(fltPlayers[i]['DOB']),
+                squadNo: fltPlayers[i]['Squad Number'],
+                league:  ObjectId(fltPlayers[i]['League']),
+                academy:  ObjectId(fltPlayers[i]['academy']),
+                team:  ObjectId(fltPlayers[i]['Team']),
+                playerNo: fltPlayers[i]['Player ID Number'],
+                playerImage: fltPlayers[i]['playerImage'],
+                emiratesIdNo:  fltPlayers[i]['EID No'],
+                eidFront: fltPlayers[i]['EID Front Upload'],
+                eidBack:  fltPlayers[i]['EID Upload Back'],
+                playerStatus: 'Pending',
+                user: ObjectId(fltPlayers[i].User['id']),
+                createdAt:  new Date()
+              });
+              insertedPlayers.push(fltPlayers[i]);
+              await playerData.save();
+        };
+        resp.status(200).json({ message: 'Players created successfully', players: insertedPlayers });
+      } else {
+        resp.status(200).json({ message: 'Malformed data provided' });
+     }
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
 /* GET all players listing. */
 exports.getAllPlayers = (req, res) => {

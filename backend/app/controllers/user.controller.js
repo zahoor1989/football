@@ -2,6 +2,7 @@ const  ObjectId = require('mongodb').ObjectId;
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
+const Contact = db.contact;
 const bcrypt = require("bcryptjs");
 
 exports.allAccess = (req, res) => {
@@ -119,4 +120,83 @@ exports.updateUser =  async (req, resp, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+
+exports.createContact = async (req, res) => {
+  // get users
+  if( req.body && req.body['heading'] && req.body['content'].length > 0) {     
+      const contactData = new Contact({
+        heading: req.body['heading'],
+        content: req.body['content'],       
+        user: ObjectId(req.body.user['id']),
+        status: 'Pending',
+        createdAt: new Date(),
+      });
+
+      const savedContact = await contactData.save();
+      res.status(200).json({ data: savedContact, message: 'Contact created successfully!'});
+    } else {
+      res.status(200).json({ message: 'Data is not provided correctly' });
+    }
+ 
+}
+exports.updateContact = async (req, res) => {
+  try {
+  const { id } = req.params; 
+  // get users
+      if(id) {
+        let fetchContact = await Contact.findOne({_id: ObjectId(id)});
+
+        if (!fetchContact) return resp.status(404).json({ msg: 'Content record not found' });
+        fetchContact = {
+          ...fetchContact._doc,
+          reply: req.body
+        }
+            
+      Contact.findByIdAndUpdate({ _id : ObjectId(id)},
+      {
+        $set: fetchContact
+      },
+      { new: true }).then((updateContent) => {
+        return resp.status(200).json(updateContent);
+      });
+    }
+
+  } catch (error) {
+    next(error);
+  }
+     
+}
+
+exports.contentDelete = async (req, resp, next) => {
+  try {
+    const content = await Contact.findByIdAndDelete({ _id: ObjectId(req.params.id)});
+    if(!content){
+      return resp.status(200).json({message: `No record found`, type: 'error'})
+    }
+    return resp.status(200).json({ message: `Content record deleted!` })
+  } catch (error) {
+    next(error);
+  }
+}
+exports.getAllContacts = (req, res) => {
+  // get users
+   Contact.find().populate("user").exec((err, users) => {
+    if(err){
+      return res.status(500).send({ message: err });
+    }
+     return res.status(200).json(users.length > 0? users : { message: 'No content found' });
+   });
+};
+
+exports.allContactsByIdCoach = async (req, res) => {
+  const { id } = req.params; 
+  // get users
+   const content = await Contact.find({user: ObjectId(id) }).populate("user").exec()
+   if(content) {
+      return res.status(200).send({conent: content,  status:'Success', message: "Conents fetched successrully!" });
+    }else {
+     return res.status(200).json({ message: 'No content found' });
+   };
 };
