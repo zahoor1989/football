@@ -14,7 +14,6 @@ export class NotificationsEffects {
       ofType(NotificationActions.loadNotifications),
       map((action: any) => action.payload),
       mergeMap(() => {
-        debugger
         return this.UserService.getAllContents().pipe(map(data => NotificationActions.loadNotificationsSuccess({ data })),
           catchError(error => of(NotificationActions.loadNotificationsFailure({ error })))
         );

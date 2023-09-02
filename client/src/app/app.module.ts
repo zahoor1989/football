@@ -112,7 +112,7 @@ const customNotifierOptions: NotifierOptions = {
     BoardModeratorComponent,
     BoardUserComponent,
     AdminComponent,
-    CollectionsComponentComponent,
+    CollectionsComponentComponent
   ],
   imports: [
     NgxImageZoomModule,

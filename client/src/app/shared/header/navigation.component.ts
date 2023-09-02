@@ -1,27 +1,37 @@
-import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, AfterViewInit, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/_services/auth.service';
 import { StorageService } from 'src/app/_services/storage.service';
+import { UserService } from 'src/app/_services/user.service';
 
 declare var $: any;
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports:[NgbDropdownModule],
+  imports:[NgbDropdownModule, CommonModule],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements AfterViewInit {
+export class NavigationComponent implements OnInit, AfterViewInit {
   @Output() toggleSidebar = new EventEmitter<void>();
+  @Input() loggedInUser: any;
+    unreadNotifications: any = [];
 
 
   public showSearch = false;
 
-  constructor(private modalService: NgbModal, private authService: AuthService, private storageService: StorageService, private router: Router) {
+  constructor(private modalService: NgbModal, private authService: AuthService, private storageService: StorageService, private router: Router, private userService: UserService) {
   }
 
+  ngOnInit(): void {
+   this.getNotifications();
+  }
+ngAfterViewInit(): void {
+  this.getNotifications();
+}
   // This is for Notifications
   notifications: Object[] = [
     {
@@ -115,8 +125,6 @@ export class NavigationComponent implements AfterViewInit {
     icon: 'de'
   }]
 
-  ngAfterViewInit() { }
-
   logout(): void {
     this.authService.logout().subscribe({
       next: res => {
@@ -128,5 +136,16 @@ export class NavigationComponent implements AfterViewInit {
         console.log(err);
       }
     });
+  }
+  getNotifications = () => {
+    this.userService.getAllContents().subscribe((notifications: any) => {
+      console.log(notifications, ":::; notifications")
+      if(notifications.length > 0) {
+        this.unreadNotifications = notifications.filter((notify: any) => notify.status === 'Pending');
+      }
+    })
+  }
+  redirectToNotifications() {
+    this.router.navigate(["/admin/notifications"]);
   }
 }

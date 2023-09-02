@@ -61,8 +61,7 @@ export class UserService {
   }
 
   getAllContents(): Observable<any> {
-    debugger
-    return this.http.get(`${API_URL}/user/contents`,  { headers:this.headers});
+        return this.http.get(`${API_URL}/user/contents`,  { headers:this.headers});
   }
 
   updateContent(id:any, data: any): Observable<any> {

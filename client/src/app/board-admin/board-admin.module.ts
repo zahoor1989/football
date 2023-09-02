@@ -22,6 +22,8 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 import { ConfirmationDialogService } from '../_services/confirmation-dialog.service';
 // Import the library
 import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { AdminNotificationsComponent } from './admin-notifications/admin-notifications.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 /**
@@ -87,10 +89,6 @@ const adminRoutes: Routes = [
         path: 'leagues',
         component: LeagueManagementComponent,
       },
-      // {
-      //   path: 'academies',
-      //   component: SquadManagementComponent,
-      // },
       {
         path: 'academies/academy/:id',
         component: AcademyDetailComponent,
@@ -114,6 +112,10 @@ const adminRoutes: Routes = [
       {
         path: 'academies',
         component: TeamManagementComponent,
+      },
+      {
+        path: 'notifications',
+        component: AdminNotificationsComponent,
       }
     ]
   },
@@ -134,6 +136,7 @@ const adminRoutes: Routes = [
     SquadListComponent,
     AdminSquadListComponent,
     ConfirmationModalComponent,
+    AdminNotificationsComponent,
   ],
   imports: [
     NgxImageZoomModule,
@@ -141,6 +144,7 @@ const adminRoutes: Routes = [
     NgxDatatableModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularEditorModule,
     NotifierModule.withConfig(customNotifierOptions),
     RouterModule.forChild(adminRoutes),
   ],

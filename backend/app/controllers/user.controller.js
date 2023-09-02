@@ -151,7 +151,8 @@ exports.updateContact = async (req, res) => {
         if (!fetchContact) return resp.status(404).json({ msg: 'Content record not found' });
         fetchContact = {
           ...fetchContact._doc,
-          reply: req.body
+          reply: req.body.reply,
+          status: req.body.status
         }
             
       Contact.findByIdAndUpdate({ _id : ObjectId(id)},
@@ -159,7 +160,7 @@ exports.updateContact = async (req, res) => {
         $set: fetchContact
       },
       { new: true }).then((updateContent) => {
-        return resp.status(200).json(updateContent);
+        return res.status(200).json({ content: updateContent, message: 'Notifications updated successfully!'});
       });
     }
 

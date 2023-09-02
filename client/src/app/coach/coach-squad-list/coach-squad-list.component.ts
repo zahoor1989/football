@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { UserService } from 'src/app/_services/user.service';
 import * as PlayerSelectors from "../../_store/selectors/players.selectors";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-coach-squad-list',
@@ -18,7 +19,7 @@ export class CoachSquadListComponent {
   loadingIndicator = true;
   reorderable = true;
   ColumnMode = ColumnMode;
-  constructor(private store: Store, private userService: UserService) {
+  constructor(private store: Store, private userService: UserService, private router: Router) {
 
   }
 
@@ -41,5 +42,7 @@ export class CoachSquadListComponent {
   delete(value: any) {
     this.delPlayer.emit(value);
   }
-
+  redirectTo(){
+    this.router.navigate(["/admin/academies"]);
+  }
 }

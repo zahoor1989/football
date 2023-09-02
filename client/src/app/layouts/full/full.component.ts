@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, HostListener, AfterContentChecked, OnChanges } from "@angular/core";
+import { Component, OnInit, HostListener, AfterContentChecked, OnChanges, AfterViewInit } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { NavigationComponent } from "src/app/shared/header/navigation.component";
 import { SidebarComponent } from "src/app/shared/sidebar/sidebar.component";
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { StorageService } from "src/app/_services/storage.service";
+import { UserService } from "src/app/_services/user.service";
 
 //declare var $: any;
 
@@ -17,7 +18,7 @@ import { StorageService } from "src/app/_services/storage.service";
 })
 export class FullComponent implements OnInit {
 
-  constructor(public router: Router, private storageService: StorageService) {}
+  constructor(public router: Router, private storageService: StorageService, private userService: UserService) {}
   public isCollapsed = false;
   public innerWidth: number = 0;
   public defaultSidebar: string = "";
@@ -26,6 +27,8 @@ export class FullComponent implements OnInit {
   public sidebartype = "full";
   public userRole = "ROLE_USER";
   public isLoggedIn = false;
+  public loggedInUser:any = {};
+  public unreadNotifications: any = [];
 
   Logo() {
     this.expandLogo = !this.expandLogo;
@@ -33,6 +36,7 @@ export class FullComponent implements OnInit {
 
 
   ngOnInit() {
+    this.loggedInUser = this.storageService.getUser()
     if (this.router.url === "/") {
       this.router.navigate(["dashboard"]);
     }
@@ -45,6 +49,7 @@ export class FullComponent implements OnInit {
       // getting the roles
       this.userRole = user.roles[0];
     }
+
   }
 
   @HostListener("window:resize", ["$event"])
@@ -74,4 +79,5 @@ export class FullComponent implements OnInit {
       default:
     }
   }
+
 }
