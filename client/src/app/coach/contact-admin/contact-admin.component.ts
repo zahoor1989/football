@@ -68,7 +68,6 @@ export class ContactAdminComponent implements OnInit {
     });
   }
 ngOnInit(): void {
-  debugger
   this.user = this.storageService.getUser();
   if(this.user){
     this.getAllContents(this.user?.id)

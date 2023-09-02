@@ -83,13 +83,13 @@
 
 <div class="row squads p-5">
   <div class="col-lg-9 col-sm-12 d-flex justify-content-around">
-    <div class="squads-lable col-lg-3 col-sm-6 mt-4">
+    <div class="squads-lable col-lg-3 col-sm-6 mt-4" (click)="export()">
       <span class="squads-text">Download CSV Template</span>
     </div>
     <div class="squads-lable col-lg-3 col-sm-6 mt-4">
       <div class="input-container">
         Uploads Players <small>(.csv / .xls)</small>
-          <input type="file" name="file"/>
+          <input type="file" name="file" (change)="onChange($event)" />
       </div>
     </div>
     <div class="squads-lable col-lg-3 col-sm-6 mt-4">

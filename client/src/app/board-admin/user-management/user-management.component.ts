@@ -74,14 +74,11 @@ getUsersFromStore () {
   }
 
 editUser(value: any) {
-  debugger
     this.displayAddForm = false;
     this.userToEdit = this.data.find((user: any) => user._id === value);
-    debugger
     if(this.userToEdit) {
       this.displayEditForm = true;
       this.academyService.getAcademyByCoachId(this.userToEdit._id).subscribe((res)=> {
-        debugger
         if(res){
           // Patch the values to form
            this.userForm.patchValue({

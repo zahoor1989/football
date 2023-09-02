@@ -31,7 +31,6 @@ export class PlayerService {
   }
 
   uploadImages(files: File[]): Observable<any> {
-    debugger
     const formData = new FormData();
     // Store form name as "file" with file data
     for (let i = 0; i < files.length; i++) {
@@ -62,5 +61,10 @@ export class PlayerService {
   }
   getPlayerByTeamId(id:any): Observable<any> {
     return this.http.get(`${API_URL}/player/team/${id}`, {headers:this.headers});
+  }
+
+  importPlayers(players: any): Observable<any> {
+    debugger
+    return this.http.post(`${API_URL}/player/bulkuploads`, players, { headers:this.headers });
   }
 }

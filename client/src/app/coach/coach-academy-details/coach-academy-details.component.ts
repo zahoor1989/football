@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -12,6 +12,12 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { StorageService } from 'src/app/_services/storage.service';
 import { PlayerService } from 'src/app/_services/player.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import * as TeamSelectors from "../../_store/selectors/teams.selectors";
+import * as AcademiesSelectors from "../../_store/selectors/academies.selectors";
+
+
+import * as XLSX from 'xlsx';
+const { read, write, utils } = XLSX;
 
 @Component({
   selector: 'app-coach-academy-details',
@@ -20,6 +26,9 @@ import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog
 })
 export class CoachAcademyDetailsComponent {
   @ViewChild('myTable') table: any;
+  excelData: any = [[1, 2], [3, 4]];
+  wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
+  fileName: string = 'SheetJS.xlsx';
   private notifier: NotifierService;
   options = {};
   data: any = [];
@@ -48,6 +57,9 @@ export class CoachAcademyDetailsComponent {
   }
   emiratesIdPattern = '^\d\d\d\-\d\d\d\d\-\d\d\d\d\d\d\d\-\d$';
   playerExists: boolean = false;
+  teams: any = [];
+  academies: any = [];
+  insertionStarted: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
@@ -115,6 +127,8 @@ export class CoachAcademyDetailsComponent {
       }
     });
     this.getLeaguesFromStore();
+    this.getAcademiesFromStore();
+    this.getTeamsFromStore();
     // get logged in coach
     this.coach = this.storageService.getUser();
 
@@ -173,6 +187,7 @@ export class CoachAcademyDetailsComponent {
     }
   getPlayersFromStore() {
     this.store.select(PlayerSelectors.getPlayers).subscribe((players) => {
+      debugger
       this.data = players.filter((player) => player.team && player.team._id === this.team._id);
     });
   }
@@ -189,9 +204,24 @@ export class CoachAcademyDetailsComponent {
       }
     });
   }
+  getTeamsFromStore() {
+    // getting leagues
+    this.store.select(TeamSelectors.getTeams).subscribe((teams) => {
+      if (teams) {
+        this.teams = teams
+      }
+    });
+  }
+  getAcademiesFromStore() {
+    // getting leagues
+    this.store.select(AcademiesSelectors.getAcademies).subscribe((academies) => {
+      if (academies) {
+        this.academies = academies
+      }
+    });
+  }
   edit(value: any) {
     this.userService.deleteUser(value).subscribe((result: any) => {
-      console.log(result);
       this.store.dispatch(UserActions.loadUsers());
     });
   }
@@ -225,18 +255,24 @@ export class CoachAcademyDetailsComponent {
     })
   }
   getImages = (event: any) => {
-    debugger
     const file: File[] = event.target.files;
     console.log(event.target.files)
-    this.palyerService.uploadImages(file).subscribe((res:any) => {
-      if(res) {
+    this.palyerService.uploadImages(file).subscribe({
+      next: (res:any) => {
+      if(res && res.count > 0) {
         try {
-          this.notifier.notify('success', `${res.message}`);
+          this.notifier.notify('success', `Successfully uploaded ${res.count} images!`);
         } catch(error) {
           console.log(error)
         }
       }
-    })
+    },
+      error: (error:any) => {
+          this.notifier.notify('error', `error:  ${error?.message}!`);
+      },
+      complete: () => {
+        }
+      });
   }
 
   get f() { return this.playerForm.controls; }
@@ -283,9 +319,56 @@ export class CoachAcademyDetailsComponent {
 
   }
 
+  onChange(evt:any) {
+        this.insertionStarted = true;
+        let workBook:any = null;
+        let jsonData = null;
+        const reader = new FileReader();
+        const file = evt.target.files[0];
+        reader.onload = (event) => {
+          const data = reader.result;
+          workBook = XLSX.read(data, { type: 'binary' });
+          jsonData = workBook.SheetNames.reduce((initial:any, name:any) => {
+            const sheet = workBook.Sheets[name];
+            initial[name] = XLSX.utils.sheet_to_json(sheet);
+            return initial;
+          }, {});
+          const dataString:any = JSON.parse(JSON.stringify(jsonData));
+          dataString['Sheet1'] = dataString['Sheet1'].map((player:any) => {
+            return {
+              ...player,
+              Team: this.teams.find((team:any) => team.teamName === player.Team)?._id,
+              Academy : this.academies.find((academy:any) => academy.name === player.academy)?._id,
+              League : this.leagues.find((league:any) => league.name === player.league)?._id,
+              User: this.coach
+            }
+          })
+          if(dataString['Sheet1'].length) {
+            this.palyerService.importPlayers(dataString['Sheet1']).subscribe((res:any) => {
+              this.insertionStarted = false;
+              if(res && res.players ){
+                this.notifier.notify('success', res.message);
+              } else {
+                this.notifier.notify('error', res.message);
+              }
+            })
+          }
+
+        }
+        reader.readAsBinaryString(file);
+  }
   onContactUs = () => {
-    debugger
     this.router.navigate(['/coach/contacts']);
+  }
+
+  export(): void {
+    let link = document.createElement('a');
+    link.setAttribute('type', 'hidden');
+    link.href = '../../../assets/excel/Example Squad List.xlsx';
+    link.download = 'Example Squad List.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   }
 
   redirectTo() {
