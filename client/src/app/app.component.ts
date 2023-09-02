@@ -12,6 +12,7 @@ import * as PlayerActions from "./_store/actions/players.actions";
 import * as LeagueActions from "./_store/actions/leagues.actions";
 import * as FixureActions from "./_store/actions/fixures.actions";
 import * as AcademyActions from "./_store/actions/academies.actions";
+import * as NotificationActions from "./_store/actions/notification.actions";
 
 // importing selectors
 import * as UserSelectors from "./_store/selectors/users.selectors";
@@ -59,11 +60,13 @@ export class AppComponent implements OnInit {
       if(this.showAdminBoard) {
         this.store.dispatch(UserActions.loadUsers());
       }
+      debugger
       this.store.dispatch(TeamActions.loadTeams());
       this.store.dispatch(LeagueActions.loadLeagues());
       this.store.dispatch(FixureActions.loadFixtures());
       this.store.dispatch(AcademyActions.loadAcademies());
       this.store.dispatch(PlayerActions.loadPlayers());
+      this.store.dispatch(NotificationActions.loadNotifications());
     }
 
     this.eventBusSub = this.eventBusService.on('logout', () => {

@@ -32,7 +32,6 @@ export class AcademyService {
     return this.http.post(`${API_URL}/academy/update/${id}`, academy , { headers:this.headers });
   }
   updateAcademyCoach(id: any, academy: any): Observable<any> {
-    debugger
     return this.http.post(`${API_URL}/academy/updatecoach/${id}`, academy , { headers:this.headers });
   }
 }

@@ -187,7 +187,6 @@ export class CoachAcademyDetailsComponent {
     }
   getPlayersFromStore() {
     this.store.select(PlayerSelectors.getPlayers).subscribe((players) => {
-      debugger
       this.data = players.filter((player) => player.team && player.team._id === this.team._id);
     });
   }

@@ -89,13 +89,13 @@
     <div class="squads-lable col-lg-3 col-sm-6 mt-4">
       <div class="input-container">
         Uploads Players <small>(.csv / .xls)</small>
-          <input type="file" name="file" (change)="onChange($event)" />
+          <input type="file" name="file" (change)="onChange($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
       </div>
     </div>
     <div class="squads-lable col-lg-3 col-sm-6 mt-4">
       <div class="input-container">
         BulK EID Uploads
-          <input type="file" name="file" (change)="getImages($event)" multiple/>
+          <input type="file" name="file" (change)="getImages($event)" accept="image/*" multiple/>
       </div>
     </div>
   </div>

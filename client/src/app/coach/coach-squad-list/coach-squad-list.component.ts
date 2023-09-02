@@ -39,7 +39,6 @@ export class CoachSquadListComponent {
   }
 
   delete(value: any) {
-    debugger
     this.delPlayer.emit(value);
   }
 

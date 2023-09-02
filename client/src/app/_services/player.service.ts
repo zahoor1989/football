@@ -64,7 +64,6 @@ export class PlayerService {
   }
 
   importPlayers(players: any): Observable<any> {
-    debugger
     return this.http.post(`${API_URL}/player/bulkuploads`, players, { headers:this.headers });
   }
 }

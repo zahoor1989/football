@@ -43,7 +43,6 @@ export class AdminSquadListComponent {
     // })
   }
   getImage(image:any){
-    debugger
     return "http://localhost:8080/static/"+image;
   }
 

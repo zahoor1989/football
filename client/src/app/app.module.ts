@@ -32,6 +32,7 @@ import { CollectionsComponentComponent } from './collections-component/collectio
 import { EffectsModule } from '@ngrx/effects';
 import { UsersEffects } from './_store/effects/users.effects';
 import { AcademiesEffects } from './_store/effects/academies.effects';
+import { NotificationsEffects } from './_store/effects/notifications.effects';
 import { TeamsEffects } from './_store/effects/teams.effects';
 import { LeaguesEffects } from './_store/effects/leagues.effects';
 import { FixuresEffects } from './_store/effects/fixures.effects';
@@ -135,7 +136,7 @@ const customNotifierOptions: NotifierOptions = {
     FontAwesomeModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([UsersEffects, AcademiesEffects, TeamsEffects, LeaguesEffects, FixuresEffects, PlayersEffects]),
+    EffectsModule.forRoot([UsersEffects, AcademiesEffects,NotificationsEffects, TeamsEffects, LeaguesEffects, FixuresEffects, PlayersEffects]),
   ],
   providers: [
     AuthGuardService,

@@ -98,7 +98,6 @@ editUser(value: any) {
   }
 
 getAcademyByCoach = (id: any): any => {
-  debugger
   this.academyService.getAcademyByCoachId(id).subscribe((res)=> {
     return res;
   })
@@ -106,8 +105,6 @@ getAcademyByCoach = (id: any): any => {
 
 deleteUser(value: any) {
   this.userService.deleteUser(value).subscribe((result:any)  => {
-    debugger
-    console.log(result);
     if(result){
       this.notifier.notify('success', 'User deleted successfully!');
       this.store.dispatch(UserActions.loadUsers());
