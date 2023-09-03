@@ -71,11 +71,9 @@ ngOnInit(): void {
   this.getAllContents();
 }
 submitContents = () => {
-  debugger
   console.log(this.form.value.content)
   if(this.form.valid){
     this.userService.updateContent(this.notification._id, this.form.value).subscribe((res:any) => {
-      debugger
       if(res){
         this.notifier.notify('success', `${res.message}`);
       }

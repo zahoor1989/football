@@ -17,7 +17,6 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getPublicContent(): Observable<any> {
-    debugger
     return this.http.get(API_URL + '/content', {headers:this.headers});
   }
 
