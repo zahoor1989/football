@@ -13,7 +13,7 @@
   <!-- Row Detail Template -->
   <ngx-datatable-row-detail [rowHeight]="350" #myDetailRow (toggle)="onDetailToggle($event)">
     <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-      <div class="fixture-team-details col-lg-12 col-md-12 col-sm-12" style="overflow: hidden;" class="d-flex">
+      <div class="fixture-team-details col-lg-12 col-md-12 col-sm-12 d-flex" style="overflow: hidden;">
         <app-fixture-team-details [team]="row.homeTeam"></app-fixture-team-details>
         <app-fixture-team-details [team]="row.awayTeam"></app-fixture-team-details>
       </div>
@@ -21,7 +21,7 @@
   </ngx-datatable-row-detail>
 <ngx-datatable-column name="Fixture" prop="row" size="60">
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                                  {{row._id}}
+                                  {{rowIndex+1}}
   </ng-template>
 </ngx-datatable-column>
 <ngx-datatable-column name="League" prop="row">
@@ -34,7 +34,7 @@
                 {{row.homeTeam?.teamName}}
   </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column>
+<ngx-datatable-column [width]=5>
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" id="competed">
               VS
   </ng-template>
@@ -44,7 +44,7 @@
                 {{row.awayTeam?.teamName}}
   </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Actions" prop="row">
+<ngx-datatable-column name="Actions" prop="row" [width]=50>
   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" class="d-flex" let-expanded="expanded">
       <button type="button" class="btn d-inline"  (click)="toggleExpandRow(row)">
         See Squad List
