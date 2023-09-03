@@ -5,6 +5,8 @@ import { AuthService } from './_services/auth.service';
 import { EventBusService } from './_shared/event-bus.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { environment } from './../environments/environment';
+
 // importing actions
 import * as UserActions from "./_store/actions/users.actions";
 import * as TeamActions from "./_store/actions/teams.actions";
@@ -46,6 +48,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(environment)
     this.isLoggedIn = this.storageService.isLoggedIn();
 
     if (this.isLoggedIn) {

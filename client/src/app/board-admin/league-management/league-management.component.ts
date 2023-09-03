@@ -40,6 +40,10 @@ export class LeagueManagementComponent implements OnInit {
 
   getAgeFromName (leagueName:any) {
    let nameArray = leagueName.match(/(\d+)/)
+   if(!nameArray){
+    this.notifier.notify('error', 'League name should contain age limit!');
+    return;
+   }
    return nameArray.find((nm:any) => !isNaN(nm))
   }
 

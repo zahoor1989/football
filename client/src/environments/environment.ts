@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  letstalkUrl: 'https://letstalk-be.herokuapp.com'
+  title: 'Local Environment Heading',
+  apiURL: 'http://localhost:8080'
 };
 
 /*

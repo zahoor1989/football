@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'http://localhost:8080/api';
+import { environment } from '../../environments/environment';
+
+// const API_URL = 'http://localhost:8080/api';
+const API_URL = `${environment.apiURL}/api`;
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +17,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getPublicContent(): Observable<any> {
+    debugger
     return this.http.get(API_URL + '/content', {headers:this.headers});
   }
 
