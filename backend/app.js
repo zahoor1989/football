@@ -1,4 +1,6 @@
+const dotenv = require('dotenv').config();
 const express = require("express");
+
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 const dbConfig = require("./app/config/db.config");
@@ -15,9 +17,10 @@ app.use(cors());
 app.use(
   cors({
     'Access-Control-Allow-Credentials': true,
-    origin:"http://localhost:4200",
+    origin:process.env.CLIENT_URL || "http://localhost:4200",
   })
 );
+
 
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb', extended: true}));
@@ -78,6 +81,9 @@ app.use('/csv', express.static(path.join(__basedir, 'public/resources/csv')))
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+  console.log(`Database name is ${process.env.DB_NAME}`);
+  console.log(`Database username is a${process.env.DB_USERNAME}`);
+  console.log(`Database password is ${process.env.DB_PASSWORD}`);
 });
 
 function initial() {
