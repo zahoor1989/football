@@ -21,8 +21,8 @@
     padding-top: 45px;
     padding-right: 35px;
     border-radius: 75px;
-    width: 162px;
-    height: 156px;
+    width: 145px;
+    height: 145px;
     background: white;
     .btn-default {
       b > i.academy-plus-inner-text {
@@ -31,6 +31,30 @@
         font-weight: bold;
       }
 
+    }
+  }
+}
+@media (max-width: 767px) {
+  .academy-row {
+    align-items: center;
+    .academy-name {
+      margin-left: 60px;
+      p {
+        font-size: 18px;
+      }
+    }
+    .acedmy-plus {
+      padding-top: 5px;
+      padding-right: 2px;
+      width: 55px;
+      height: 56px;
+      display: block;
+      position: relative;
+      .btn-default {
+        b > i.academy-plus-inner-text {
+          font-size: 20px;
+        }
+      }
     }
   }
 }
@@ -80,7 +104,6 @@ button.btn-default {
 }
 .league-lable {
   display: flex;
-  width: 230px;
   height: 53px;
   flex-direction: column;
   justify-content: center;
@@ -100,6 +123,12 @@ button.btn-default {
 }
 
 @media (max-width: 767px) {
+  .league-lable {
+    margin: 0px;
+    .league-text {
+      font-size: 16px;
+    }
+  }
   input.form-control {
     line-height: 16px;
     margin: 0 30px 0 0;

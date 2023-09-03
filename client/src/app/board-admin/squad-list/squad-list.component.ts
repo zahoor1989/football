@@ -62,7 +62,7 @@ getPlayersFromStore (leagueId?: any) {
       if(players.length > 0) {
         players.forEach(player => player?.league && !this.alreadyExists(player?.league) ? this.leagues.push(player?.league): null);
         if(!leagueId || leagueId == 0) {
-          this.players = players.filter(player => (player?.team?._id == this.currentTeam._id) && (player?.academy?._id == this.academy._id));
+          this.players = players.filter(player => (player?.team?._id == this.currentTeam._id) && (player?.team?.academy_id === this.academy._id));
         } else {
           this.players = players.filter(player => (player?.team?._id == this.currentTeam._id) && (player?.academy._id == this.academy._id && player?.league?._id == leagueId));
         }

@@ -1,3 +1,6 @@
+form {
+margin: 65px !important;
+}
 input.form-control {
   line-height: 75px;
   margin: 0px 45px 0px 0px;
@@ -7,11 +10,21 @@ input.form-control {
   background: #FFF;
   width: 70%;
 }
+input::placeholder {
+  color: rgba(0, 0, 0, 0.50);
+  font-family: NotoSansRegular;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-right: 5px;
+}
+
 
 button.btn-default {
   background: #000000;
   border-radius: 60px !important;
-  width: 10%;
+  width: 120px;
   color: white;
   b > i {
     font-size: 25px;
@@ -50,7 +63,53 @@ button.btn-default {
   }
 }
 
+@media (max-width: 1316px) {
+  .league-lable {
+    padding-left: 10px;
+    margin: 16px;
+    .league-text {
+      padding-top: 5px;
+      font-size: 16px;
+    }
+    &:hover {
+      .league-text {
+        button {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}
 @media (max-width: 767px) {
+  form {
+    margin: 20px !important;
+    }
+  input.form-control {
+    line-height: 16px;
+    margin: 0 30px 0 0;
+    padding: 18px;
+    border-radius: 19px !important;
+    border: 1px solid #000;
+    background: #FFF;
+    width: 57%;
+  }
+  input::placeholder {
+    font-size: 18px;
+  }
+
+  button.btn-default {
+    background: #000000;
+    border-radius: 66px !important;
+    width: 55px;
+    color: white;
+    b > i {
+      font-size: 15px;
+      font-weight: bold;
+    }
+  }
+}
+
+@media (max-width: 567px) {
   input.form-control {
     line-height: 16px;
     margin: 0 30px 0 0;
@@ -64,7 +123,7 @@ button.btn-default {
   button.btn-default {
     background: #000000;
     border-radius: 66px !important;
-    width: 9%;
+    width: 12% !important;
     color: white;
     b > i {
       font-size: 15px;

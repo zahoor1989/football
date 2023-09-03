@@ -21,7 +21,7 @@
     padding-top: 45px;
     padding-right: 35px;
     border-radius: 75px;
-    width: 162px;
+    width: 155px;
     height: 156px;
     background: white;
     .btn-default {
@@ -34,3 +34,58 @@
     }
   }
 }
+@media (max-width: 767px) {
+  .academy-row {
+    align-items: center;
+    .academy-name {
+      margin-left: 60px;
+      p {
+        font-size: 18px;
+      }
+    }
+    .acedmy-plus {
+      padding-top: 5px;
+      padding-right: 2px;
+      width: 55px;
+      height: 56px;
+      display: block;
+      position: relative;
+      .btn-default {
+        b > i.academy-plus-inner-text {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+.card {
+  height: 200px;
+  background: none;
+  border: 1px solid black;
+  .card-body {
+    vertical-align: center;
+    div {
+      div {
+        p {
+          color: #000;
+          text-align: center;
+          font-family: Noto Sans;
+          font-size: 45px;
+          font-style: normal;
+          font-weight: 800;
+          line-height: normal;
+        }
+      }
+    }
+  }
+}
+.card-header {
+  color: #000;
+  text-align: center;
+  font-family: NotoSansRegular;
+  font-size: 24.896px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+

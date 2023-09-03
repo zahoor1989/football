@@ -29,14 +29,14 @@
 <!-- ============================================================== -->
 <!-- Right side toggle and nav items -->
 <!-- ============================================================== -->
-<ul class="navbar-nav float-end width-10">
+<ul class="navbar-nav float-end width-10" *ngIf="loggedInUser">
   <!-- ============================================================== -->
   <!-- User profile and search -->
   <!-- ============================================================== -->
   <li class="nav-item" ngbDropdown placement="bottom-end">
     <a ngbDropdownToggle class="nav-link waves-effect waves-dark pro-pic" href="javascript:void(0)"
       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <img src="assets/images/users/user4.jpg" alt="user" class="rounded-circle" width="31" />
+      <img src="assets/images/users/user.png" alt="user" class="rounded-circle" width="31" />
       <span class="ms-2" *ngIf="loggedInUser"> {{loggedInUser?.username}}</span>
     </a>
     <div class="dropdown-menu-right text-center" ngbDropdownMenu>

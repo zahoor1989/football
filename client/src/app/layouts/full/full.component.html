@@ -28,12 +28,26 @@
           class="nav-toggler waves-effect waves-light d-block d-lg-none"
           href="javascript:void(0)"
         >
-          <i [ngClass]="showMobileMenu ? 'bi bi-text-left fs-6' : 'bi bi-text-left fs-6'"></i>
+          <!-- <i [ngClass]="showMobileMenu ? 'bi bi-text-left fs-6' : 'bi bi-text-left fs-6'"></i> -->
+          <img
+          src="assets/images/logos/menu.png"
+          alt="homepage"
+          class="dark-logo"
+        />
         </a>
         <!-- ============================================================== -->
         <!-- Logo -->
         <!-- ============================================================== -->
         <a class="navbar-brand" href="/">
+          <b class="logo-menu me-3" *ngIf="loggedInUser">
+            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+            <!-- Light Logo icon -->
+            <img
+              src="assets/images/logos/menu.png"
+              alt="homepage"
+              class="dark-logo"
+            />
+          </b>
           <!-- Logo icon -->
           <b class="logo-icon">
             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
