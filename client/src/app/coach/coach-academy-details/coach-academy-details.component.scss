@@ -1,3 +1,38 @@
+// .academy-row {
+//   height: 180px;
+//   background: #FF5A5A;
+//   padding: 10px;
+//   margin-bottom: 35px;
+//   .academy-name {
+//     padding-top: 8px;
+//     h1, h2, h3, h4, h5, h6 {
+//       color: #FFF;
+//       font-family: NotoSansRegular;
+//       font-style: normal;
+//       font-weight: 700;
+//       line-height: normal;
+//     }
+//   }
+//   .acedmy-plus {
+//     position: absolute;
+//     text-align: center;
+//     vertical-align: middle;
+//     padding-top: 45px;
+//     padding-right: 35px;
+//     border-radius: 75px;
+//     width: 162px;
+//     height: 156px;
+//     background: white;
+//     .btn-default {
+//       b > i.academy-plus-inner-text {
+//         color: #FF5A5A;
+//         font-size: 30px;
+//         font-weight: bold;
+//       }
+
+//     }
+//   }
+// }
 .academy-row {
   height: 180px;
   background: #FF5A5A;
@@ -5,9 +40,10 @@
   margin-bottom: 35px;
   .academy-name {
     padding-top: 8px;
-    h1, h2, h3, h4, h5, h6 {
+    p {
       color: #FFF;
       font-family: NotoSansRegular;
+      font-size: 35px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -20,8 +56,8 @@
     padding-top: 45px;
     padding-right: 35px;
     border-radius: 75px;
-    width: 162px;
-    height: 156px;
+    width: 145px;
+    height: 145px;
     background: white;
     .btn-default {
       b > i.academy-plus-inner-text {
@@ -34,27 +70,52 @@
   }
 }
 
-
-form {
-  .form-group {
-    .control-label {
-      color: #000;
-      font-feature-settings: 'clig' off, 'liga' off;
-      font-family: NotoSansRegular;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 12.9px;
-      margin-bottom:20px;
-      margin-left: 5px;
+@media (max-width: 767px) {
+  .academy-row {
+    align-items: center;
+    .academy-name {
+      padding-top: 0px;
+      margin-left: 60px;
+      p {
+        font-size: 25px;
+      }
     }
-    .form-control {
-      background-color: transparent;
-      border-radius: 15px;
-      border: 1px black dotted;
+    .acedmy-plus {
+      padding-top: 5px;
+      padding-right: 2px;
+      width: 55px;
+      height: 56px;
+      display: block;
+      position: relative;
+      .btn-default {
+        b > i.academy-plus-inner-text {
+          font-size: 20px;
+        }
+      }
     }
   }
 }
+
+
+.form-group {
+  .control-label {
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: NotoSansRegular;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 12.9px;
+    margin-bottom:20px;
+    margin-left: 5px;
+  }
+  .form-control {
+    background-color: transparent;
+    border-radius: 15px;
+    border: 1px black dotted;
+  }
+}
+
 
 button.btn-default {
   background: #000000;
@@ -196,7 +257,7 @@ button.btn-default {
     border-radius: 19px !important;
     border: 1px solid #000;
     background: #FFF;
-    width: 57%;
+    // width: 57%;
   }
 
   button.btn-default {
