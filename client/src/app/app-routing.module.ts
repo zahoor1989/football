@@ -48,6 +48,11 @@ export const Approutes: Routes = [
         component: HomeComponent
       },
       {
+        path: 'index',
+        canActivate: [AuthGuard],
+        component: HomeComponent
+      },
+      {
         path: 'admin',
         canActivate: [AuthGuard],
         loadChildren: () => import('./board-admin/board-admin.module').then(m => m.BoardAdminModule),

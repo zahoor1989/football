@@ -27,10 +27,14 @@ export class NavigationComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-   this.getNotifications();
+    if(this.storageService.getUser()){
+      this.getNotifications();
+    }
   }
 ngAfterViewInit(): void {
-  this.getNotifications();
+  if(this.storageService.getUser()){
+    this.getNotifications();
+  }
 }
   // This is for Notifications
   notifications: Object[] = [
@@ -128,7 +132,6 @@ ngAfterViewInit(): void {
   logout(): void {
     this.authService.logout().subscribe({
       next: res => {
-        console.log(res);
         this.storageService.clean();
         window.location.reload();
       },
