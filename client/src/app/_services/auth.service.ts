@@ -5,14 +5,15 @@ import { environment } from '../../environments/environment';
 
 const AUTH_API = `${environment.apiURL}/api/auth/`;
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  // headers = new HttpHeaders({
+  //                         'Content-Type': 'text/plain'
+  //                       });
+
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) {}

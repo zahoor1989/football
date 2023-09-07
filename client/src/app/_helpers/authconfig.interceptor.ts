@@ -15,11 +15,13 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const authToken = this.storageService.getToken();
-    req = req.clone({
-      setHeaders: {
-        Authorization: 'Bearer ' + authToken,
-      },
-    });
+    if(authToken){
+      req = req.clone({
+        setHeaders: {
+          Authorization: 'Bearer ' + authToken,
+        },
+      });
+    }
     return next.handle(req);
     // return next.handle(req).pipe(catchError((err) => this.handleAuthError(err)));
   }

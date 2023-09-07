@@ -1,34 +1,52 @@
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv');
+const  ObjectId = require('mongodb').ObjectId;
 const express = require("express");
+const bcrypt = require("bcryptjs");
 
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 const dbConfig = require("./app/config/db.config");
 const morgan  = require('morgan');
+const bodyParser = require('body-parser')
 const app = express();
 const path = require('path')
 global.__basedir = __dirname;
-
-const secret = require("./app/config/auth.config");
+if(!process.env.DB_USERNAME){
+  dotenv.config();
+}
+const {secret, client } = require("./app/config/auth.config");
 
 app.use(morgan('tiny'));
-app.use(cors());
+
 /* for Angular Client (withCredentials) */
-app.use(
+app.use(function (req, res, next) {
+     // Website you wish to allow to connect
+     res.setHeader('Access-Control-Allow-Origin', client);
+
+     // Request methods you wish to allow
+     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+ 
+     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
+   
+     // Set to true if you need the website to include cookies in the requests sent
+     // to the API (e.g. in case you use sessions)
+     res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+  });
+
+app.use( '*', 
   cors({
     'Access-Control-Allow-Credentials': true,
-    origin:process.env.CLIENT_URL || "http://localhost:4200",
+    origin: client,
   })
 );
 
 
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 
-// parse requests of content-type - application/json
-app.use(express.json());
 
 
 app.use(
@@ -41,6 +59,7 @@ app.use(
 
 const db = require("./app/models");
 const Role = db.role;
+const User = db.user;
 const Increment  = db.increment;
 
 db.mongoose
@@ -81,9 +100,6 @@ app.use('/csv', express.static(path.join(__basedir, 'public/resources/csv')))
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
-  console.log(`Database name is ${process.env.DB_NAME}`);
-  console.log(`Database username is a${process.env.DB_USERNAME}`);
-  console.log(`Database password is ${process.env.DB_PASSWORD}`);
 });
 
 function initial() {
@@ -130,4 +146,25 @@ function initial() {
       });     
     }
   });
+
+  User.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      Role.findOne({ name: 'admin' }).then((role)=> {
+        new User({
+          firstname: 'yfl',
+          lastname: 'admin',
+          username: 'yfladmin',
+          contact: '+971553762217',
+          password: bcrypt.hashSync('Admin@yfl', 8),
+          email: 'admin@yfl.com',
+          roles: [ObjectId(role._id)]
+        }).save(err => {
+          if (err) {
+            console.log("error", err);
+          }
+          console.log("added 'admin' to users collection");
+        })
+      });
+    }
+  })
 }
