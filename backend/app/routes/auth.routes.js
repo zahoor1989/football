@@ -5,11 +5,11 @@ const { client } = require("../config/auth.config");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', [client]);
-    res.header('Access-Control-Allow-Methods', "OPTIONS, DELETE, POST, GET, PATCH, PUT");
-    res.header('Access-Control-Allow-Credentials', "true")
-    res.header('Access-Control-Allow-Headers', '*');
-    res.header('Access-Control-Max-Age', 1728000);   
+    res.setHeader('Access-Control-Allow-Origin', client);
+    res.setHeader('Access-Control-Allow-Methods', "OPTIONS, DELETE, POST, GET, PATCH, PUT");
+    res.setHeader('Access-Control-Allow-Credentials', "true")
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Access-Control-Max-Age', 1728000);   
     next();
   });
 
